@@ -1,19 +1,359 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carta do Jogo</title>
-  <link rel="stylesheet" href="/Cards/Layout.css">
-</head>
-<body>
-  <div id="card-container"></div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Trunfo - Login</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados para o tema de carros */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a1a1a;
+            background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23333333" fill-opacity="0.4" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
+        }
 
-  <script type="module">
-    import { exibirCarta } from './Cards/cards.js';
-    exibirCarta('Toyota_1');
-    exibirCarta('Toyota_2');
-    exibirCarta('Toyota_3');
-  </script>
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .form-container {
+            background: linear-gradient(145deg, #2e2e2e, #1e1e1e);
+            border: 1px solid #444;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .form-title {
+            text-shadow: 0 0 10px rgba(255, 82, 82, 0.7);
+        }
+
+        .input-field {
+            background-color: #2a2a2a;
+            border: 1px solid #555;
+            color: #eee;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ff5252;
+            box-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
+        }
+
+        .btn-primary {
+            background: linear-gradient(145deg, #e53935, #b71c1c);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 82, 82, 0.4);
+        }
+        
+        .btn-secondary {
+            color: #ff8a80;
+            transition: color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            color: #ff5252;
+            text-decoration: underline;
+        }
+        
+        .btn-google {
+            background-color: #fff;
+            color: #757575;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-google:hover {
+            background-color: #f8f8f8;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .loader {
+            border-top-color: #ff5252;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div id="loader" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-24 w-24"></div>
+    </div>
+
+    <div id="auth-container" class="w-full max-w-md hidden">
+        <div class="flex justify-center mb-8">
+            <img src="./assets/logo.png" alt="Logo Super Trunfo" class="rounded-lg">
+        </div>
+
+        <div id="login-form-container" class="form-container p-8 rounded-lg">
+            <h2 class="font-orbitron text-3xl font-bold text-center text-red-400 form-title mb-6">ÁREA DO PILOTO</h2>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="login-email" class="block text-gray-400 text-sm font-bold mb-2">Email:</label>
+                    <input type="email" id="login-email" class="input-field shadow appearance-none rounded w-full py-3 px-4 leading-tight focus:outline-none" required>
+                </div>
+                <div class="mb-6">
+                    <label for="login-password" class="block text-gray-400 text-sm font-bold mb-2">Senha:</label>
+                    <input type="password" id="login-password" class="input-field shadow appearance-none rounded w-full py-3 px-4 leading-tight focus:outline-none" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="btn-primary text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline">
+                        Entrar
+                    </button>
+                </div>
+            </form>
+            
+            <div class="my-6 flex items-center">
+                <hr class="flex-grow border-t border-gray-600">
+                <span class="px-3 text-gray-500 text-sm">OU</span>
+                <hr class="flex-grow border-t border-gray-600">
+            </div>
+
+            <button id="google-login-button" class="btn-google w-full font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-300">
+                <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C41.38,36.151,44,30.63,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg>
+                Entrar com Google
+            </button>
+            
+            <p class="text-center text-gray-500 text-sm mt-6">
+                Não tem uma conta? 
+                <button id="show-register" class="btn-secondary font-bold">Registre-se aqui</button>
+            </p>
+        </div>
+
+        <div id="register-form-container" class="form-container p-8 rounded-lg hidden">
+            <h2 class="font-orbitron text-3xl font-bold text-center text-red-400 form-title mb-6">CRIAR CONTA</h2>
+            <form id="register-form">
+                <div class="mb-4">
+                    <label for="register-username" class="block text-gray-400 text-sm font-bold mb-2">Nome de Usuário:</label>
+                    <input type="text" id="register-username" class="input-field shadow appearance-none rounded w-full py-3 px-4 leading-tight focus:outline-none" required>
+                </div>
+                <div class="mb-4">
+                    <label for="register-email" class="block text-gray-400 text-sm font-bold mb-2">Email:</label>
+                    <input type="email" id="register-email" class="input-field shadow appearance-none rounded w-full py-3 px-4 leading-tight focus:outline-none" required>
+                </div>
+                <div class="mb-6">
+                    <label for="register-password" class="block text-gray-400 text-sm font-bold mb-2">Senha (mínimo 6 caracteres):</label>
+                    <input type="password" id="register-password" class="input-field shadow appearance-none rounded w-full py-3 px-4 leading-tight focus:outline-none" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="btn-primary text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline">
+                        Registrar
+                    </button>
+                </div>
+            </form>
+            <p class="text-center text-gray-500 text-sm mt-6">
+                Já tem uma conta? 
+                <button id="show-login" class="btn-secondary font-bold">Faça o login</button>
+            </p>
+        </div>
+    </div>
+
+    <div id="message-area" class="fixed bottom-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg hidden animate-pulse">
+    </div>
+
+    <script type="module">
+        // Importações do Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            onAuthStateChanged, 
+            GoogleAuthProvider,
+            signInWithPopup
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config)
+            : {
+                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs",
+                authDomain: "primeiroprojetoteste01.firebaseapp.com",
+                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com",
+                projectId: "primeiroprojetoteste01",
+                storageBucket: "primeiroprojetoteste01.appspot.com",
+                messagingSenderId: "530867320810",
+                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
+            };
+
+        // Inicialização do Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Elementos da UI
+        const loader = document.getElementById('loader');
+        const authContainer = document.getElementById('auth-container');
+        const loginFormContainer = document.getElementById('login-form-container');
+        const registerFormContainer = document.getElementById('register-form-container');
+        
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        
+        const showRegisterBtn = document.getElementById('show-register');
+        const showLoginBtn = document.getElementById('show-login');
+        const googleLoginButton = document.getElementById('google-login-button');
+        
+        const messageArea = document.getElementById('message-area');
+
+        // Função para mostrar mensagens
+        function showMessage(message, isError = true) {
+            messageArea.textContent = message;
+            messageArea.classList.toggle('bg-red-500', isError);
+            messageArea.classList.toggle('bg-green-500', !isError);
+            messageArea.classList.remove('hidden');
+            setTimeout(() => {
+                messageArea.classList.add('hidden');
+            }, 4000);
+        }
+
+        // --- LÓGICA DE AUTENTICAÇÃO ---
+
+        // Observador de estado de autenticação.
+        onAuthStateChanged(auth, (user) => {
+            // Este listener agora apenas mostra o formulário se o usuário estiver deslogado.
+            // O redirecionamento é tratado pelas funções de login/cadastro para evitar a corrida.
+            if (!user) {
+                loader.classList.add('hidden');
+                authContainer.classList.remove('hidden');
+                showLoginView();
+            }
+        });
+
+        // Cadastro de novo usuário com Email/Senha
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value.trim().toLowerCase();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            if (!username) {
+                showMessage("Por favor, insira um nome de usuário.");
+                return;
+            }
+            
+            loader.classList.remove('hidden');
+
+            const usernameRef = ref(db, 'usernames/' + username);
+            const usernameSnap = await get(usernameRef);
+
+            if (usernameSnap.exists()) {
+                showMessage("Este nome de usuário já está em uso. Tente outro.");
+                loader.classList.add('hidden');
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                const userData = {
+                    username: username,
+                    email: email,
+                    reais: 20000,
+                    ouro: 50,
+                    cartas: ""
+                };
+
+                const updates = {};
+                updates['/users/' + user.uid] = userData;
+                updates['/usernames/' + username] = user.uid;
+                await update(ref(db), updates);
+                
+                window.location.href = 'home.html';
+            } catch (error) {
+                let friendlyMessage = "Ocorreu um erro ao registrar.";
+                if (error.code === 'auth/email-already-in-use') friendlyMessage = "Este email já está em uso.";
+                else if (error.code === 'auth/weak-password') friendlyMessage = "A senha é muito fraca.";
+                else if (error.code === 'auth/invalid-email') friendlyMessage = "O formato do email é inválido.";
+                showMessage(friendlyMessage);
+                loader.classList.add('hidden');
+            }
+        });
+
+        // Login com Google
+        googleLoginButton.addEventListener('click', async () => {
+            loader.classList.remove('hidden');
+            const provider = new GoogleAuthProvider();
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+
+                const userRef = ref(db, 'users/' + user.uid);
+                const userSnap = await get(userRef);
+
+                if (!userSnap.exists()) {
+                    // É um novo usuário, criar perfil no Realtime Database
+                    const username = user.email; // Usando o email como username
+
+                    const userData = {
+                        username: username,
+                        email: user.email,
+                        reais: 20000,
+                        ouro: 50,
+                        cartas: ""
+                    };
+    
+                    const updates = {};
+                    updates['/users/' + user.uid] = userData;
+                    updates['/usernames/' + username.replace(/\./g, ',')] = user.uid; // Sanitiza o email para usar como chave
+                    await update(ref(db), updates);
+                }
+                
+                window.location.href = 'home.html';
+
+            } catch (error) {
+                console.error("Erro no login com Google:", error);
+                showMessage("Não foi possível fazer login com o Google.");
+                loader.classList.add('hidden');
+            }
+        });
+
+        // Login de usuário existente com Email/Senha
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            loader.classList.remove('hidden');
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = 'home.html';
+            } catch (error) {
+                showMessage("Email ou senha inválidos. Tente novamente.");
+                loader.classList.add('hidden');
+            }
+        });
+
+
+        // --- CONTROLE DA INTERFACE ---
+        function showLoginView() {
+            loginFormContainer.classList.remove('hidden');
+            registerFormContainer.classList.add('hidden');
+        }
+
+        function showRegisterView() {
+            loginFormContainer.classList.add('hidden');
+            registerFormContainer.classList.remove('hidden');
+        }
+
+        showRegisterBtn.addEventListener('click', showRegisterView);
+        showLoginBtn.addEventListener('click', showLoginView);
+
+    </script>
 </body>
 </html>
