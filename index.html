@@ -3,99 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Trunfo - Login</title>
+    <title>SpeedCards - Login</title>
     <link rel="icon" href="./assets/icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos personalizados para o tema de carros */
+        /* Variáveis CSS para um tema coeso (mesmas da garagem.html) */
+        :root {
+            --primary-red: #E01A4F; /* Um vermelho mais profundo e vibrante */
+            --dark-bg: #0A0A0A;
+            --medium-dark-bg: #1A1A1A;
+            --light-text: #F0F0F0;
+            --accent-gray: #333333;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7); /* Brilho vermelho */
+            --text-shadow-strong: 0 0 8px rgba(0,0,0,0.8);
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #1a1a1a;
-            background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23333333" fill-opacity="0.4" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
+            background-color: var(--dark-bg);
+            background-image:
+                linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0.8) 50%, rgba(10, 10, 10, 0.95)),
+                url('./assets/BannerHome.png'); /* Imagem de fundo */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            color: var(--light-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex; /* Adicionado para centralizar o conteúdo */
+            align-items: center; /* Adicionado para centralizar o conteúdo */
+            justify-content: center; /* Adicionado para centralizar o conteúdo */
+            min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+            padding: 1rem; /* Padding para telas menores */
         }
 
         .font-orbitron {
             font-family: 'Orbitron', sans-serif;
         }
 
+        /* Efeito de ruído sutil para uma textura mais "gritty" */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/INx6AAAAF3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobI+kKpgAAAFpJREFUeNrtwQEBAAAAgqD+r2zHBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgZpQAAQ+E4UIAAAAASUVORK5CYII=') repeat;
+            opacity: 0.03; /* Ajuste a opacidade para mais ou menos intensidade */
+            pointer-events: none;
+            z-index: -1;
+        }
+
         .form-container {
-            background: linear-gradient(145deg, #2e2e2e, #1e1e1e);
-            border: 1px solid #444;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
+            border: 1px solid var(--border-strong);
+            border-radius: 12px; /* Mais arredondado */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            padding: 2.5rem; /* Mais espaçamento interno */
         }
 
         .form-title {
-            text-shadow: 0 0 10px rgba(255, 82, 82, 0.7);
+            text-shadow: var(--glow-effect); /* Usa o efeito de brilho vermelho */
         }
 
         .input-field {
-            background-color: #2a2a2a;
-            border: 1px solid #555;
-            color: #eee;
+            background-color: var(--accent-gray);
+            border: 1px solid var(--border-subtle);
+            color: var(--light-text);
+            width: 100%;
+            padding: 0.75rem; /* Mais padding */
+            border-radius: 8px; /* Mais arredondado */
+            font-size: 0.95rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
+        }
+
+        .input-field::placeholder {
+            color: rgba(255,255,255,0.4);
         }
 
         .input-field:focus {
             outline: none;
-            border-color: #ff5252;
-            box-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(224, 26, 79, 0.3);
         }
 
         .btn-primary {
-            background: linear-gradient(145deg, #e53935, #b71c1c);
-            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, var(--primary-red), #FF3C3C);
+            border: 2px solid var(--primary-red);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: var(--text-shadow-strong);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s ease-out;
+            transform: skewX(-20deg);
+            z-index: 1;
+        }
+
+        .btn-primary:hover::before {
+            left: 150%;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255, 82, 82, 0.4);
+            color: white;
+            background: linear-gradient(145deg, #FF3C3C, var(--primary-red));
+            border-color: white;
+            text-shadow: 0 0 15px white;
+            box-shadow: 0 0 20px var(--primary-red), inset 0 0 8px rgba(255,255,255,0.3);
+            transform: translateY(-3px) scale(1.02);
         }
         
         .btn-secondary {
-            color: #ff8a80;
-            transition: color 0.3s ease;
+            color: var(--primary-red);
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
 
         .btn-secondary:hover {
-            color: #ff5252;
+            color: white;
             text-decoration: underline;
+            text-shadow: 0 0 10px var(--primary-red);
         }
         
         .btn-google {
-            background-color: #fff;
+            background-color: white;
             color: #757575;
             border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
         .btn-google:hover {
-            background-color: #f8f8f8;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transform: translateY(-1px);
         }
 
         .loader {
-            border-top-color: #ff5252;
-            animation: spin 1s linear infinite;
+            border-top-color: var(--primary-red);
+            border-right-color: var(--primary-red);
+            border-bottom-color: var(--primary-red);
+            animation: spin 1s linear infinite, pulse-loader 1.5s infinite alternate;
         }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        @keyframes pulse-loader {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+        #loader-text {
+            color: var(--primary-red);
+            text-shadow: 0 0 10px var(--primary-red);
+        }
+
+        /* Alerta customizado */
+        .custom-alert {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            background-color: var(--primary-red);
+            color: var(--light-text);
+            border-radius: 8px; /* Mais arredondado */
+            box-shadow: 0 0 15px rgba(224, 26, 79, 0.7); /* Sombra de brilho */
+        }
+        .custom-alert.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Responsividade para Mobile */
+        @media (max-width: 767px) { /* Tailwind CSS `md` breakpoint */
+            .form-container {
+                padding: 1.5rem;
+            }
+            .form-title {
+                font-size: 2rem;
+            }
+            .btn-primary, .btn-google {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <div id="loader" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-24 w-24"></div>
+    <div id="loader" class="fixed inset-0 bg-black bg-opacity-95 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-28 w-28"></div>
+        <p id="loader-text" class="mt-8 text-2xl font-orbitron animate-pulse">Carregando...</p>
+    </div>
+
+    <!-- Alerta Customizado (substitui alert() e confirm()) -->
+    <div id="custom-alert" class="custom-alert fixed top-5 right-0 text-white py-3 px-5 rounded-l-lg shadow-lg z-50 opacity-0 transform translate-x-full">
+        <p id="custom-alert-message" class="font-bold"></p>
     </div>
 
     <div id="auth-container" class="w-full max-w-md hidden">
         <div class="flex justify-center mb-8">
-            <img src="./assets/logo.png" alt="Logo Super Trunfo" class="rounded-lg">
+            <img src="./assets/logo.png" alt="Logo SpeedCards" class="rounded-lg max-w-[200px] md:max-w-xs">
         </div>
 
         <div id="login-form-container" class="form-container p-8 rounded-lg">
@@ -161,7 +296,7 @@
         </div>
     </div>
 
-    <div id="message-area" class="fixed bottom-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg hidden animate-pulse">
+    <div id="message-area" class="fixed bottom-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg hidden">
     </div>
 
     <script type="module">
@@ -216,6 +351,8 @@
             messageArea.classList.toggle('bg-red-500', isError);
             messageArea.classList.toggle('bg-green-500', !isError);
             messageArea.classList.remove('hidden');
+            // Remove a classe animate-pulse se estiver presente
+            messageArea.classList.remove('animate-pulse'); 
             setTimeout(() => {
                 messageArea.classList.add('hidden');
             }, 4000);
@@ -231,6 +368,9 @@
                 loader.classList.add('hidden');
                 authContainer.classList.remove('hidden');
                 showLoginView();
+            } else {
+                // Se o usuário já estiver logado, redireciona para home.html
+                window.location.href = 'home.html';
             }
         });
 
@@ -273,7 +413,7 @@
 
                 const updates = {};
                 updates['/users/' + user.uid] = userData;
-                updates['/usernames/' + username] = user.uid;
+                updates['/usernames/' + username] = user.uid; // Não sanitiza o email para usar como chave
                 await update(ref(db), updates);
                 
                 window.location.href = 'home.html';
@@ -300,10 +440,24 @@
 
                 if (!userSnap.exists()) {
                     // É um novo usuário, criar perfil no Realtime Database
-                    const username = user.email; // Usando o email como username
+                    const username = user.displayName || user.email.split('@')[0]; // Usando displayName ou parte do email
+                    
+                    // Verifica se o username já existe no banco de dados
+                    const usernameCheckRef = ref(db, 'usernames/' + username);
+                    const usernameCheckSnap = await get(usernameCheckRef);
+                    let finalUsername = username;
+                    if (usernameCheckSnap.exists()) {
+                        // Se o username já existir, adiciona um sufixo numérico
+                        let counter = 1;
+                        while (await get(ref(db, 'usernames/' + `${username}${counter}`)).then(s => s.exists())) {
+                            counter++;
+                        }
+                        finalUsername = `${username}${counter}`;
+                    }
+
 
                     const userData = {
-                        username: username,
+                        username: finalUsername,
                         email: user.email,
                         reais: 20000,
                         ouro: 50,
@@ -314,7 +468,7 @@
     
                     const updates = {};
                     updates['/users/' + user.uid] = userData;
-                    updates['/usernames/' + username.replace(/\./g, ',')] = user.uid; // Sanitiza o email para usar como chave
+                    updates['/usernames/' + finalUsername] = user.uid; // Usa o username final
                     await update(ref(db), updates);
                 }
                 

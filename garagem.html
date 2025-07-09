@@ -3,126 +3,491 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Trunfo - Garagem</title>
+    <title>SpeedCards - Garagem</title>
     <link rel="icon" href="./assets/icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Variáveis CSS para um tema coeso (mesmas da home.html) */
         :root {
-            --primary-color: #ff3c3c;
-            --glow-color: rgba(255, 60, 60, 0.7);
+            --primary-red: #E01A4F; /* Um vermelho mais profundo e vibrante */
+            --dark-bg: #0A0A0A;
+            --medium-dark-bg: #1A1A1A;
+            --light-text: #F0F0F0;
+            --accent-gray: #333333;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7); /* Brilho vermelho */
+            --text-shadow-strong: 0 0 8px rgba(0,0,0,0.8);
         }
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #111;
+            background-color: var(--dark-bg);
             background-image:
-                linear-gradient(rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 1)),
-                url('./assets/BannerHome.png');
+                linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0.8) 50%, rgba(10, 10, 10, 0.95)),
+                url('./assets/BannerHome.png'); /* Imagem de fundo */
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             overflow-x: hidden;
+            color: var(--light-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .font-orbitron {
             font-family: 'Orbitron', sans-serif;
         }
 
+        /* Efeito de ruído sutil para uma textura mais "gritty" */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/INx6AAAAF3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobI+kKpgAAAFpJREFUeNrtwQEBAAAAgqD+r2zHBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgZpQAAQ+E4UIAAAAASUVORK5CYII=') repeat;
+            opacity: 0.03; /* Ajuste a opacidade para mais ou menos intensidade */
+            pointer-events: none;
+            z-index: -1;
+        }
+
         .header-panel {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-strong);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            padding: 1.5rem 2rem; /* Mais espaçamento */
         }
 
         .info-box {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--accent-gray);
+            border: 1px solid var(--border-subtle);
             border-radius: 8px;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
+            text-shadow: var(--text-shadow-strong);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.05), transparent 50%, rgba(255,255,255,0.05));
+            animation: pulse-border 3s infinite ease-in-out;
+            pointer-events: none;
+        }
+        .info-box:hover {
+            background: #444444;
+            border-color: var(--primary-red);
+            box-shadow: 0 3px 12px rgba(224, 26, 79, 0.6);
+            transform: translateY(-2px);
+        }
+        @keyframes pulse-border {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
         }
 
         .menu-button {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.7);
-            transition: all 0.3s ease;
+            background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
+            border: 2px solid var(--border-strong);
+            color: var(--light-text);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: var(--text-shadow-strong);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centraliza o conteúdo do botão */
+            gap: 0.75rem;
+        }
+
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(224, 26, 79, 0.3), transparent);
+            transition: all 0.6s ease-out;
+            transform: skewX(-20deg);
+            z-index: 1;
+        }
+
+        .menu-button:hover::before {
+            left: 150%;
         }
 
         .menu-button:hover {
             color: white;
-            background: rgba(255, 60, 60, 0.1);
-            border-color: var(--primary-color);
-            text-shadow: 0 0 10px var(--glow-color);
+            background: linear-gradient(145deg, var(--primary-red), #FF3C3C);
+            border-color: white;
+            text-shadow: 0 0 15px white;
+            box-shadow: 0 0 20px var(--primary-red), inset 0 0 8px rgba(255,255,255,0.3);
+            transform: translateY(-3px) scale(1.02);
+        }
+        .menu-button svg {
+            stroke: var(--light-text);
+            transition: stroke 0.3s ease;
+        }
+        .menu-button:hover svg {
+            stroke: white;
         }
 
+        /* Loader aprimorado */
+        .loader {
+            border-top-color: var(--primary-red);
+            border-right-color: var(--primary-red);
+            border-bottom-color: var(--primary-red);
+            animation: spin 1s linear infinite, pulse-loader 1.5s infinite alternate;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse-loader {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+        #loader-text {
+            color: var(--primary-red);
+            text-shadow: 0 0 10px var(--primary-red);
+        }
+
+        /* Alerta customizado */
+        .custom-alert {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            background-color: var(--primary-red);
+            color: var(--light-text);
+            border-radius: 8px; /* Mais arredondado */
+            box-shadow: 0 0 15px rgba(224, 26, 79, 0.7); /* Sombra de brilho */
+        }
+        .custom-alert.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* --- ESTILOS DE EXIBIÇÃO DE CARTAS --- */
         .card-base {
-            transition: all 0.2s ease-in-out;
-            cursor: grab;
-            border-radius: 0.5rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 1rem; /* Cantos mais arredondados para um visual premium */
             overflow: hidden;
-            border: 1px solid #444;
+            border: 3px solid #444; /* Borda mais espessa */
             background-color: #1a1a1a;
             position: relative; 
             transform-style: preserve-3d;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra mais forte */
+            cursor: grab; /* Mantém o cursor de arrastar */
         }
         .card-base:hover {
-            transform: scale(1.05) rotateZ(2deg);
-            box-shadow: 0 0 20px var(--glow-color);
-            border-color: var(--primary-color);
+            transform: scale(1.08) rotateZ(0.5deg); /* Rotação sutil */
+            box-shadow: 0 0 40px var(--primary-red), 0 0 20px rgba(255, 255, 255, 0.3) inset; /* Brilho intenso no hover */
+            border-color: var(--primary-red);
             z-index: 20;
         }
         
+        .rank-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 50px; /* Emblema maior */
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            color: white;
+            text-shadow: 0 0 10px rgba(0,0,0,0.9);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 10;
+            border: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 0 10px rgba(0,0,0,0.7);
+        }
+
+        /* Estilo original para o overlay da imagem no deck (RESTAURADO) */
+        .card-image-overlay {
+            background-image: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 60%), 
+                              linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, transparent 50%);
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
+        /* Novo estilo para a imagem da carta na coleção */
+        .collection-card-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px; /* Altura fixa para a imagem */
+            overflow: hidden;
+            border-radius: 1rem 1rem 0 0; /* Cantos arredondados apenas no topo */
+        }
+
+        .collection-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que a imagem cubra o espaço */
+            object-position: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card-base:hover .collection-card-image {
+            transform: scale(1.05); /* Zoom sutil no hover */
+        }
+
+        .collection-card-info-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%), 
+                        linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
+        /* Novo estilo para o rank badge nas cartas da coleção (menor e posicionado) */
+        .rank-badge-small {
+            position: absolute; /* Adicionado */
+            top: 12px; /* Adicionado */
+            left: 12px; /* Adicionado */
+            width: 38px; /* Smaller badge for collection cards */
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 20px; /* Smaller font size */
+            color: white;
+            text-shadow: 0 0 10px rgba(0,0,0,0.9);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 0 10px rgba(0,0,0,0.7);
+            z-index: 10; /* Garante que fique acima da imagem */
+        }
+
+        .card-text-shadow {
+            text-shadow: 1px 1px 6px black, 0 0 12px black;
+        }
+        .card-flag-shadow {
+             box-shadow: 0 0 6px black;
+        }
+
+        /* Textura sutil para todas as cartas */
+        .card-base > .relative::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g82j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pPz5/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=') repeat;
+            background-size: 50px 50px;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Efeito Holográfico */
+        .holographic-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(
+                circle at var(--mx, 50%) var(--my, 50%),
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 3;
+            pointer-events: none;
+            border-radius: 1rem; /* Mais arredondado */
+        }
+
+        .card-base:hover .holographic-overlay, .deck-card-container:hover .holographic-overlay {
+            opacity: 1;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-180%) skewX(-25deg); opacity: 0; }
+            20% { opacity: var(--shine-opacity, 0.4); }
+            80% { opacity: var(--shine-opacity, 0.4); }
+            100% { transform: translateX(180%) skewX(-25deg); opacity: 0; }
+        }
+
+        .card-base::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            opacity: 0;
+            z-index: 2;
+            animation: shine var(--shine-duration, 8s) infinite linear;
+            background: var(--shine-gradient);
+        }
+        
+        /* Indicador de Carta Selecionada */
+        .selected-indicator {
+            position: absolute;
+            top: 15px; /* Ajustado */
+            left: 65px; /* Ajustado para não sobrepor o rank-badge-small */
+            background-color: rgba(255, 215, 0, 0.9);
+            color: #1a1a1a;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            padding: 5px 12px; /* Ajustado */
+            border-radius: 6px; /* Mais arredondado */
+            font-size: 12px; /* Ajustado */
+            z-index: 15;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 0.75px; /* Mais espaçamento */
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Sombra mais forte */
+        }
+
+        /* Classe S (Mais Rara) */
+        @keyframes pulsate-glow {
+            0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
+            50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
+        }
+        .rank-s.card-base, .rank-s .card-base {
+            animation: pulsate-glow 2s infinite ease-in-out;
+            border-color: #FFD700;
+        }
+        .rank-s.card-base::after, .rank-s .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%);
+            --shine-duration: 3s;
+            --shine-opacity: 0.9;
+        }
+
+        /* Classe A */
+        .rank-a.card-base, .rank-a .card-base {
+            box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
+            border-color: var(--primary-red);
+        }
+        .rank-a.card-base:hover, .rank-a .card-base:hover {
+            box-shadow: 0 0 25px 6px rgba(224, 26, 79, 0.9);
+        }
+        .rank-a.card-base::after, .rank-a .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%);
+            --shine-duration: 4s;
+            --shine-opacity: 0.8;
+        }
+
+        /* Classe B */
+        .rank-b.card-base, .rank-b .card-base {
+            box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
+            border-color: #8e44ad;
+        }
+        .rank-b.card-base:hover, .rank-b .card-base:hover {
+            box-shadow: 0 0 20px 4px rgba(142, 68, 173, 0.8);
+        }
+        .rank-b.card-base::after, .rank-b .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%);
+            --shine-duration: 5.5s;
+            --shine-opacity: 0.7;
+        }
+
+        /* Classe C */
+        .rank-c.card-base, .rank-c .card-base {
+             border-color: #3498db;
+        }
+        .rank-c.card-base::after, .rank-c .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%);
+            --shine-duration: 7s;
+            --shine-opacity: 0.6;
+        }
+        
+        /* Classe D */
+        .rank-d.card-base, .rank-d .card-base {
+             border-color: #2ecc71;
+        }
+        .rank-d.card-base::after, .rank-d .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%);
+            --shine-duration: 8.5s;
+            --shine-opacity: 0.5;
+        }
+        /* Classe E não tem efeito */
+
+        /* Drag & Drop */
         [draggable="true"].dragging {
             opacity: 0.2;
             cursor: grabbing;
         }
 
         .card-slot {
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 2px dashed #444;
-            transition: all 0.2s ease;
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 3px dashed var(--border-strong);
+            transition: all 0.3s ease;
             min-height: 180px;
             height: 100%;
-            border-radius: 0.5rem;
+            border-radius: 1rem; /* Mais arredondado */
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
         }
         .card-slot.drag-over {
-            background-color: rgba(255, 60, 60, 0.2);
-            border-color: var(--primary-color);
+            background-color: rgba(224, 26, 79, 0.2); /* Vermelho Rockstar */
+            border-color: var(--primary-red);
+            box-shadow: inset 0 0 20px rgba(224, 26, 79, 0.4);
         }
         .card-base.drag-over {
-             border-color: var(--primary-color);
-             box-shadow: 0 0 15px var(--glow-color);
+             border-color: var(--primary-red);
+             box-shadow: 0 0 25px var(--primary-red);
         }
 
+        /* Estilos dos filtros */
+        .filters-section {
+            background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            padding: 1.5rem;
+        }
         .filter-input, .filter-select {
-            background-color: #2a2a2a;
-            border: 1px solid #555;
-            color: #eee;
+            background-color: var(--accent-gray);
+            border: 1px solid var(--border-subtle);
+            color: var(--light-text);
             width: 100%;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
+            padding: 0.75rem; /* Mais padding */
+            border-radius: 8px; /* Mais arredondado */
+            font-size: 0.95rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
         }
-
-        .loader {
-            border-top-color: var(--primary-color);
-            animation: spin 1s linear infinite;
+        .filter-input::placeholder {
+            color: rgba(255,255,255,0.4);
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .filter-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(224, 26, 79, 0.3);
         }
-
-        .custom-alert {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        .custom-alert.show {
-            transform: translateX(0);
-            opacity: 1;
+        .text-sm.font-medium.text-gray-400 {
+            color: var(--light-text); /* Garante visibilidade */
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
 
         /* CARD FLIP STYLES */
@@ -149,8 +514,10 @@
             height: 100%;
             -webkit-backface-visibility: hidden; /* Safari */
             backface-visibility: hidden;
-            border-radius: 0.5rem;
+            border-radius: 1rem; /* Mais arredondado */
             overflow: hidden;
+            border: 3px solid #444; /* Borda mais espessa */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra mais forte */
         }
 
         .card-front {
@@ -158,36 +525,40 @@
         }
 
         .card-back {
-            background-color: #181818;
+            background-color: var(--dark-bg); /* Fundo escuro */
             transform: rotateY(180deg);
-            padding: 0.5rem;
-        }
-
-        /* RANK BADGE STYLES */
-        .rank-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            width: 48px;
-            height: 48px;
+            padding: 1rem; /* Mais padding */
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 28px;
-            color: white;
-            text-shadow: 0 0 5px rgba(0,0,0,0.7);
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            z-index: 10;
+            align-items: center;
+            text-align: center;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.7); /* Sombra interna */
+        }
+        .card-back h3 {
+            font-size: 100%; /* Título maior */
+            margin-bottom: 0.75rem;
+            text-shadow: var(--text-shadow-strong);
+        }
+        .card-back .grid {
+            width: 110%;
+            max-width: 250px; /* Limita a largura do grid de stats */
+        }
+        .card-back .grid > div {
+            font-size: 100%; /* Texto menor para stats */
+            padding: 0.25rem 0;
+        }
+        .card-back .font-bold {
+            color: var(--primary-red); /* Stats em vermelho */
         }
 
+        /* RANK BADGE STYLES (para cartas do deck) */
         .deck-card-container .rank-badge {
-             width: 40px;
-             height: 40px;
-             font-size: 24px;
-             top: 8px;
-             left: 6px;
+             width: 45px; /* Ajustado */
+             height: 45px; /* Ajustado */
+             font-size: 26px; /* Ajustado */
+             top: 10px; /* Ajustado */
+             left: 10px; /* Ajustado */
         }
 
         /* --- ANIMAÇÕES DE PARTÍCULAS E DROP --- */
@@ -220,209 +591,212 @@
             }
         }
         
-        /* --- EFEITOS DE BRILHO E RARIDADE DAS CARTAS --- */
-
-        /* Textura sutil para todas as cartas */
-        .card-base > .relative::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g83j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pPz5/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=');
-            background-size: 50px 50px;
-            opacity: 0.05;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Efeito Holográfico */
-        .holographic-overlay {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: radial-gradient(
-                circle at var(--mx, 50%) var(--my, 50%),
-                rgba(255, 255, 255, 0.4) 0%,
-                rgba(255, 255, 255, 0) 50%
-            );
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 3;
-            pointer-events: none;
-            border-radius: 0.5rem;
-        }
-
-        .card-base:hover .holographic-overlay, .deck-card-container:hover .holographic-overlay {
-            opacity: 1;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
-            20% { opacity: var(--shine-opacity, 0.4); }
-            80% { opacity: var(--shine-opacity, 0.4); }
-            100% { transform: translateX(150%) skewX(-25deg); opacity: 0; }
-        }
-
-        .card-base::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            opacity: 0;
-            z-index: 2;
-            animation: shine var(--shine-duration, 8s) infinite linear;
-            background: var(--shine-gradient);
-        }
-        
-        /* Indicador de Carta Selecionada */
-        .selected-indicator {
-            position: absolute;
-            top: 10px;
-            left: 70px;
-            background-color: rgba(255, 215, 0, 0.9);
-            color: #1a1a1a;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 11px;
-            z-index: 15;
-            pointer-events: none;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
-        }
-
-        /* Classe S (Mais Rara) */
+        /* --- EFEITOS DE BRILHO E RARIDADE DAS CARTAS (mesmos da home.html) --- */
         @keyframes pulsate-glow {
-            0%, 100% { box-shadow: 0 0 12px 2px rgba(255, 215, 0, 0.6), 0 0 2px 0px rgba(255, 215, 0, 0.5) inset; }
-            50% { box-shadow: 0 0 22px 5px rgba(255, 215, 0, 0.9), 0 0 10px 2px rgba(255, 215, 0, 0.7) inset; }
+            0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
+            50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
         }
-        .rank-s.card-base, .rank-s .card-base {
-            animation: pulsate-glow 3s infinite ease-in-out;
+        .rank-s.card-base, .rank-s .card-base, .rank-s .card-front { /* Aplicar também ao card-front */
+            animation: pulsate-glow 2s infinite ease-in-out;
+            border-color: #FFD700;
         }
-        .rank-s.card-base::after, .rank-s .card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 0.8) 50%, rgba(255, 215, 0, 0) 100%);
+        .rank-s.card-base::after, .rank-s .card-base::after, .rank-s .card-front::after {
+            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%);
+            --shine-duration: 3s;
+            --shine-opacity: 0.9;
+        }
+
+        .rank-a.card-base, .rank-a .card-base, .rank-a .card-front {
+            box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
+            border-color: var(--primary-red);
+        }
+        .rank-a.card-base:hover, .rank-a .card-base:hover, .rank-a .card-front:hover {
+            box-shadow: 0 0 25px 6px rgba(224, 26, 79, 0.9);
+        }
+        .rank-a.card-base::after, .rank-a .card-base::after, .rank-a .card-front::after {
+            --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%);
             --shine-duration: 4s;
+            --shine-opacity: 0.8;
+        }
+
+        .rank-b.card-base, .rank-b .card-base, .rank-b .card-front {
+            box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
+            border-color: #8e44ad;
+        }
+        .rank-b.card-base:hover, .rank-b .card-base:hover, .rank-b .card-front:hover {
+            box-shadow: 0 0 20px 4px rgba(142, 68, 173, 0.8);
+        }
+        .rank-b.card-base::after, .rank-b .card-base::after, .rank-b .card-front::after {
+            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%);
+            --shine-duration: 5.5s;
             --shine-opacity: 0.7;
         }
 
-        /* Classe A */
-        .rank-a.card-base, .rank-a .card-base {
-            box-shadow: 0 0 8px 1px rgba(231, 76, 60, 0.4);
-            transition: box-shadow 0.3s ease;
+        .rank-c.card-base, .rank-c .card-base, .rank-c .card-front {
+             border-color: #3498db;
         }
-        .rank-a.card-base:hover, .rank-a .card-base:hover {
-            box-shadow: 0 0 16px 4px rgba(231, 76, 60, 0.7);
-        }
-        .rank-a.card-base::after, .rank-a .card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(231, 76, 60, 0) 0%, rgba(231, 76, 60, 0.6) 50%, rgba(231, 76, 60, 0) 100%);
-            --shine-duration: 5s;
+        .rank-c.card-base::after, .rank-c .card-base::after, .rank-c .card-front::after {
+            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%);
+            --shine-duration: 7s;
             --shine-opacity: 0.6;
         }
-
-        /* Classe B */
-        .rank-b.card-base, .rank-b .card-base {
-            box-shadow: 0 0 6px 0px rgba(142, 68, 173, 0.4);
-            transition: box-shadow 0.3s ease;
+        
+        .rank-d.card-base, .rank-d .card-base, .rank-d .card-front {
+             border-color: #2ecc71;
         }
-        .rank-b.card-base:hover, .rank-b .card-base:hover {
-            box-shadow: 0 0 12px 2px rgba(142, 68, 173, 0.6);
-        }
-        .rank-b.card-base::after, .rank-b .card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.5) 50%, rgba(142, 68, 173, 0) 100%);
-            --shine-duration: 6.5s;
+        .rank-d.card-base::after, .rank-d .card-base::after, .rank-d .card-front::after {
+            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%);
+            --shine-duration: 8.5s;
             --shine-opacity: 0.5;
         }
 
-        /* Classe C */
-        .rank-c.card-base::after, .rank-c .card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.4) 50%, rgba(52, 152, 219, 0) 100%);
-            --shine-duration: 8s;
-            --shine-opacity: 0.4;
+        /* Responsividade para Mobile */
+        @media (max-width: 1023px) { /* Tailind CSS `lg` breakpoint */
+            body {
+                background-attachment: scroll;
+            }
+            .header-panel {
+                padding: 1rem;
+                border-radius: 0;
+            }
+            .info-box {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            main {
+                padding: 1rem;
+            }
+            .menu-button {
+                padding: 0.8rem 1rem;
+                font-size: 0.85rem;
+                border-radius: 6px;
+            }
+            .menu-button svg {
+                width: 20px;
+                height: 20px;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            /* Ajustes para rank-badge e selected-indicator em mobile */
+            .rank-badge {
+                width: 38px;
+                height: 38px;
+                font-size: 22px;
+                top: 8px;
+                left: 8px;
+            }
+            .rank-badge-small { /* Ajuste para o badge pequeno em mobile */
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+                top: 8px;
+                left: 8px;
+            }
+            .selected-indicator { /* Ajuste para o indicador selecionado em mobile */
+                top: 10px;
+                left: 50px; /* Ajustado para mobile */
+                padding: 3px 8px;
+                font-size: 10px;
+            }
+            .card-text-shadow {
+                text-shadow: 1px 1px 4px black;
+            }
+            .card-image-overlay { /* Ajustado para o deck no mobile */
+                padding: 0.75rem;
+            }
+            .collection-card-info-overlay {
+                padding: 0.75rem;
+            }
+            .card-back h3 {
+                font-size: 100%;
+            }
+            .card-back .grid > div {
+                font-size: 100%;
+            }
+            .collection-card-image-wrapper {
+                height: 150px; /* Ajuste a altura da imagem para mobile */
+            }
         }
-
-        /* Classe D */
-        .rank-d.card-base::after, .rank-d .card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.3) 50%, rgba(46, 204, 113, 0) 100%);
-            --shine-duration: 10s;
-            --shine-opacity: 0.3;
-        }
-        /* Classe E não tem efeito */
-
     </style>
 </head>
 <body class="bg-gray-900 text-white">
 
-    <div id="loader" class="fixed inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center z-50">
-        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-24 w-24"></div>
-        <p id="loader-text" class="mt-4 text-lg font-orbitron">Buscando seus carros...</p>
+    <!-- Loader de Carregamento -->
+    <div id="loader" class="fixed inset-0 bg-black bg-opacity-95 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-28 w-28"></div>
+        <p id="loader-text" class="mt-8 text-2xl font-orbitron animate-pulse">Buscando seus carros...</p>
     </div>
 
-    <div id="custom-alert" class="custom-alert fixed top-5 right-0 bg-red-600 text-white py-3 px-5 rounded-l-lg shadow-lg z-50 opacity-0 transform translate-x-full">
+    <!-- Alerta Customizado (substitui alert() e confirm()) -->
+    <div id="custom-alert" class="custom-alert fixed top-5 right-0 text-white py-3 px-5 rounded-l-lg shadow-lg z-50 opacity-0 transform translate-x-full">
         <p id="custom-alert-message" class="font-bold"></p>
     </div>
 
+    <!-- Container Principal da Aplicação -->
     <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
-        <header class="header-panel w-full p-4 shadow-lg sticky top-0 z-40">
+        <!-- Header (Top Bar) -->
+        <header class="header-panel w-full p-4 md:p-6 shadow-lg sticky top-0 z-40">
             <div class="container mx-auto flex justify-between items-center flex-wrap gap-4">
                 <div class="info-box flex items-center gap-3">
-                    <span id="username-display" class="text-lg font-bold text-red-400 font-orbitron"></span>
+                    <span id="username-display" class="text-xl font-bold text-red-400 font-orbitron"></span>
                 </div>
-                <div class="flex items-center gap-2 md:gap-4 flex-wrap">
+                <div class="flex items-center gap-2 md:gap-4 flex-wrap justify-end">
                     <div class="info-box"><span class="text-green-400 font-bold" id="reais-display">R$ 0</span></div>
                     <div class="info-box"><span class="text-yellow-400 font-bold" id="ouro-display">0 Ouro</span></div>
-                    <button class="menu-button p-2 rounded-lg flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="hidden md:inline">Amigos</span></button>
-                    <button class="menu-button p-2 rounded-lg flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg><span class="hidden md:inline">Comprar Ouro</span></button>
-                    <button id="logout-button" class="menu-button p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="hidden md:inline font-orbitron">Amigos</span></button>
+                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg><span class="hidden md:inline font-orbitron">Comprar Ouro</span></button>
+                    <button id="logout-button" class="menu-button p-2" title="Sair"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
                 </div>
             </div>
         </header>
 
-        <main class="flex-grow p-6 container mx-auto">
-            <a href="home.html" class="menu-button inline-flex items-center gap-2 px-4 py-2 rounded-lg mb-8">
+        <!-- Conteúdo Principal -->
+        <main class="flex-grow p-6 md:p-10 container mx-auto">
+            <a href="home.html" class="menu-button inline-flex items-center gap-2 px-4 py-2 mb-8 font-orbitron">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                Voltar para Home
+                VOLTAR PARA HOME
             </a>
 
             <section class="mb-12">
-                <h2 class="font-orbitron text-3xl font-bold text-white mb-4" style="text-shadow: 0 0 8px var(--glow-color);">Deck Ativo</h2>
-                <div id="deck-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">SEU DECK ATIVO</h2>
+                <div id="deck-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                 </div>
             </section>
 
-            <section id="filters-section" class="mb-8 bg-black/30 p-4 rounded-lg">
+            <section id="filters-section" class="mb-8 filters-section">
+                <h3 class="font-orbitron text-2xl font-bold text-white mb-6" style="text-shadow: var(--text-shadow-strong);">FILTRAR CARTAS</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
                     <div class="col-span-full xl:col-span-2">
-                        <label for="search-nome" class="block text-sm font-medium text-gray-400 mb-1">Pesquisar por Nome</label>
+                        <label for="search-nome" class="block text-sm font-medium text-gray-400 mb-2">Pesquisar por Nome</label>
                         <input type="text" id="search-nome" placeholder="Digite o nome do carro..." class="filter-input">
                     </div>
                     <div>
-                        <label for="filter-montadora" class="block text-sm font-medium text-gray-400 mb-1">Montadora</label>
+                        <label for="filter-montadora" class="block text-sm font-medium text-gray-400 mb-2">Montadora</label>
                         <select id="filter-montadora" class="filter-select"></select>
                     </div>
                     <div>
-                        <label for="filter-classe" class="block text-sm font-medium text-gray-400 mb-1">Classe</label>
+                        <label for="filter-classe" class="block text-sm font-medium text-gray-400 mb-2">Classe</label>
                         <select id="filter-classe" class="filter-select"></select>
                     </div>
                     <div>
-                        <label for="filter-pais" class="block text-sm font-medium text-gray-400 mb-1">País</label>
+                        <label for="filter-pais" class="block text-sm font-medium text-gray-400 mb-2">País</label>
                         <select id="filter-pais" class="filter-select"></select>
                     </div>
                     <div>
-                        <label for="filter-tracao" class="block text-sm font-medium text-gray-400 mb-1">Tração</label>
+                        <label for="filter-tracao" class="block text-sm font-medium text-gray-400 mb-2">Tração</label>
                         <select id="filter-tracao" class="filter-select"></select>
                     </div>
                 </div>
-                <div class="mt-4 flex justify-end">
-                    <button id="clear-filters-button" class="menu-button px-4 py-2 rounded-lg">Limpar Filtros</button>
+                <div class="mt-6 flex justify-end">
+                    <button id="clear-filters-button" class="menu-button px-6 py-3 font-orbitron">LIMPAR FILTROS</button>
                 </div>
             </section>
 
-            <section id="collection-drop-zone">
-                <h2 class="font-orbitron text-3xl font-bold text-white mb-4" style="text-shadow: 0 0 8px var(--glow-color);">Minhas Cartas</h2>
-                <div id="collection-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <section id="collection-drop-zone" class="min-h-[300px] p-6 border-2 border-dashed border-gray-700 rounded-xl flex flex-col items-center justify-center bg-black/40 shadow-inner">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">MINHAS CARTAS</h2>
+                <p class="text-gray-400 text-lg mb-6 text-center">Arraste cartas do seu deck para aqui para removê-las, ou arraste cartas da sua coleção para os slots do deck.</p>
+                <div id="collection-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
                 </div>
             </section>
         </main>
@@ -434,6 +808,7 @@
         import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
         import { cards as localCardsDatabase } from './cards.js';
 
+        // Configuração do Firebase (usa __firebase_config se disponível, senão um fallback)
         const firebaseConfig = typeof __firebase_config !== 'undefined'
             ? JSON.parse(__firebase_config)
             : {
@@ -446,10 +821,12 @@
                 appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
             };
 
+        // Inicializa o Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
+        // Referências aos elementos do DOM
         const loader = document.getElementById('loader');
         const appContainer = document.getElementById('app-container');
         const usernameDisplay = document.getElementById('username-display');
@@ -481,7 +858,10 @@
         let latestMouseY = 0;
         let animationFrameId = null;
 
-
+        /**
+         * Mostra um alerta customizado na tela.
+         * @param {string} message - A mensagem a ser exibida no alerta.
+         */
         function showCustomAlert(message) {
             const alertElement = document.getElementById('custom-alert');
             const messageElement = document.getElementById('custom-alert-message');
@@ -492,11 +872,16 @@
             }, 3000);
         }
 
+        /**
+         * Retorna a cor do rank com base na classe da carta.
+         * @param {string} rank - A classe da carta (ex: 'S+', 'A', 'B').
+         * @returns {string} A cor hexadecimal correspondente.
+         */
         function getRankColor(rank) {
             const colors = {
                 'S+': '#FFD700',
                 'S': '#FFD700',   // Dourado
-                'A': '#e74c3c',   // Vermelho
+                'A': '#E01A4F',   // Vermelho Rockstar
                 'B': '#8e44ad',   // Roxo
                 'C': '#3498db',   // Azul
                 'D': '#2ecc71',   // Verde
@@ -505,6 +890,11 @@
             return colors[rank] || '#7F8C8D'; // Cor Padrão
         }
 
+        /**
+         * Cria um elemento de carta para exibição na coleção.
+         * @param {string} cardId - O ID da carta a ser criada.
+         * @returns {HTMLElement|null} O elemento HTML da carta, ou null se os dados da carta não forem encontrados.
+         */
         function createCollectionCardElement(cardId) {
             const cardData = localCardsDatabase[cardId];
             if (!cardData) return null;
@@ -516,20 +906,21 @@
             cardElement.dataset.cardId = cardId;
 
             cardElement.innerHTML = `
-                <div class="relative aspect-[16/10] w-full bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(24,24,24,1) 20%, transparent 60%), url('${cardData.imagem}')">
-                    <div class="rank-badge" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
-                    <div class="absolute inset-0 flex flex-col justify-between p-3">
-                        <div class="flex justify-between items-start">
-                            <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-6 ml-auto" style="filter: drop-shadow(0 0 2px black);">
+                <div class="collection-card-image-wrapper">
+                    <img src="${cardData.imagem}" alt="${cardData.nome}" class="collection-card-image">
+                    <div class="rank-badge-small" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
+                    <div class="collection-card-info-overlay">
+                        <div class="flex justify-between items-start w-full">
+                            <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-5 mt-12" style="filter: drop-shadow(0 0 2px black);">
                             <div class="text-right">
-                                <div class="font-bold text-lg font-orbitron" style="text-shadow: 1px 1px 3px black;">${cardData.ano}</div>
-                                <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1" style="box-shadow: 0 0 3px black;">
+                                <div class="font-bold text-base font-orbitron card-text-shadow">${cardData.ano}</div>
+                                <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1 card-flag-shadow">
                             </div>
                         </div>
-                        <h3 class="font-bold text-xl font-orbitron leading-tight" style="text-shadow: 1px 1px 3px black;">${cardData.nome}</h3>
+                        <h3 class="font-bold text-lg md:text-xl font-orbitron leading-tight card-text-shadow">${cardData.nome}</h3>
                     </div>
                 </div>
-                <div class="p-3 bg-[#181818] grid grid-cols-3 gap-2 text-center">
+                <div class="p-3 bg-[#181818] grid grid-cols-3 gap-2 text-center text-sm">
                     <div class="text-s"><span class="font-bold block">${cardData.velocidade}</span> VEL. MÁX.</div>
                     <div class="text-s"><span class="font-bold block">${cardData.aceleracao}s</span> 0-100</div>
                     <div class="text-s"><span class="font-bold block">${cardData.direcao}</span> DIREÇÃO</div>
@@ -540,10 +931,10 @@
             `;
 
             // Adiciona efeito holográfico para raridades altas
-            if (['S', 'A', 'B'].includes(cardData.classe.replace('+', ''))) {
+            if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                 const overlay = document.createElement('div');
                 overlay.className = 'holographic-overlay';
-                cardElement.querySelector('.relative').prepend(overlay);
+                cardElement.querySelector('.collection-card-image-wrapper').prepend(overlay);
 
                 cardElement.addEventListener('mousemove', e => {
                     const rect = cardElement.getBoundingClientRect();
@@ -564,6 +955,12 @@
             return cardElement;
         }
 
+        /**
+         * Cria um elemento de slot para o deck ativo.
+         * @param {number} index - O índice do slot no deck.
+         * @param {string|null} cardId - O ID da carta no slot, ou null se o slot estiver vazio.
+         * @returns {HTMLElement} O elemento HTML do slot (com ou sem carta).
+         */
         function createDeckSlotElement(index, cardId = null) {
             const slotWrapper = document.createElement('div');
             slotWrapper.dataset.slotIndex = index;
@@ -578,25 +975,25 @@
 
                 slotWrapper.innerHTML = `
                     <div class="deck-card-inner">
-                        <!-- Card Front -->
+                        <!-- Frente da Carta -->
                         <div class="card-front card-base">
                             <div class="relative w-full h-full bg-cover bg-center" style="background-image: url('${cardData.imagem}')">
                                 <div class="rank-badge" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
-                                <div class="absolute inset-0 flex flex-col justify-between p-3" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%), linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 40%)">
+                                <div class="card-image-overlay">
                                     <div class="flex justify-between items-start">
-                                        <div class="w-10"></div>
+                                        <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-5 mt-12" style="filter: drop-shadow(0 0 2px black);">
                                         <div class="text-right">
-                                            <div class="font-bold text-base font-orbitron" style="text-shadow: 1px 1px 3px black;">${cardData.ano}</div>
-                                            <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-4 w-7 object-cover rounded-sm ml-auto mt-1" style="box-shadow: 0 0 3px black;">
+                                            <div class="font-bold text-lg font-orbitron card-text-shadow">${cardData.ano}</div>
+                                            <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1 card-flag-shadow">
                                         </div>
                                     </div>
-                                    <h3 class="font-bold text-base text-center font-orbitron leading-tight" style="text-shadow: 1px 1px 4px black;">${cardData.nome}</h3>
+                                    <h3 class="font-bold text-xl font-orbitron leading-tight card-text-shadow">${cardData.nome}</h3>
                                 </div>
                             </div>
                         </div>
-                        <!-- Card Back -->
-                        <div class="card-back flex flex-col justify-center">
-                            <h3 class="font-bold text-base font-orbitron mb-1 text-center">${cardData.nome}</h3>
+                        <!-- Verso da Carta -->
+                        <div class="card-back">
+                            <h3 class="font-bold font-orbitron mb-1 text-center">${cardData.nome}</h3>
                              <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
                                 <div class="flex justify-between"><span>Vel. Máx:</span> <span class="font-bold">${cardData.velocidade}</span></div>
                                 <div class="flex justify-between"><span>0-100km/h:</span> <span class="font-bold">${cardData.aceleracao}s</span></div>
@@ -612,7 +1009,7 @@
                 `;
 
                 // Adiciona efeito holográfico para raridades altas
-                if (['S', 'A', 'B'].includes(cardData.classe.replace('+', ''))) {
+                if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                     const overlay = document.createElement('div');
                     overlay.className = 'holographic-overlay';
                     slotWrapper.querySelector('.card-front .relative').prepend(overlay);
@@ -634,7 +1031,7 @@
                 slotWrapper.addEventListener('dragend', handleDragEnd);
             } else {
                 slotWrapper.className = 'card-slot aspect-[16/10]';
-                slotWrapper.innerHTML = `<span class="text-gray-500 text-sm p-4 text-center">Arraste uma carta aqui</span>`;
+                slotWrapper.innerHTML = `<span class="text-gray-500 text-sm p-4 text-center font-orbitron">ARRASTE UMA CARTA AQUI</span>`;
             }
 
             slotWrapper.addEventListener('dragover', handleDragOver);
@@ -644,11 +1041,16 @@
             return slotWrapper;
         }
 
+        /**
+         * Renderiza a coleção de cartas filtradas.
+         * @param {Array<string>} filteredIds - Um array de IDs de cartas filtradas.
+         */
         function renderCollection(filteredIds) {
             collectionContainer.innerHTML = '';
             filteredIds.forEach(cardId => {
                 const cardElement = createCollectionCardElement(cardId);
                 if (cardElement) {
+                    // Adiciona o indicador "Selecionado" se a carta estiver no deck ativo
                     if (activeDeckIds.includes(cardId)) {
                         const selectedIndicator = document.createElement('div');
                         selectedIndicator.className = 'selected-indicator';
@@ -660,6 +1062,10 @@
             });
         }
         
+        /**
+         * Renderiza o deck ativo de cartas.
+         * @param {number} [animatedIndex=-1] - O índice da carta que deve ser animada após o drop.
+         */
         function renderDeck(animatedIndex = -1) {
             deckContainer.innerHTML = '';
             for (let i = 0; i < 5; i++) {
@@ -668,6 +1074,7 @@
                 deckContainer.appendChild(slotElement);
 
                 if (i === animatedIndex && cardId) {
+                    // Adiciona a classe para acionar a animação de drop
                     setTimeout(() => {
                         slotElement.classList.add('card-dropped');
                         slotElement.addEventListener('animationend', () => {
@@ -678,6 +1085,9 @@
             }
         }
 
+        /**
+         * Aplica os filtros e renderiza a coleção de cartas.
+         */
         function applyFilters() {
             const searchTerm = searchInput.value.toLowerCase();
             const selectedMontadora = montadoraFilter.value;
@@ -685,11 +1095,13 @@
             const selectedPais = paisFilter.value;
             const selectedTracao = tracaoFilter.value;
 
+            // Ordem de raridade para classificação
             const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
             const sortedOwnedCardIds = [...ownedCardIds].sort((a, b) => {
                 const aInDeck = activeDeckIds.includes(a);
                 const bInDeck = activeDeckIds.includes(b);
 
+                // Prioriza cartas no deck
                 if (aInDeck && !bInDeck) return -1;
                 if (!aInDeck && bInDeck) return 1;
 
@@ -698,12 +1110,14 @@
 
                 if (!cardA || !cardB) return 0;
 
+                // Classifica por raridade
                 const rarityA = rarityOrder.indexOf(cardA.classe);
                 const rarityB = rarityOrder.indexOf(cardB.classe);
 
                 return rarityA - rarityB;
             });
 
+            // Filtra as cartas com base nos critérios de pesquisa e seleção
             const filtered = sortedOwnedCardIds.filter(cardId => {
                 const card = localCardsDatabase[cardId];
                 if (!card) return false;
@@ -720,10 +1134,16 @@
             renderCollection(filtered);
         }
 
+        /**
+         * Popula os dropdowns de filtro com opções únicas das cartas possuídas.
+         */
         function populateFilters() {
             const ownedCardsData = ownedCardIds.map(id => localCardsDatabase[id]).filter(Boolean);
             const montadoras = [...new Set(ownedCardsData.map(c => c.montadora))].sort();
-            const classes = [...new Set(ownedCardsData.map(c => c.classe))].sort();
+            const classes = [...new Set(ownedCardsData.map(c => c.classe))].sort((a, b) => {
+                const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+                return rarityOrder.indexOf(a) - rarityOrder.indexOf(b);
+            });
             const paises = [...new Set(ownedCardsData.map(c => c.pais))].sort();
             const tracoes = [...new Set(ownedCardsData.map(c => c.tracao))].sort();
 
@@ -740,6 +1160,11 @@
             populateSelect(tracaoFilter, tracoes);
         }
 
+        /**
+         * Salva o deck atualizado no Firebase.
+         * @param {Array<string|null>} newDeck - O novo array de IDs do deck.
+         * @param {number} [animatedIndex=-1] - O índice da carta que deve ser animada após o drop.
+         */
         async function saveDeckToFirebase(newDeck, animatedIndex = -1) {
             if (!currentUser) return;
             const userRef = ref(db, 'users/' + currentUser.uid);
@@ -747,19 +1172,26 @@
                 await update(userRef, { deck: newDeck });
                 activeDeckIds = newDeck;
                 renderDeck(animatedIndex);
-                applyFilters();
+                applyFilters(); // Re-renderiza a coleção para atualizar o status "Selecionado"
             } catch (error) {
                 console.error("Erro ao salvar o deck:", error);
                 showCustomAlert("Não foi possível salvar seu deck.");
             }
         }
 
+        /**
+         * Atualiza a posição do ghost element durante o arrasto.
+         */
         function updateGhostPosition() {
             if (!draggedGhost) return;
             draggedGhost.style.transform = `translate3d(${latestMouseX - offsetX}px, ${latestMouseY - offsetY}px, 0) rotateZ(8deg) scale(0.7)`;
             animationFrameId = null;
         }
 
+        /**
+         * Manipula o início do evento de arrasto.
+         * @param {Event} e - O evento de arrasto.
+         */
         function handleDragStart(e) {
             const originalElement = e.currentTarget;
             
@@ -767,14 +1199,12 @@
             offsetX = e.clientX - rect.left;
             offsetY = e.clientY - rect.top;
 
-            // Create a "dumb" clone of the element that doesn't carry over event listeners.
-            // This prevents performance issues from listeners (like mousemove for holo effect)
-            // firing on the ghost element during the drag.
+            // Cria um clone "burro" do elemento para ser o ghost, sem listeners de eventos
             draggedGhost = document.createElement('div');
             draggedGhost.className = originalElement.className;
             draggedGhost.innerHTML = originalElement.innerHTML;
 
-            // Remove the holographic overlay from the clone to prevent performance issues.
+            // Remove o overlay holográfico do clone para evitar problemas de performance
             const holo = draggedGhost.querySelector('.holographic-overlay');
             if (holo) holo.remove();
 
@@ -789,10 +1219,12 @@
 
             document.body.appendChild(draggedGhost);
             
+            // Adiciona a classe 'dragging' após um pequeno atraso para evitar conflitos visuais
             setTimeout(() => {
                 originalElement.classList.add('dragging');
             }, 0);
 
+            // Define uma imagem vazia para o ghost padrão do navegador
             const emptyImage = new Image();
             e.dataTransfer.setDragImage(emptyImage, 0, 0);
 
@@ -800,40 +1232,72 @@
             e.dataTransfer.effectAllowed = 'move';
         }
 
+        /**
+         * Manipula o fim do evento de arrasto.
+         * @param {Event} e - O evento de arrasto.
+         */
         function handleDragEnd(e) {
             e.currentTarget.classList.remove('dragging');
 
+            // Remove o ghost element
             if (draggedGhost) {
                 document.body.removeChild(draggedGhost);
                 draggedGhost = null;
             }
             
+            // Cancela o frame de animação se estiver ativo
             if (animationFrameId) {
                 cancelAnimationFrame(animationFrameId);
                 animationFrameId = null;
             }
             
+            // Limpa o intervalo de rolagem
             clearInterval(scrollInterval);
             scrollInterval = null;
         }
 
+        /**
+         * Manipula o evento dragover para slots e cartas.
+         * @param {Event} e - O evento de arrasto.
+         */
         function handleDragOver(e) {
             e.preventDefault();
             const targetSlot = e.target.closest('[data-slot-index]');
-            if(targetSlot) {
+            const targetCard = e.target.closest('.card-base');
+
+            // Remove a classe 'drag-over' de todos os elementos para evitar múltiplos destaques
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+            if (targetSlot) {
                 targetSlot.classList.add('drag-over');
+            } else if (targetCard && targetCard.dataset.cardId) {
+                // Se o alvo for uma carta na coleção, destaca a carta
+                targetCard.classList.add('drag-over');
+            } else if (e.currentTarget.id === 'collection-drop-zone') {
+                // Se o arrasto estiver sobre a zona de drop da coleção
+                e.currentTarget.classList.add('drag-over');
             }
         }
 
+        /**
+         * Manipula o evento dragleave para slots e cartas.
+         * @param {Event} e - O evento de arrasto.
+         */
         function handleDragLeave(e) {
             const targetSlot = e.target.closest('[data-slot-index]');
-            if(targetSlot) {
+            const targetCard = e.target.closest('.card-base');
+            if (targetSlot) {
                 targetSlot.classList.remove('drag-over');
+            } else if (targetCard) {
+                targetCard.classList.remove('drag-over');
+            } else if (e.currentTarget.id === 'collection-drop-zone') {
+                e.currentTarget.classList.remove('drag-over');
             }
         }
 
+        // Listener global para o movimento do mouse para o ghost element e rolagem automática
         document.addEventListener('dragover', (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Necessário para permitir o drop
 
             if (draggedGhost) {
                 latestMouseX = e.clientX;
@@ -844,14 +1308,15 @@
                 }
             }
 
-            const scrollZone = window.innerHeight * 0.15;
+            // Lógica de rolagem automática
+            const scrollZone = window.innerHeight * 0.15; // 15% do topo/base da tela
             if (e.clientY < scrollZone) {
                 if (!scrollInterval) {
-                    scrollInterval = setInterval(() => window.scrollBy(0, -100), 50);
+                    scrollInterval = setInterval(() => window.scrollBy(0, -100), 50); // Rolagem para cima
                 }
             } else if (e.clientY > window.innerHeight - scrollZone) {
                 if (!scrollInterval) {
-                    scrollInterval = setInterval(() => window.scrollBy(0, 100), 50);
+                    scrollInterval = setInterval(() => window.scrollBy(0, 100), 50); // Rolagem para baixo
                 }
             } else {
                 clearInterval(scrollInterval);
@@ -859,6 +1324,13 @@
             }
         });
 
+        /**
+         * Cria partículas de explosão no local do drop.
+         * @param {number} x - Coordenada X do centro da explosão.
+         * @param {number} y - Coordenada Y do centro da explosão.
+         * @param {string} color - A cor das partículas.
+         * @param {string} rank - O rank da carta para determinar a intensidade da explosão.
+         */
         function createExplosion(x, y, color, rank) {
             const particleCount = rank === 'S' ? 60 : rank === 'A' ? 40 : 25;
             const baseDistance = rank === 'S' ? 180 : rank === 'A' ? 130 : 90;
@@ -868,13 +1340,13 @@
                 particle.className = 'particle';
                 document.body.appendChild(particle);
 
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * baseDistance + 50;
+                const angle = Math.random() * Math.PI * 2; // Ângulo aleatório em radianos
+                const distance = Math.random() * baseDistance + 50; // Distância aleatória
                 const targetX = Math.cos(angle) * distance;
                 const targetY = Math.sin(angle) * distance;
 
-                const size = Math.random() * 8 + 5; // 5px a 13px
-                const duration = Math.random() * 0.6 + 0.8; // 0.8s a 1.4s
+                const size = Math.random() * 8 + 5; // Tamanho aleatório entre 5px e 13px
+                const duration = Math.random() * 0.6 + 0.8; // Duração aleatória entre 0.8s e 1.4s
 
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
@@ -886,16 +1358,21 @@
                 particle.style.left = `${x}px`;
                 particle.style.top = `${y}px`;
 
+                // Remove a partícula após a animação
                 particle.addEventListener('animationend', () => {
                     particle.remove();
                 });
             }
         }
 
+        /**
+         * Manipula o evento de drop em um slot do deck.
+         * @param {Event} e - O evento de drop.
+         */
         async function handleDropOnDeck(e) {
             e.preventDefault();
             const targetSlot = e.currentTarget;
-            targetSlot.classList.remove('drag-over');
+            targetSlot.classList.remove('drag-over'); // Remove o destaque
 
             const draggedCardId = e.dataTransfer.getData('text/plain');
             const targetSlotIndex = parseInt(targetSlot.dataset.slotIndex);
@@ -904,48 +1381,61 @@
 
             const cardData = localCardsDatabase[draggedCardId];
             if (cardData) {
+                // Cria a explosão de partículas no local do drop
                 createExplosion(e.clientX, e.clientY, getRankColor(cardData.classe), cardData.classe.replace('+', ''));
             }
 
             const newDeck = [...activeDeckIds];
             const oldIndexInDeck = activeDeckIds.indexOf(draggedCardId);
+
+            // Se a carta já estava no deck, remove-a da posição antiga
             if(oldIndexInDeck > -1){
                 newDeck[oldIndexInDeck] = null;
             }
             
+            // Pega a carta que já estava no slot de destino, se houver
             const cardInTargetSlot = activeDeckIds[targetSlotIndex];
-            newDeck[targetSlotIndex] = draggedCardId;
+            newDeck[targetSlotIndex] = draggedCardId; // Coloca a nova carta no slot
 
+            // Se havia uma carta no slot de destino e a carta arrastada veio do deck,
+            // move a carta do slot de destino para a posição antiga da carta arrastada
             if(cardInTargetSlot && oldIndexInDeck > -1) {
                 newDeck[oldIndexInDeck] = cardInTargetSlot;
             }
 
+            // Garante que o deck tem sempre 5 elementos, preenchendo com null se necessário
             const finalDeck = Array.from({ length: 5 }, (_, i) => newDeck[i] || null);
-            await saveDeckToFirebase(finalDeck, targetSlotIndex);
+            await saveDeckToFirebase(finalDeck, targetSlotIndex); // Salva e renderiza com animação
         }
 
 
+        /**
+         * Manipula o evento de drop na zona de drop da coleção (para remover cartas do deck).
+         * @param {Event} e - O evento de drop.
+         */
         async function handleDropOnCollection(e) {
             e.preventDefault();
+            e.currentTarget.classList.remove('drag-over'); // Remove o destaque
+
             const draggedCardId = e.dataTransfer.getData('text/plain');
 
+            // Conta quantas cartas não são nulas no deck
             const cardsInDeckCount = activeDeckIds.filter(id => id !== null).length;
 
+            // Impede que o deck fique completamente vazio
             if (cardsInDeckCount <= 1 && activeDeckIds.includes(draggedCardId)) {
                 showCustomAlert("O deck não pode ficar vazio!");
                 return;
             }
 
+            // Se a carta arrastada estiver no deck, remove-a
             if (activeDeckIds.includes(draggedCardId)) {
                 const newDeck = activeDeckIds.map(id => id === draggedCardId ? null : id);
                 await saveDeckToFirebase(newDeck);
             }
         }
 
-        collectionDropZone.addEventListener('dragover', handleDragOver);
-        collectionDropZone.addEventListener('dragleave', handleDragLeave);
-        collectionDropZone.addEventListener('drop', handleDropOnCollection);
-
+        // Adiciona listeners para os filtros
         searchInput.addEventListener('input', applyFilters);
         montadoraFilter.addEventListener('change', applyFilters);
         classeFilter.addEventListener('change', applyFilters);
@@ -960,43 +1450,57 @@
             applyFilters();
         });
 
+        // Adiciona listeners para a zona de drop da coleção
+        collectionDropZone.addEventListener('dragover', handleDragOver);
+        collectionDropZone.addEventListener('dragleave', handleDragLeave);
+        collectionDropZone.addEventListener('drop', handleDropOnCollection);
+
+        // Listener para o estado de autenticação do Firebase
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                currentUser = user;
+                currentUser = user; // Define o usuário atual
                 const userRef = ref(db, 'users/' + user.uid);
                 try {
                     const snapshot = await get(userRef);
                     if (snapshot.exists()) {
                         const userData = snapshot.val();
 
+                        // Atualiza as informações do usuário na interface
                         usernameDisplay.textContent = userData.username;
                         reaisDisplay.textContent = `R$ ${userData.reais.toLocaleString('pt-BR')}`;
                         ouroDisplay.textContent = `${userData.ouro} Ouro`;
 
+                        // Carrega as cartas possuídas e o deck ativo
                         ownedCardIds = userData.cartas || [];
                         activeDeckIds = userData.deck || Array(5).fill(null);
 
+                        // Garante que o deck tem 5 slots
                         if(activeDeckIds.length < 5){
                             activeDeckIds.push(...Array(5 - activeDeckIds.length).fill(null));
                         }
 
+                        // Verifica se o deck já está definido no Firebase
                         let deckIsDefined = userData.hasOwnProperty('deck');
 
+                        // Se o deck não estiver definido e o usuário tiver cartas, inicializa o deck com a primeira carta
                         if (!deckIsDefined && ownedCardIds.length > 0) {
                             const initialDeck = Array(5).fill(null);
                             initialDeck[0] = ownedCardIds[0];
                             await saveDeckToFirebase(initialDeck);
                         } else {
-                            renderDeck();
+                            renderDeck(); // Renderiza o deck existente
                         }
 
-                        populateFilters();
-                        applyFilters();
+                        populateFilters(); // Popula os filtros com base nas cartas possuídas
+                        applyFilters(); // Aplica os filtros e renderiza a coleção
 
+                        // Esconde o loader e mostra o conteúdo da aplicação
                         appContainer.classList.remove('hidden');
                         loader.classList.add('hidden');
 
                     } else {
+                        // Se o documento do usuário não for encontrado, força o logout
+                        console.error("Documento do usuário não encontrado. Forçando logout.");
                         await signOut(auth);
                     }
                 } catch (error) {
@@ -1004,10 +1508,12 @@
                     await signOut(auth);
                 }
             } else {
+                // Se o usuário não está logado, redireciona para a página de login
                 window.location.href = 'index.html';
             }
         });
 
+        // Listener para o botão de logout
         logoutButton.addEventListener('click', async () => {
             try {
                 await signOut(auth);
