@@ -64,19 +64,19 @@
             overflow: hidden;
             border: 1px solid #444;
             background-color: #1a1a1a;
+            position: relative; 
+            transform-style: preserve-3d;
         }
         .card-base:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 15px var(--glow-color);
+            transform: scale(1.05) rotateZ(2deg);
+            box-shadow: 0 0 20px var(--glow-color);
             border-color: var(--primary-color);
+            z-index: 20;
         }
-        .card-base.dragging {
-            opacity: 0.5;
+        
+        [draggable="true"].dragging {
+            opacity: 0.2;
             cursor: grabbing;
-        }
-        .card-base.in-deck {
-            box-shadow: 0 0 15px rgba(250, 204, 21, 0.8);
-            border-color: #facc15;
         }
 
         .card-slot {
@@ -94,7 +94,6 @@
             background-color: rgba(255, 60, 60, 0.2);
             border-color: var(--primary-color);
         }
-        /* Style for a card in the deck when being dragged over */
         .card-base.drag-over {
              border-color: var(--primary-color);
              box-shadow: 0 0 15px var(--glow-color);
@@ -125,6 +124,233 @@
             transform: translateX(0);
             opacity: 1;
         }
+
+        /* CARD FLIP STYLES */
+        .deck-card-container {
+            perspective: 1000px;
+            cursor: grab;
+        }
+
+        .deck-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .deck-card-container:hover .deck-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .card-front {
+            background-color: #1a1a1a;
+        }
+
+        .card-back {
+            background-color: #181818;
+            transform: rotateY(180deg);
+            padding: 0.5rem;
+        }
+
+        /* RANK BADGE STYLES */
+        .rank-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            color: white;
+            text-shadow: 0 0 5px rgba(0,0,0,0.7);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 10;
+        }
+
+        .deck-card-container .rank-badge {
+             width: 40px;
+             height: 40px;
+             font-size: 24px;
+             top: 8px;
+             left: 6px;
+        }
+
+        /* --- ANIMAÇÕES DE PARTÍCULAS E DROP --- */
+        @keyframes card-drop-effect {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.05); filter: brightness(1.75); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+
+        .card-dropped .deck-card-inner {
+            animation: card-drop-effect 0.4s ease-out;
+        }
+
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            animation: fly-out forwards;
+        }
+
+        @keyframes fly-out {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* --- EFEITOS DE BRILHO E RARIDADE DAS CARTAS --- */
+
+        /* Textura sutil para todas as cartas */
+        .card-base > .relative::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g83j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pPz5/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=');
+            background-size: 50px 50px;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Efeito Holográfico */
+        .holographic-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(
+                circle at var(--mx, 50%) var(--my, 50%),
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(255, 255, 255, 0) 50%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 3;
+            pointer-events: none;
+            border-radius: 0.5rem;
+        }
+
+        .card-base:hover .holographic-overlay, .deck-card-container:hover .holographic-overlay {
+            opacity: 1;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+            20% { opacity: var(--shine-opacity, 0.4); }
+            80% { opacity: var(--shine-opacity, 0.4); }
+            100% { transform: translateX(150%) skewX(-25deg); opacity: 0; }
+        }
+
+        .card-base::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            opacity: 0;
+            z-index: 2;
+            animation: shine var(--shine-duration, 8s) infinite linear;
+            background: var(--shine-gradient);
+        }
+        
+        /* Indicador de Carta Selecionada */
+        .selected-indicator {
+            position: absolute;
+            top: 10px;
+            left: 70px;
+            background-color: rgba(255, 215, 0, 0.9);
+            color: #1a1a1a;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            z-index: 15;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Classe S (Mais Rara) */
+        @keyframes pulsate-glow {
+            0%, 100% { box-shadow: 0 0 12px 2px rgba(255, 215, 0, 0.6), 0 0 2px 0px rgba(255, 215, 0, 0.5) inset; }
+            50% { box-shadow: 0 0 22px 5px rgba(255, 215, 0, 0.9), 0 0 10px 2px rgba(255, 215, 0, 0.7) inset; }
+        }
+        .rank-s.card-base, .rank-s .card-base {
+            animation: pulsate-glow 3s infinite ease-in-out;
+        }
+        .rank-s.card-base::after, .rank-s .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 0.8) 50%, rgba(255, 215, 0, 0) 100%);
+            --shine-duration: 4s;
+            --shine-opacity: 0.7;
+        }
+
+        /* Classe A */
+        .rank-a.card-base, .rank-a .card-base {
+            box-shadow: 0 0 8px 1px rgba(231, 76, 60, 0.4);
+            transition: box-shadow 0.3s ease;
+        }
+        .rank-a.card-base:hover, .rank-a .card-base:hover {
+            box-shadow: 0 0 16px 4px rgba(231, 76, 60, 0.7);
+        }
+        .rank-a.card-base::after, .rank-a .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(231, 76, 60, 0) 0%, rgba(231, 76, 60, 0.6) 50%, rgba(231, 76, 60, 0) 100%);
+            --shine-duration: 5s;
+            --shine-opacity: 0.6;
+        }
+
+        /* Classe B */
+        .rank-b.card-base, .rank-b .card-base {
+            box-shadow: 0 0 6px 0px rgba(142, 68, 173, 0.4);
+            transition: box-shadow 0.3s ease;
+        }
+        .rank-b.card-base:hover, .rank-b .card-base:hover {
+            box-shadow: 0 0 12px 2px rgba(142, 68, 173, 0.6);
+        }
+        .rank-b.card-base::after, .rank-b .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.5) 50%, rgba(142, 68, 173, 0) 100%);
+            --shine-duration: 6.5s;
+            --shine-opacity: 0.5;
+        }
+
+        /* Classe C */
+        .rank-c.card-base::after, .rank-c .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.4) 50%, rgba(52, 152, 219, 0) 100%);
+            --shine-duration: 8s;
+            --shine-opacity: 0.4;
+        }
+
+        /* Classe D */
+        .rank-d.card-base::after, .rank-d .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.3) 50%, rgba(46, 204, 113, 0) 100%);
+            --shine-duration: 10s;
+            --shine-opacity: 0.3;
+        }
+        /* Classe E não tem efeito */
+
     </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -246,6 +472,15 @@
         let activeDeckIds = [];
 
         let scrollInterval = null;
+        let draggedGhost = null;
+        let offsetX = 0;
+        let offsetY = 0;
+        
+        // --- Drag Optimization Variables ---
+        let latestMouseX = 0;
+        let latestMouseY = 0;
+        let animationFrameId = null;
+
 
         function showCustomAlert(message) {
             const alertElement = document.getElementById('custom-alert');
@@ -257,23 +492,35 @@
             }, 3000);
         }
 
-        /**
-         * Cria o elemento visual para uma carta da coleção (com todas as estatísticas).
-         */
+        function getRankColor(rank) {
+            const colors = {
+                'S+': '#FFD700',
+                'S': '#FFD700',   // Dourado
+                'A': '#e74c3c',   // Vermelho
+                'B': '#8e44ad',   // Roxo
+                'C': '#3498db',   // Azul
+                'D': '#2ecc71',   // Verde
+                'E': '#95a5a6'    // Cinza
+            };
+            return colors[rank] || '#7F8C8D'; // Cor Padrão
+        }
+
         function createCollectionCardElement(cardId) {
             const cardData = localCardsDatabase[cardId];
             if (!cardData) return null;
 
             const cardElement = document.createElement('div');
-            cardElement.className = 'card-base bg-black/50';
+            cardElement.className = 'card-base';
+            cardElement.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
             cardElement.setAttribute('draggable', true);
             cardElement.dataset.cardId = cardId;
 
             cardElement.innerHTML = `
                 <div class="relative aspect-[16/10] w-full bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(24,24,24,1) 20%, transparent 60%), url('${cardData.imagem}')">
+                    <div class="rank-badge" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
                     <div class="absolute inset-0 flex flex-col justify-between p-3">
                         <div class="flex justify-between items-start">
-                            <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-6" style="filter: drop-shadow(0 0 2px black);">
+                            <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-6 ml-auto" style="filter: drop-shadow(0 0 2px black);">
                             <div class="text-right">
                                 <div class="font-bold text-lg font-orbitron" style="text-shadow: 1px 1px 3px black;">${cardData.ano}</div>
                                 <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1" style="box-shadow: 0 0 3px black;">
@@ -283,14 +530,33 @@
                     </div>
                 </div>
                 <div class="p-3 bg-[#181818] grid grid-cols-3 gap-2 text-center">
-                    <div class="text-xs"><span class="font-bold block">${cardData.velocidade}</span> VEL. MÁX.</div>
-                    <div class="text-xs"><span class="font-bold block">${cardData.aceleracao}s</span> 0-100</div>
-                    <div class="text-xs"><span class="font-bold block">${cardData.direcao}</span> DIREÇÃO</div>
-                    <div class="text-xs"><span class="font-bold block">${cardData.altura}</span> ALTURA</div>
-                    <div class="text-xs"><span class="font-bold block">${cardData.pneus}</span> PNEUS</div>
-                    <div class="text-xs"><span class="font-bold block">${cardData.tracao}</span> TRAÇÃO</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.velocidade}</span> VEL. MÁX.</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.aceleracao}s</span> 0-100</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.direcao}</span> DIREÇÃO</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.altura}</span> ALTURA</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.pneus}</span> PNEUS</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.tracao}</span> TRAÇÃO</div>
                 </div>
             `;
+
+            // Adiciona efeito holográfico para raridades altas
+            if (['S', 'A', 'B'].includes(cardData.classe.replace('+', ''))) {
+                const overlay = document.createElement('div');
+                overlay.className = 'holographic-overlay';
+                cardElement.querySelector('.relative').prepend(overlay);
+
+                cardElement.addEventListener('mousemove', e => {
+                    const rect = cardElement.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    cardElement.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+                    cardElement.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+                });
+                cardElement.addEventListener('mouseleave', () => {
+                    cardElement.style.setProperty('--mx', `50%`);
+                    cardElement.style.setProperty('--my', `50%`);
+                });
+            }
 
             cardElement.addEventListener('dragstart', handleDragStart);
             cardElement.addEventListener('dragend', handleDragEnd);
@@ -298,76 +564,117 @@
             return cardElement;
         }
 
-        /**
-         * [MODIFICADO] Cria um elemento para o Deck.
-         * Se um cardId for fornecido, ele renderiza a carta.
-         * Se for nulo, renderiza um espaço vazio para arrastar uma carta.
-         */
         function createDeckSlotElement(index, cardId = null) {
-            const slotElement = document.createElement('div');
-            slotElement.dataset.slotIndex = index;
+            const slotWrapper = document.createElement('div');
+            slotWrapper.dataset.slotIndex = index;
 
             const cardData = cardId ? localCardsDatabase[cardId] : null;
 
             if (cardData) {
-                // Se existe uma carta, o slot se torna a própria carta.
-                slotElement.className = 'card-base bg-black/50';
-                slotElement.setAttribute('draggable', true);
-                slotElement.dataset.cardId = cardId;
+                slotWrapper.className = 'deck-card-container aspect-[16/10]';
+                slotWrapper.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
+                slotWrapper.setAttribute('draggable', true);
+                slotWrapper.dataset.cardId = cardId;
 
-                slotElement.innerHTML = `
-                    <div class="relative aspect-[16/10] w-full bg-cover bg-center" style="background-image: url('${cardData.imagem}')">
-                        <div class="absolute inset-0 flex flex-col justify-between p-3" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%), linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 40%)">
-                            <div class="flex justify-between items-start">
-                                <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-5 opacity-90" style="filter: drop-shadow(0 0 2px black);">
-                                <div class="text-right">
-                                    <div class="font-bold text-base font-orbitron" style="text-shadow: 1px 1px 3px black;">${cardData.ano}</div>
-                                    <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-4 w-7 object-cover rounded-sm ml-auto mt-1" style="box-shadow: 0 0 3px black;">
+                slotWrapper.innerHTML = `
+                    <div class="deck-card-inner">
+                        <!-- Card Front -->
+                        <div class="card-front card-base">
+                            <div class="relative w-full h-full bg-cover bg-center" style="background-image: url('${cardData.imagem}')">
+                                <div class="rank-badge" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
+                                <div class="absolute inset-0 flex flex-col justify-between p-3" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%), linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 40%)">
+                                    <div class="flex justify-between items-start">
+                                        <div class="w-10"></div>
+                                        <div class="text-right">
+                                            <div class="font-bold text-base font-orbitron" style="text-shadow: 1px 1px 3px black;">${cardData.ano}</div>
+                                            <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-4 w-7 object-cover rounded-sm ml-auto mt-1" style="box-shadow: 0 0 3px black;">
+                                        </div>
+                                    </div>
+                                    <h3 class="font-bold text-base text-center font-orbitron leading-tight" style="text-shadow: 1px 1px 4px black;">${cardData.nome}</h3>
                                 </div>
                             </div>
-                            <h3 class="font-bold text-base text-center font-orbitron leading-tight" style="text-shadow: 1px 1px 4px black;">${cardData.nome}</h3>
+                        </div>
+                        <!-- Card Back -->
+                        <div class="card-back flex flex-col justify-center">
+                            <h3 class="font-bold text-base font-orbitron mb-1 text-center">${cardData.nome}</h3>
+                             <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+                                <div class="flex justify-between"><span>Vel. Máx:</span> <span class="font-bold">${cardData.velocidade}</span></div>
+                                <div class="flex justify-between"><span>0-100km/h:</span> <span class="font-bold">${cardData.aceleracao}s</span></div>
+                                <div class="flex justify-between"><span>Direção:</span> <span class="font-bold">${cardData.direcao}</span></div>
+                                <div class="flex justify-between"><span>Altura:</span> <span class="font-bold">${cardData.altura}</span></div>
+                                <div class="flex justify-between"><span>Pneus:</span> <span class="font-bold">${cardData.pneus}</span></div>
+                                <div class="flex justify-between"><span>Tração:</span> <span class="font-bold">${cardData.tracao}</span></div>
+                                <div class="flex justify-between"><span>País:</span> <span class="font-bold">${cardData.pais}</span></div>
+                                <div class="flex justify-between"><span>Montadora:</span> <span class="font-bold">${cardData.montadora}</span></div>
+                            </div>
                         </div>
                     </div>
                 `;
 
-                slotElement.addEventListener('dragstart', handleDragStart);
-                slotElement.addEventListener('dragend', handleDragEnd);
+                // Adiciona efeito holográfico para raridades altas
+                if (['S', 'A', 'B'].includes(cardData.classe.replace('+', ''))) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'holographic-overlay';
+                    slotWrapper.querySelector('.card-front .relative').prepend(overlay);
 
+                    slotWrapper.addEventListener('mousemove', e => {
+                        const rect = slotWrapper.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        slotWrapper.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+                        slotWrapper.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+                    });
+                    slotWrapper.addEventListener('mouseleave', () => {
+                        slotWrapper.style.setProperty('--mx', '50%');
+                        slotWrapper.style.setProperty('--my', '50%');
+                    });
+                }
+
+                slotWrapper.addEventListener('dragstart', handleDragStart);
+                slotWrapper.addEventListener('dragend', handleDragEnd);
             } else {
-                // Se não há carta, o slot é um espaço vazio tracejado.
-                slotElement.className = 'card-slot';
-                slotElement.innerHTML = `<span class="text-gray-500 text-sm p-4 text-center">Arraste uma carta aqui</span>`;
+                slotWrapper.className = 'card-slot aspect-[16/10]';
+                slotWrapper.innerHTML = `<span class="text-gray-500 text-sm p-4 text-center">Arraste uma carta aqui</span>`;
             }
 
-            // Os eventos para receber uma carta são adicionados em ambos os casos.
-            slotElement.addEventListener('dragover', handleDragOver);
-            slotElement.addEventListener('dragleave', handleDragLeave);
-            slotElement.addEventListener('drop', handleDropOnDeck);
+            slotWrapper.addEventListener('dragover', handleDragOver);
+            slotWrapper.addEventListener('dragleave', handleDragLeave);
+            slotWrapper.addEventListener('drop', handleDropOnDeck);
 
-            return slotElement;
+            return slotWrapper;
         }
-
 
         function renderCollection(filteredIds) {
             collectionContainer.innerHTML = '';
             filteredIds.forEach(cardId => {
                 const cardElement = createCollectionCardElement(cardId);
-                if (activeDeckIds.includes(cardId)) {
-                    cardElement.classList.add('in-deck');
+                if (cardElement) {
+                    if (activeDeckIds.includes(cardId)) {
+                        const selectedIndicator = document.createElement('div');
+                        selectedIndicator.className = 'selected-indicator';
+                        selectedIndicator.textContent = 'Selecionado';
+                        cardElement.appendChild(selectedIndicator);
+                    }
+                    collectionContainer.appendChild(cardElement);
                 }
-                collectionContainer.appendChild(cardElement);
             });
         }
         
-        /**
-         * [MODIFICADO] Renderiza o deck usando a nova função createDeckSlotElement.
-         */
-        function renderDeck() {
+        function renderDeck(animatedIndex = -1) {
             deckContainer.innerHTML = '';
             for (let i = 0; i < 5; i++) {
                 const cardId = activeDeckIds[i] || null;
                 const slotElement = createDeckSlotElement(i, cardId);
                 deckContainer.appendChild(slotElement);
+
+                if (i === animatedIndex && cardId) {
+                    setTimeout(() => {
+                        slotElement.classList.add('card-dropped');
+                        slotElement.addEventListener('animationend', () => {
+                            slotElement.classList.remove('card-dropped');
+                        }, { once: true });
+                    }, 0);
+                }
             }
         }
 
@@ -378,12 +685,23 @@
             const selectedPais = paisFilter.value;
             const selectedTracao = tracaoFilter.value;
 
+            const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
             const sortedOwnedCardIds = [...ownedCardIds].sort((a, b) => {
                 const aInDeck = activeDeckIds.includes(a);
                 const bInDeck = activeDeckIds.includes(b);
+
                 if (aInDeck && !bInDeck) return -1;
                 if (!aInDeck && bInDeck) return 1;
-                return 0;
+
+                const cardA = localCardsDatabase[a];
+                const cardB = localCardsDatabase[b];
+
+                if (!cardA || !cardB) return 0;
+
+                const rarityA = rarityOrder.indexOf(cardA.classe);
+                const rarityB = rarityOrder.indexOf(cardB.classe);
+
+                return rarityA - rarityB;
             });
 
             const filtered = sortedOwnedCardIds.filter(cardId => {
@@ -422,13 +740,13 @@
             populateSelect(tracaoFilter, tracoes);
         }
 
-        async function saveDeckToFirebase(newDeck) {
+        async function saveDeckToFirebase(newDeck, animatedIndex = -1) {
             if (!currentUser) return;
             const userRef = ref(db, 'users/' + currentUser.uid);
             try {
                 await update(userRef, { deck: newDeck });
                 activeDeckIds = newDeck;
-                renderDeck();
+                renderDeck(animatedIndex);
                 applyFilters();
             } catch (error) {
                 console.error("Erro ao salvar o deck:", error);
@@ -436,36 +754,104 @@
             }
         }
 
+        function updateGhostPosition() {
+            if (!draggedGhost) return;
+            draggedGhost.style.transform = `translate3d(${latestMouseX - offsetX}px, ${latestMouseY - offsetY}px, 0) rotateZ(8deg) scale(0.7)`;
+            animationFrameId = null;
+        }
+
         function handleDragStart(e) {
-            e.target.classList.add('dragging');
-            e.dataTransfer.setData('text/plain', e.target.dataset.cardId);
+            const originalElement = e.currentTarget;
+            
+            const rect = originalElement.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+
+            // Create a "dumb" clone of the element that doesn't carry over event listeners.
+            // This prevents performance issues from listeners (like mousemove for holo effect)
+            // firing on the ghost element during the drag.
+            draggedGhost = document.createElement('div');
+            draggedGhost.className = originalElement.className;
+            draggedGhost.innerHTML = originalElement.innerHTML;
+
+            // Remove the holographic overlay from the clone to prevent performance issues.
+            const holo = draggedGhost.querySelector('.holographic-overlay');
+            if (holo) holo.remove();
+
+            draggedGhost.style.position = 'fixed';
+            draggedGhost.style.zIndex = '1000';
+            draggedGhost.style.pointerEvents = 'none';
+            draggedGhost.style.width = `${rect.width}px`;
+            draggedGhost.style.height = `${rect.height}px`;
+            draggedGhost.style.left = '0px';
+            draggedGhost.style.top = '0px';
+            draggedGhost.style.transform = `translate3d(${e.clientX - offsetX}px, ${e.clientY - offsetY}px, 0) rotateZ(8deg) scale(0.7)`;
+
+            document.body.appendChild(draggedGhost);
+            
+            setTimeout(() => {
+                originalElement.classList.add('dragging');
+            }, 0);
+
+            const emptyImage = new Image();
+            e.dataTransfer.setDragImage(emptyImage, 0, 0);
+
+            e.dataTransfer.setData('text/plain', originalElement.dataset.cardId);
             e.dataTransfer.effectAllowed = 'move';
         }
 
         function handleDragEnd(e) {
-            e.target.classList.remove('dragging');
+            e.currentTarget.classList.remove('dragging');
+
+            if (draggedGhost) {
+                document.body.removeChild(draggedGhost);
+                draggedGhost = null;
+            }
+            
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
             clearInterval(scrollInterval);
             scrollInterval = null;
         }
 
         function handleDragOver(e) {
             e.preventDefault();
-            e.currentTarget.classList.add('drag-over');
+            const targetSlot = e.target.closest('[data-slot-index]');
+            if(targetSlot) {
+                targetSlot.classList.add('drag-over');
+            }
         }
 
         function handleDragLeave(e) {
-            e.currentTarget.classList.remove('drag-over');
+            const targetSlot = e.target.closest('[data-slot-index]');
+            if(targetSlot) {
+                targetSlot.classList.remove('drag-over');
+            }
         }
 
         document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+
+            if (draggedGhost) {
+                latestMouseX = e.clientX;
+                latestMouseY = e.clientY;
+
+                if (!animationFrameId) {
+                    animationFrameId = requestAnimationFrame(updateGhostPosition);
+                }
+            }
+
             const scrollZone = window.innerHeight * 0.15;
             if (e.clientY < scrollZone) {
                 if (!scrollInterval) {
-                    scrollInterval = setInterval(() => window.scrollBy(0, -20), 50);
+                    scrollInterval = setInterval(() => window.scrollBy(0, -100), 50);
                 }
             } else if (e.clientY > window.innerHeight - scrollZone) {
                 if (!scrollInterval) {
-                    scrollInterval = setInterval(() => window.scrollBy(0, 20), 50);
+                    scrollInterval = setInterval(() => window.scrollBy(0, 100), 50);
                 }
             } else {
                 clearInterval(scrollInterval);
@@ -473,25 +859,71 @@
             }
         });
 
+        function createExplosion(x, y, color, rank) {
+            const particleCount = rank === 'S' ? 60 : rank === 'A' ? 40 : 25;
+            const baseDistance = rank === 'S' ? 180 : rank === 'A' ? 130 : 90;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                document.body.appendChild(particle);
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * baseDistance + 50;
+                const targetX = Math.cos(angle) * distance;
+                const targetY = Math.sin(angle) * distance;
+
+                const size = Math.random() * 8 + 5; // 5px a 13px
+                const duration = Math.random() * 0.6 + 0.8; // 0.8s a 1.4s
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.animationDuration = `${duration}s`;
+
+                particle.style.setProperty('--x', `${targetX}px`);
+                particle.style.setProperty('--y', `${targetY}px`);
+                particle.style.background = color;
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                });
+            }
+        }
+
         async function handleDropOnDeck(e) {
             e.preventDefault();
-            e.currentTarget.classList.remove('drag-over');
+            const targetSlot = e.currentTarget;
+            targetSlot.classList.remove('drag-over');
 
             const draggedCardId = e.dataTransfer.getData('text/plain');
-            const targetSlotIndex = parseInt(e.currentTarget.dataset.slotIndex);
+            const targetSlotIndex = parseInt(targetSlot.dataset.slotIndex);
 
             if (!draggedCardId || targetSlotIndex === undefined) return;
 
-            const newDeck = [...activeDeckIds];
-            const oldIndex = newDeck.indexOf(draggedCardId);
-            if (oldIndex > -1) {
-                newDeck[oldIndex] = null;
+            const cardData = localCardsDatabase[draggedCardId];
+            if (cardData) {
+                createExplosion(e.clientX, e.clientY, getRankColor(cardData.classe), cardData.classe.replace('+', ''));
             }
 
+            const newDeck = [...activeDeckIds];
+            const oldIndexInDeck = activeDeckIds.indexOf(draggedCardId);
+            if(oldIndexInDeck > -1){
+                newDeck[oldIndexInDeck] = null;
+            }
+            
+            const cardInTargetSlot = activeDeckIds[targetSlotIndex];
             newDeck[targetSlotIndex] = draggedCardId;
+
+            if(cardInTargetSlot && oldIndexInDeck > -1) {
+                newDeck[oldIndexInDeck] = cardInTargetSlot;
+            }
+
             const finalDeck = Array.from({ length: 5 }, (_, i) => newDeck[i] || null);
-            await saveDeckToFirebase(finalDeck);
+            await saveDeckToFirebase(finalDeck, targetSlotIndex);
         }
+
 
         async function handleDropOnCollection(e) {
             e.preventDefault();
@@ -542,7 +974,11 @@
                         ouroDisplay.textContent = `${userData.ouro} Ouro`;
 
                         ownedCardIds = userData.cartas || [];
-                        activeDeckIds = userData.deck || [];
+                        activeDeckIds = userData.deck || Array(5).fill(null);
+
+                        if(activeDeckIds.length < 5){
+                            activeDeckIds.push(...Array(5 - activeDeckIds.length).fill(null));
+                        }
 
                         let deckIsDefined = userData.hasOwnProperty('deck');
 

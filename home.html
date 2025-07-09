@@ -100,6 +100,142 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* --- DECK DISPLAY STYLES --- */
+        .card-base {
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 1px solid #444;
+            background-color: #1a1a1a;
+            position: relative; 
+            transform-style: preserve-3d;
+        }
+        .card-base:hover {
+            transform: scale(1.05) rotateZ(2deg);
+            box-shadow: 0 0 20px var(--glow-color);
+            border-color: var(--primary-color);
+            z-index: 20;
+        }
+        
+        .rank-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 24px;
+            color: white;
+            text-shadow: 0 0 5px rgba(0,0,0,0.7);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 10;
+        }
+
+        /* --- RARITY EFFECTS --- */
+        .card-base > .relative::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g83j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pPz5/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=');
+            background-size: 50px 50px;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .holographic-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(
+                circle at var(--mx, 50%) var(--my, 50%),
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(255, 255, 255, 0) 50%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 3;
+            pointer-events: none;
+            border-radius: 0.5rem;
+        }
+
+        .card-base:hover .holographic-overlay {
+            opacity: 1;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+            20% { opacity: var(--shine-opacity, 0.4); }
+            80% { opacity: var(--shine-opacity, 0.4); }
+            100% { transform: translateX(150%) skewX(-25deg); opacity: 0; }
+        }
+
+        .card-base::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            opacity: 0;
+            z-index: 2;
+            animation: shine var(--shine-duration, 8s) infinite linear;
+            background: var(--shine-gradient);
+        }
+        
+        @keyframes pulsate-glow {
+            0%, 100% { box-shadow: 0 0 12px 2px rgba(255, 215, 0, 0.6), 0 0 2px 0px rgba(255, 215, 0, 0.5) inset; }
+            50% { box-shadow: 0 0 22px 5px rgba(255, 215, 0, 0.9), 0 0 10px 2px rgba(255, 215, 0, 0.7) inset; }
+        }
+        .rank-s.card-base, .rank-s .card-base {
+            animation: pulsate-glow 3s infinite ease-in-out;
+        }
+        .rank-s.card-base::after, .rank-s .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 0.8) 50%, rgba(255, 215, 0, 0) 100%);
+            --shine-duration: 4s;
+            --shine-opacity: 0.7;
+        }
+
+        .rank-a.card-base, .rank-a .card-base {
+            box-shadow: 0 0 8px 1px rgba(231, 76, 60, 0.4);
+        }
+        .rank-a.card-base:hover, .rank-a .card-base:hover {
+            box-shadow: 0 0 16px 4px rgba(231, 76, 60, 0.7);
+        }
+        .rank-a.card-base::after, .rank-a .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(231, 76, 60, 0) 0%, rgba(231, 76, 60, 0.6) 50%, rgba(231, 76, 60, 0) 100%);
+            --shine-duration: 5s;
+            --shine-opacity: 0.6;
+        }
+
+        .rank-b.card-base, .rank-b .card-base {
+            box-shadow: 0 0 6px 0px rgba(142, 68, 173, 0.4);
+        }
+        .rank-b.card-base:hover, .rank-b .card-base:hover {
+            box-shadow: 0 0 12px 2px rgba(142, 68, 173, 0.6);
+        }
+        .rank-b.card-base::after, .rank-b .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.5) 50%, rgba(142, 68, 173, 0) 100%);
+            --shine-duration: 6.5s;
+            --shine-opacity: 0.5;
+        }
+
+        .rank-c.card-base::after, .rank-c .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.4) 50%, rgba(52, 152, 219, 0) 100%);
+            --shine-duration: 8s;
+            --shine-opacity: 0.4;
+        }
+
+        .rank-d.card-base::after, .rank-d .card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.3) 50%, rgba(46, 204, 113, 0) 100%);
+            --shine-duration: 10s;
+            --shine-opacity: 0.3;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -144,7 +280,14 @@
             <!-- Conteúdo Principal -->
             <main class="main-content flex-grow p-6">
                 <h1 class="font-orbitron text-4xl font-bold text-white mb-4">Bem-vindo à SpeedCards</h1>
-                <!-- O conteúdo principal do jogo (campanha, garagem, etc.) será carregado aqui -->
+                
+                <section class="mt-8">
+                    <h2 class="font-orbitron text-3xl font-bold text-white mb-4" style="text-shadow: 0 0 8px var(--glow-color);">Deck Ativo</h2>
+                    <div id="deck-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
+                        <!-- Cards will be rendered here by JavaScript -->
+                    </div>
+                </section>
+
             </main>
             
             <!-- Menu Inferior (Mobile) -->
@@ -152,7 +295,7 @@
                 <a href="#" class="menu-button flex flex-col items-center text-xs p-2 rounded-lg gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 15h16"/><path d="M4 18h16"/><path d="M10 15V9"/><path d="M14 15V9"/></svg>Campanha</a>
                 <a href="#" class="menu-button flex flex-col items-center text-xs p-2 rounded-lg gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/></svg>Jogo Livre</a>
                 <a href="#" class="menu-button flex flex-col items-center text-xs p-2 rounded-lg gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.33-10.5"/><path d="M12 12v-2"/></svg>Multiplayer</a>
-                <a href="#" class="menu-button flex flex-col items-center text-xs p-2 rounded-lg gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16.5V14a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2.5"/><path d="M20 10h-6a2 2 0 0 0-2 2v2.5"/><path d="m19 19-2-2"/><path d="M10 3 8 21"/><path d="m16 3-2 18"/><path d="M4 8h16"/><path d="M3 11h18"/></svg>Garagem</a>
+                <a href="./garagem.html" class="menu-button flex flex-col items-center text-xs p-2 rounded-lg gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16.5V14a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2.5"/><path d="M20 10h-6a2 2 0 0 0-2 2v2.5"/><path d="m19 19-2-2"/><path d="M10 3 8 21"/><path d="m16 3-2 18"/><path d="M4 8h16"/><path d="M3 11h18"/></svg>Garagem</a>
                 <a href="#" class="menu-button flex flex-col items-center text-xs p-2 rounded-lg gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Loja</a>
             </nav>
         </div>
@@ -164,12 +307,11 @@
     </div>
 
     <script type="module">
-        // Importações do Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { cards as localCardsDatabase } from './cards.js';
 
-        // Configuração do Firebase
         const firebaseConfig = typeof __firebase_config !== 'undefined' 
             ? JSON.parse(__firebase_config)
             : {
@@ -182,12 +324,10 @@
                 appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
             };
 
-        // Inicialização do Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Elementos da UI
         const loader = document.getElementById('loader');
         const loaderText = document.getElementById('loader-text');
         const appContainer = document.getElementById('app-container');
@@ -196,7 +336,80 @@
         const ouroDisplay = document.getElementById('ouro-display');
         const logoutButton = document.getElementById('logout-button');
 
-        // Observador de estado de autenticação
+        function getRankColor(rank) {
+            const colors = {
+                'S+': '#FFD700', 'S': '#FFD700', 'A': '#e74c3c', 'B': '#8e44ad',
+                'C': '#3498db', 'D': '#2ecc71', 'E': '#95a5a6'
+            };
+            return colors[rank] || '#7F8C8D';
+        }
+
+        function createDeckCardElementOnHome(cardId) {
+            const cardData = cardId ? localCardsDatabase[cardId] : null;
+            if (!cardData) {
+                const emptySlot = document.createElement('div');
+                emptySlot.className = 'aspect-[16/10] bg-black/20 rounded-lg border-2 border-dashed border-gray-600 flex items-center justify-center';
+                emptySlot.innerHTML = `<span class="text-gray-500 font-orbitron">VAZIO</span>`;
+                return emptySlot;
+            }
+
+            const cardContainer = document.createElement('div');
+            cardContainer.className = 'aspect-[16/10]';
+            cardContainer.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
+
+            cardContainer.innerHTML = `
+                <div class="card-base w-full h-full">
+                    <div class="relative w-full h-full bg-cover bg-center" style="background-image: url('${cardData.imagem}')">
+                        <div class="rank-badge" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
+                        <div class="absolute inset-0 flex flex-col justify-between p-3" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%), linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 40%)">
+                            <div class="flex justify-between items-start">
+                                <div class="w-10"></div>
+                                <div class="text-right">
+                                    <div class="font-bold text-base font-orbitron" style="text-shadow: 1px 1px 3px black;">${cardData.ano}</div>
+                                    <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-4 w-7 object-cover rounded-sm ml-auto mt-1" style="box-shadow: 0 0 3px black;">
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-base text-center font-orbitron leading-tight" style="text-shadow: 1px 1px 4px black;">${cardData.nome}</h3>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (['S', 'A', 'B'].includes(cardData.classe.replace('+', ''))) {
+                const overlay = document.createElement('div');
+                overlay.className = 'holographic-overlay';
+                cardContainer.querySelector('.card-base .relative').prepend(overlay);
+
+                cardContainer.addEventListener('mousemove', e => {
+                    const rect = cardContainer.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    cardContainer.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+                    cardContainer.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+                });
+                cardContainer.addEventListener('mouseleave', () => {
+                    cardContainer.style.setProperty('--mx', '50%');
+                    cardContainer.style.setProperty('--my', '50%');
+                });
+            }
+            return cardContainer;
+        }
+
+        function renderDeck(deckIds) {
+            const deckContainer = document.getElementById('deck-container');
+            if (!deckContainer) return;
+            deckContainer.innerHTML = '';
+            let deckToRender = deckIds && deckIds.length > 0 ? deckIds : Array(5).fill(null);
+            if (deckToRender.length < 5) {
+                deckToRender.push(...Array(5 - deckToRender.length).fill(null));
+            }
+
+            deckToRender.slice(0, 5).forEach(cardId => {
+                const cardElement = createDeckCardElementOnHome(cardId);
+                deckContainer.appendChild(cardElement);
+            });
+        }
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userRef = ref(db, 'users/' + user.uid);
@@ -212,6 +425,8 @@
                             usernameDisplay.textContent = userData.username;
                             reaisDisplay.textContent = `R$ ${userData.reais.toLocaleString('pt-BR')}`;
                             ouroDisplay.textContent = `${userData.ouro} Ouro`;
+                            
+                            renderDeck(userData.deck);
 
                             appContainer.classList.remove('hidden');
                             loader.classList.add('hidden');
