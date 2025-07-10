@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCards - Galeria de Carros</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS para um tema coeso (mesmas da home.html e garagem.html) */
+        :root {
+            --primary-red: #E01A4F; /* Um vermelho mais profundo e vibrante */
+            --dark-bg: #0A0A0A;
+            --medium-dark-bg: #1A1A1A;
+            --light-text: #F0F0F0;
+            --accent-gray: #333333;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7); /* Brilho vermelho */
+            --text-shadow-strong: 0 0 8px rgba(0,0,0,0.8);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            background-image:
+                linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0.8) 50%, rgba(10, 10, 10, 0.95)),
+                url('./assets/BannerHome.png'); /* Imagem de fundo */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            color: var(--light-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Efeito de ruído sutil para uma textura mais "gritty" */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/INx6AAAAF3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobI+kKpgAAAFpJREFUeNrtwQEBAAAAgqD+r2zHBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgZpQAAQ+E4UIAAAAASUVORK5CYII=') repeat;
+            opacity: 0.03; /* Ajuste a opacidade para mais ou menos intensidade */
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header-panel {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-strong);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            padding: 1.5rem 2rem; /* Mais espaçamento */
+        }
+
+        .info-box {
+            background: var(--accent-gray);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            text-shadow: var(--text-shadow-strong);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.05), transparent 50%, rgba(255,255,255,0.05));
+            animation: pulse-border 3s infinite ease-in-out;
+            pointer-events: none;
+        }
+        .info-box:hover {
+            background: #444444;
+            border-color: var(--primary-red);
+            box-shadow: 0 3px 12px rgba(224, 26, 79, 0.6);
+            transform: translateY(-2px);
+        }
+        @keyframes pulse-border {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .menu-button {
+            background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
+            border: 2px solid var(--border-strong);
+            color: var(--light-text);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: var(--text-shadow-strong);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centraliza o conteúdo do botão */
+            gap: 0.75rem;
+        }
+
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(224, 26, 79, 0.3), transparent);
+            transition: all 0.6s ease-out;
+            transform: skewX(-20deg);
+            z-index: 1;
+        }
+
+        .menu-button:hover::before {
+            left: 150%;
+        }
+
+        .menu-button:hover {
+            color: white;
+            background: linear-gradient(145deg, var(--primary-red), #FF3C3C);
+            border-color: white;
+            text-shadow: 0 0 15px white;
+            box-shadow: 0 0 20px var(--primary-red), inset 0 0 8px rgba(255,255,255,0.3);
+            transform: translateY(-3px) scale(1.02);
+        }
+        .menu-button svg {
+            stroke: var(--light-text);
+            transition: stroke 0.3s ease;
+        }
+        .menu-button:hover svg {
+            stroke: white;
+        }
+
+        /* Loader aprimorado */
+        .loader {
+            border-top-color: var(--primary-red);
+            border-right-color: var(--primary-red);
+            border-bottom-color: var(--primary-red);
+            animation: spin 1s linear infinite, pulse-loader 1.5s infinite alternate;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse-loader {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+        #loader-text {
+            color: var(--primary-red);
+            text-shadow: 0 0 10px var(--primary-red);
+        }
+
+        /* Estilo para os botões de montadora */
+        .manufacturer-button {
+            background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
+            border: 2px solid var(--border-strong);
+            color: var(--light-text);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            padding: 1rem; /* Ajustado para dar espaço à imagem e texto */
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: var(--text-shadow-strong);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column; /* Para empilhar logo e nome */
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-align: center;
+            text-decoration: none; /* Remove sublinhado do link */
+            min-height: 120px; /* Garante altura mínima para o botão */
+        }
+
+        /* Efeito de brilho vermelho ao passar o mouse para todos os botões */
+        .manufacturer-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(224, 26, 79, 0.3), transparent); /* Brilho vermelho */
+            transition: all 0.6s ease-out;
+            transform: skewX(-20deg);
+            z-index: 2; /* Z-index para o brilho de hover */
+            opacity: 0; /* Começa invisível */
+        }
+
+        .manufacturer-button:hover::before {
+            left: 150%; /* Move o brilho para a direita */
+            opacity: 1; /* Torna o brilho visível no hover */
+        }
+
+        .manufacturer-button:hover {
+            color: white;
+            background: linear-gradient(145deg, var(--primary-red), #FF3C3C);
+            border-color: white;
+            text-shadow: 0 0 15px white;
+            box-shadow: 0 0 20px var(--primary-red), inset 0 0 8px rgba(255,255,255,0.3);
+            transform: translateY(-3px) scale(1.02);
+            z-index: 10; /* Garante que o botão hover fique acima dos outros */
+        }
+
+        /* Estilos para botões de coleção completa (borda de diamante e brilho contínuo) */
+        .manufacturer-button.completed-collection {
+            border-color: #ADD8E6; /* Cor da borda de diamante */
+        }
+
+        .manufacturer-button.completed-collection::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%; /* Largura do brilho */
+            height: 100%;
+            opacity: 0;
+            z-index: 1; /* Z-index para o brilho de diamante, abaixo do brilho de hover */
+            animation: shine-diamond 1.5s infinite linear; /* Animação de brilho de diamante (mais rápida) */
+            background: linear-gradient(to right, rgba(173, 216, 230, 0) 0%, rgba(173, 216, 230, 0.8) 50%, rgba(173, 216, 230, 0) 100%); /* Gradiente de cor de diamante */
+            transform: translateX(-180%) skewX(-25deg); /* Posição inicial fora da vista */
+        }
+
+        /* Animação de brilho de diamante */
+        @keyframes shine-diamond {
+            0% { transform: translateX(-180%) skewX(-25deg); opacity: 0; }
+            20% { opacity: 0.8; } /* Opacidade máxima durante o brilho */
+            80% { opacity: 0.8; }
+            100% { transform: translateX(180%) skewX(-25deg); opacity: 0; }
+        }
+
+        .manufacturer-logo {
+            max-width: 80px; /* Tamanho da logo */
+            height: auto;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.7)); /* Sombra para destacar a logo */
+            transition: transform 0.3s ease;
+            position: relative; /* Para garantir que a logo fique acima dos brilhos */
+            z-index: 3;
+        }
+
+        .manufacturer-button span {
+            position: relative; /* Para garantir que o texto fique acima dos brilhos */
+            z-index: 3;
+        }
+
+        .manufacturer-button:hover .manufacturer-logo {
+            transform: scale(1.1); /* Efeito de zoom na logo ao passar o mouse */
+        }
+
+        /* Responsividade para Mobile */
+        @media (max-width: 1023px) { /* Tailind CSS `lg` breakpoint */
+            body {
+                background-attachment: scroll;
+            }
+            .header-panel {
+                padding: 1rem;
+                border-radius: 0;
+            }
+            .info-box {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            main {
+                padding: 1rem;
+            }
+            .menu-button, .manufacturer-button {
+                padding: 0.8rem 1rem;
+                font-size: 0.85rem;
+                border-radius: 6px;
+            }
+            .menu-button svg {
+                width: 20px;
+                height: 20px;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .manufacturer-logo {
+                max-width: 60px; /* Ajuste o tamanho da logo para mobile */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <!-- Loader de Carregamento -->
+    <div id="loader" class="fixed inset-0 bg-black bg-opacity-95 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-28 w-28"></div>
+        <p id="loader-text" class="mt-8 text-2xl font-orbitron animate-pulse">Carregando Galeria...</p>
+    </div>
+
+    <!-- Container Principal da Aplicação -->
+    <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
+        <!-- Header (Top Bar) -->
+        <header class="header-panel w-full p-4 md:p-6 shadow-lg sticky top-0 z-40">
+            <div class="container mx-auto flex justify-between items-center flex-wrap gap-4">
+                <div class="info-box flex items-center gap-3">
+                    <span id="username-display" class="text-xl font-bold text-red-400 font-orbitron"></span>
+                </div>
+                <div class="flex items-center gap-2 md:gap-4 flex-wrap justify-end">
+                    <div class="info-box"><span class="text-green-400 font-bold" id="reais-display">R$ 0</span></div>
+                    <div class="info-box"><span class="text-yellow-400 font-bold" id="ouro-display">0 Ouro</span></div>
+                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="hidden md:inline font-orbitron">Amigos</span></button>
+                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg><span class="hidden md:inline font-orbitron">Comprar Ouro</span></button>
+                    <button id="logout-button" class="menu-button p-2" title="Sair"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-grow p-6 md:p-10 container mx-auto">
+            <a href="home.html" class="menu-button inline-flex items-center gap-2 px-4 py-2 mb-8 font-orbitron">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                VOLTAR PARA HOME
+            </a>
+
+            <h1 class="font-orbitron text-4xl md:text-5xl font-bold text-white mb-8 text-center lg:text-left" style="text-shadow: var(--glow-effect);">GALERIA DE CARROS</h1>
+            
+            <section class="mb-12">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">MONTADORAS</h2>
+                <div id="manufacturers-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <!-- Manufacturer buttons will be rendered here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Carrega cards.js como um módulo para permitir importação -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        // Importa 'cards' e 'manufacturers' do cards.js
+        import { cards, manufacturers } from './cards.js'; 
+
+        // Configuração do Firebase (usa __firebase_config se disponível, senão um fallback)
+        const firebaseConfig = typeof __firebase_config !== 'undefined'
+            ? JSON.parse(__firebase_config)
+            : {
+                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs", // Substitua com sua chave de API real
+                authDomain: "primeiroprojetoteste01.firebaseapp.com", // Exemplo de domínio
+                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com", // Exemplo de URL
+                projectId: "primeiroprojetoteste01", // Exemplo de ID do projeto
+                storageBucket: "primeiroprojetoteste01.appspot.com", // Exemplo de bucket
+                messagingSenderId: "530867320810",
+                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
+            };
+
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Referências aos elementos do DOM
+        const loader = document.getElementById('loader');
+        const appContainer = document.getElementById('app-container');
+        const usernameDisplay = document.getElementById('username-display');
+        const reaisDisplay = document.getElementById('reais-display');
+        const ouroDisplay = document.getElementById('ouro-display');
+        const logoutButton = document.getElementById('logout-button');
+        const manufacturersContainer = document.getElementById('manufacturers-container');
+
+        let ownedCardIds = []; // Variável para armazenar os IDs das cartas que o utilizador possui
+
+        /**
+         * Retorna o caminho do logo da montadora com base no nome.
+         * Assume que os logos estão em './assets/' e seguem o padrão '[NomeMontadora]-Logo.png'.
+         * Ex: 'Chevrolet' -> './assets/Chevrolet-Logo.png'
+         * @param {string} manufacturerName - O nome da montadora.
+         * @returns {string} O caminho para o arquivo do logo.
+         */
+        function getManufacturerLogoPath(manufacturerName) {
+            // Substitui espaços por hífens e garante que seja compatível com nomes de arquivo
+            const formattedName = manufacturerName.replace(/\s/g, '');
+            return `./assets/${formattedName}-Logo.png`;
+        }
+
+        /**
+         * Renderiza os botões de montadoras na interface.
+         * @param {Array<string>} userOwnedCardIds - IDs das cartas que o utilizador possui.
+         */
+        function renderManufacturers(userOwnedCardIds) {
+            manufacturersContainer.innerHTML = ''; // Limpa o container
+
+            // Extrai nomes de montadoras únicos da lista de 'manufacturers' importada
+            const uniqueManufacturers = Object.keys(manufacturers).sort();
+
+            uniqueManufacturers.forEach(name => {
+                const button = document.createElement('a');
+                button.href = `manufacturer_gallery.html?manufacturer=${encodeURIComponent(name)}`;
+                button.className = 'manufacturer-button';
+                
+                // Verifica se o utilizador possui todos os carros desta montadora
+                const carsOfManufacturer = Object.values(manufacturers[name]);
+                const totalCars = carsOfManufacturer.length;
+                let ownedCarsCount = 0;
+
+                carsOfManufacturer.forEach(carData => {
+                    // Encontra o ID da carta no objeto global 'cards'
+                    // Isso é necessário porque carData é um objeto, não o ID da string.
+                    const cardId = Object.keys(cards).find(key => cards[key] === carData);
+                    if (userOwnedCardIds.includes(cardId)) {
+                        ownedCarsCount++;
+                    }
+                });
+
+                let collectionStatusHtml = '';
+                if (totalCars > 0 && ownedCarsCount === totalCars) {
+                    button.classList.add('completed-collection');
+                    collectionStatusHtml = '<span class="text-xs text-blue-300 font-bold mt-1">Coleção completa</span>';
+                }
+
+                // Adiciona a imagem do logo, o nome da montadora e o status da coleção
+                button.innerHTML = `
+                    <img src="${getManufacturerLogoPath(name)}" alt="${name} Logo" class="manufacturer-logo">
+                    <span class="font-orbitron text-xl">${name.toUpperCase()}</span>
+                    ${collectionStatusHtml}
+                `;
+                manufacturersContainer.appendChild(button);
+            });
+        }
+
+        // Listener para o estado de autenticação do Firebase
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userRef = ref(db, 'users/' + user.uid);
+                try {
+                    const snapshot = await get(userRef);
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+
+                        // Atualiza as informações do usuário na interface
+                        usernameDisplay.textContent = userData.username;
+                        reaisDisplay.textContent = `R$ ${userData.reais.toLocaleString('pt-BR')}`;
+                        ouroDisplay.textContent = `${userData.ouro} Ouro`;
+                        
+                        // Carrega os IDs das cartas possuídas pelo utilizador
+                        ownedCardIds = userData.cartas || [];
+
+                        // Passa ownedCardIds para renderManufacturers
+                        renderManufacturers(ownedCardIds); 
+
+                        // Esconde o loader e mostra o conteúdo da aplicação
+                        appContainer.classList.remove('hidden');
+                        loader.classList.add('hidden');
+                    } else {
+                        console.error("Documento do usuário não encontrado. Forçando logout.");
+                        await signOut(auth);
+                    }
+                } catch (error) {
+                    console.error("Erro ao buscar dados do usuário:", error);
+                    await signOut(auth);
+                }
+            } else {
+                window.location.href = 'index.html'; // Redireciona para login se não estiver autenticado
+            }
+        });
+
+        // Listener para o botão de logout
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Erro ao fazer logout:", error);
+            }
+        });
+    </script>
+</body>
+</html>

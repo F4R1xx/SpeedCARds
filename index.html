@@ -406,9 +406,9 @@
                     email: email,
                     reais: 20000,
                     ouro: 50,
-                    cartas: "",
-                    deck: "",
-                    amigos: ""
+                    cartas: [], // Inicializado como array vazio
+                    deck: Array(5).fill(null), // Inicializado com 5 slots nulos
+                    amigos: []
                 };
 
                 const updates = {};
@@ -455,15 +455,14 @@
                         finalUsername = `${username}${counter}`;
                     }
 
-
                     const userData = {
                         username: finalUsername,
                         email: user.email,
                         reais: 20000,
                         ouro: 50,
-                        cartas: "",
-                        deck: "",
-                        amigos: ""
+                        cartas: [], // Inicializado como array vazio
+                        deck: Array(5).fill(null), // Inicializado com 5 slots nulos
+                        amigos: []
                     };
     
                     const updates = {};

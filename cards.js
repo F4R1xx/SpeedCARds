@@ -2,60 +2,6 @@
 
 // A base de dados agora está organizada por montadora para facilitar a manutenção.
 const manufacturers = {
-    "McLaren": {
-        P1: {
-            imagem: 'https://placehold.co/600x400/111827/ffffff?text=McLaren+P1',
-            logo: 'https://placehold.co/100x40/ffffff/000000?text=McLaren',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
-            nome: 'McLaren P1',
-            montadora: 'McLaren', // Adicionado para referência interna
-            classe: "S",
-            ano: 2013,
-            pais: 'Reino Unido',
-            velocidade: 350,
-            aceleracao: 2.8,
-            direcao: 95,
-            altura: 'Baixo',
-            pneus: 'Desempenho',
-            tracao: 'Traseira'
-        }
-    },
-    "Lamborghini": {
-        Aventador: {
-            imagem: 'https://placehold.co/600x400/111827/ffffff?text=Aventador',
-            logo: 'https://placehold.co/100x40/ffffff/000000?text=Lambo',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=IT',
-            nome: 'Lamborghini Aventador',
-            montadora: 'Lamborghini',
-            classe: "S",
-            ano: 2011,
-            pais: 'Itália',
-            velocidade: 350,
-            aceleracao: 2.9,
-            direcao: 92,
-            altura: 'Baixo',
-            pneus: 'Desempenho',
-            tracao: '4x4'
-        }
-    },
-    "Bugatti": {
-        Chiron: {
-            imagem: 'https://placehold.co/600x400/111827/ffffff?text=Chiron',
-            logo: 'https://placehold.co/100x40/ffffff/000000?text=Bugatti',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=FR',
-            nome: 'Bugatti Chiron',
-            montadora: 'Bugatti',
-            classe: "S+",
-            ano: 2016,
-            pais: 'França',
-            velocidade: 420,
-            aceleracao: 2.5,
-            direcao: 88,
-            altura: 'Baixo',
-            pneus: 'Desempenho',
-            tracao: '4x4'
-        }
-    },
     "Toyota": {
        Supra_MK5: {
             imagem: './Imgs_Carros/Toyota/TOYOTASupraMK5.png',
@@ -312,42 +258,6 @@ const manufacturers = {
             altura: 'Médio',
             pneus: 'Padrão',
             tracao: 'Dianteira'
-        }
-    },
-    "Nissan": {
-        Skyline_r34: {
-            imagem: 'https://placehold.co/600x400/111827/ffffff?text=Skyline+R34',
-            logo: 'https://placehold.co/100x40/ffffff/000000?text=Nissan',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=JP',
-            nome: 'Nissan Skyline GT-R R34',
-            montadora: 'Nissan',
-            classe: "A",
-            ano: 1999,
-            pais: 'Japão',
-            velocidade: 250,
-            aceleracao: 4.9,
-            direcao: 88,
-            altura: 'Baixo',
-            pneus: 'Esportivo',
-            tracao: '4x4'
-        }
-    },
-    "Mazda": {
-        Rx7: {
-            imagem: 'https://placehold.co/600x400/111827/ffffff?text=RX-7+FD',
-            logo: 'https://placehold.co/100x40/ffffff/000000?text=Mazda',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=JP',
-            nome: 'Mazda RX-7 FD',
-            montadora: 'Mazda',
-            classe: "A",
-            ano: 1992,
-            pais: 'Japão',
-            velocidade: 250,
-            aceleracao: 5.3,
-            direcao: 90,
-            altura: 'Baixo',
-            pneus: 'Esportivo',
-            tracao: 'Traseira'
         }
     },
     "Byd": {
@@ -612,31 +522,13 @@ const manufacturers = {
             tracao: 'Traseira'
         },
     },
-    "Ford": {
-        Mustang_GT500: {
-            imagem: 'https://placehold.co/600x400/111827/ffffff?text=GT500',
-            logo: 'https://placehold.co/100x40/ffffff/000000?text=Ford',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
-            nome: 'Ford Mustang Shelby GT500',
-            montadora: 'Ford',
-            classe: "A",
-            ano: 2020,
-            pais: 'EUA',
-            velocidade: 290,
-            aceleracao: 3.5,
-            direcao: 82,
-            altura: 'Médio',
-            pneus: 'Rua',
-            tracao: 'Traseira'
-        }
-    },
     "LandRover": {
         Range_Rover_Sport: {
             imagem: './Imgs_Carros/LandRover/LANDROVERRangeRoverSport.png',
             logo: './assets/LandRover-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
             nome: 'Range Rover Sport Dynamic',
-            montadora: 'Land Rover',
+            montadora: 'LandRover', // Corrigido: sem espaço
             classe: "B",
             ano: 2024,
             pais: 'Reino Unido',
@@ -652,7 +544,7 @@ const manufacturers = {
             logo: './assets/LandRover-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
             nome: 'Discovery R-Dynamic 3.0',
-            montadora: 'Land Rover',
+            montadora: 'LandRover', // Corrigido: sem espaço
             classe: "C",
             ano: 2024,
             pais: 'Reino Unido',
@@ -668,7 +560,7 @@ const manufacturers = {
             logo: './assets/LandRover-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
             nome: 'Evoque HSE Dynamic 2.0',
-            montadora: 'Land Rover',
+            montadora: 'LandRover', // Corrigido: sem espaço
             classe: "C",
             ano: 2024,
             pais: 'Reino Unido',
@@ -684,7 +576,7 @@ const manufacturers = {
             logo: './assets/LandRover-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
             nome: 'Range Rover Vogue SE 5.0',
-            montadora: 'Land Rover',
+            montadora: 'LandRover', // Corrigido: sem espaço
             classe: "B",
             ano: 2015,
             pais: 'Reino Unido',
@@ -700,7 +592,7 @@ const manufacturers = {
             logo: './assets/LandRover-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
             nome: 'Velar R-Dynamic HSE 2.0',
-            montadora: 'Land Rover',
+            montadora: 'LandRover', // Corrigido: sem espaço
             classe: "B",
             ano: 2024,
             pais: 'Reino Unido',
@@ -716,7 +608,7 @@ const manufacturers = {
             logo: './assets/LandRover-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
             nome: 'Defender 130 X 3.00',
-            montadora: 'Land Rover',
+            montadora: 'LandRover', // Corrigido: sem espaço
             classe: "D",
             ano: 2024,
             pais: 'Reino Unido',
@@ -732,7 +624,7 @@ const manufacturers = {
             logo: './assets/LandRover-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
             nome: 'Freelander HSE 2.2',
-            montadora: 'Land Rover',
+            montadora: 'LandRover', // Corrigido: sem espaço
             classe: "D",
             ano: 2015,
             pais: 'Reino Unido',
@@ -745,24 +637,8 @@ const manufacturers = {
         }
     },
     "Chevrolet": {
-        Camaro_ZL1: {
-            imagem: 'https://placehold.co/600x400/111827/ffffff?text=Camaro+ZL1',
-            logo: 'https://placehold.co/100x40/ffffff/000000?text=Chevrolet',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
-            nome: 'Chevrolet Camaro ZL1',
-            montadora: 'Chevrolet',
-            classe: "A",
-            ano: 2017,
-            pais: 'EUA',
-            velocidade: 318,
-            aceleracao: 3.5,
-            direcao: 84,
-            altura: 'Médio',
-            pneus: 'Rua',
-            tracao: 'Traseira'
-        },
         CorvetteZ062015: {
-            imagem: './Imgs_Carros/Chevrolet/CorvetteZ062015.png',
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCorvetteZ062015.png',
             logo: './assets/Chevrolet-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
             nome: 'Corvette Z06 6.2 V8',
@@ -772,21 +648,438 @@ const manufacturers = {
             pais: 'EUA',
             velocidade: 330,
             aceleracao: 3,
-            direcao: 75,
+            direcao: 80,
+            altura: 'Baixo',
+            pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
+        CorvetteZ062023: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCorvetteZ062023.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Corvette Z06 5.5 V8',
+            montadora: 'Chevrolet',
+            classe: "S",
+            ano: 2023,
+            pais: 'EUA',
+            velocidade: 330,
+            aceleracao: 2.8,
+            direcao: 90,
             altura: 'Baixo',
             pneus: 'Desempenho',
             tracao: 'Traseira'
-        }
+        },
+        Corvette_Stingray: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCorvetteStingray.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Corvette Stingray 6.2 V8',
+            montadora: 'Chevrolet',
+            classe: "S",
+            ano: 2020,
+            pais: 'EUA',
+            velocidade: 330,
+            aceleracao: 3,
+            direcao: 85,
+            altura: 'Baixo',
+            pneus: 'Desempenho',
+            tracao: 'Traseira'
+        },
+        CorvetteZ062006: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCorvetteZ062006.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Corvette Z06 7.0 V8',
+            montadora: 'Chevrolet',
+            classe: "S",
+            ano: 2006,
+            pais: 'EUA',
+            velocidade: 305,
+            aceleracao: 5.1,
+            direcao: 73,
+            altura: 'Baixo',
+            pneus: 'Desempenho',
+            tracao: 'Traseira'
+        },
+        Camaro_Collection: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCamaroCollection.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Camaro Collection 6.2 V8',
+            montadora: 'Chevrolet',
+            classe: "S",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 290,
+            aceleracao: 4.2,
+            direcao: 84,
+            altura: 'Baixo',
+            pneus: 'Desempenho',
+            tracao: 'Traseira'
+        },
+        Camaro_SS: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCamaroSS.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Camaro SS 6.2 V8',
+            montadora: 'Chevrolet',
+            classe: "A",
+            ano: 2012,
+            pais: 'EUA',
+            velocidade: 250,
+            aceleracao: 4.8,
+            direcao: 81,
+            altura: 'Baixo',
+            pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
+        Camaro_Conversível_SS: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCamaroConversívelSS.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Camaro Conversível SS 6.2',
+            montadora: 'Chevrolet',
+            classe: "A",
+            ano: 2019,
+            pais: 'EUA',
+            velocidade: 250,
+            aceleracao: 4.2,
+            direcao: 83,
+            altura: 'Baixo',
+            pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
+        Silverado: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETSilverado.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Silverado High Country 5.3',
+            montadora: 'Chevrolet',
+            classe: "C",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 180,
+            aceleracao: 7.4,
+            direcao: 78,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+       Cruze_Hatch_RS: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCruzeHatch.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Cruze Hatch RS 1.4 Turbo',
+            montadora: 'Chevrolet',
+            classe: "C",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 214,
+            aceleracao: 9,
+            direcao: 73,
+            altura: 'Baixo',
+            pneus: 'Desempenho',
+            tracao: 'Dianteira'
+        },
+        S10_2025: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETS102025.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'S10 High Country 2.8',
+            montadora: 'Chevrolet',
+            classe: "D",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 180,
+            aceleracao: 9.4,
+            direcao: 70,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+        Trail_Blazer: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETTrailBlazer.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'TrailBlazer Premier 2.8',
+            montadora: 'Chevrolet',
+            classe: "D",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 180,
+            aceleracao: 10.3,
+            direcao: 70,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+       Equinox: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETEquinox.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Equinox Premier 1.5',
+            montadora: 'Chevrolet',
+            classe: "D",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 196,
+            aceleracao: 9.2,
+            direcao: 69,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: '4x4'
+        },
+        Onix_Sedan: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETOnixSedan.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Onix Sedan Premier 1.0',
+            montadora: 'Chevrolet',
+            classe: "D",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 187,
+            aceleracao: 10.4,
+            direcao: 69,
+            altura: 'Baixo',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Onix_RS: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETOnixRS.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Onix RS 1.0 Turbo',
+            montadora: 'Chevrolet',
+            classe: "D",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 187,
+            aceleracao: 10.1,
+            direcao: 71,
+            altura: 'Baixo',
+            pneus: 'Desempenho',
+            tracao: 'Dianteira'
+        },
+        Bolt: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETBolt.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Bolt Premier',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 2022,
+            pais: 'EUA',
+            velocidade: 146,
+            aceleracao: 7.3,
+            direcao: 67,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Celta: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCelta.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Celta LT 1.0',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 2015,
+            pais: 'EUA',
+            velocidade: 161,
+            aceleracao: 13.4,
+            direcao: 56,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Agile: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETAgile.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Agile Effect 1.4',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 2014,
+            pais: 'EUA',
+            velocidade: 177,
+            aceleracao: 10.9,
+            direcao: 62,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Astra: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETAstra.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Astra Advantage 2.0 8V',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 2011,
+            pais: 'EUA',
+            velocidade: 200,
+            aceleracao: 9.8,
+            direcao: 64,
+            altura: 'Baixo',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Blazer_2011: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETBlazer.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Blazer Advantage 2.4',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 2011,
+            pais: 'EUA',
+            velocidade: 150,
+            aceleracao: 11.9,
+            direcao: 60,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: 'Traseira'
+        },
+        Grand_Blazer: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETGrandBlazer.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Grand Blazer 4.2',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 2000,
+            pais: 'EUA',
+            velocidade: 150,
+            aceleracao: 18,
+            direcao: 56,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: 'Traseira'
+        },
+        Monza: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETMonza.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Monza GLS 2.0',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 1996,
+            pais: 'EUA',
+            velocidade: 172,
+            aceleracao: 11.7,
+            direcao: 67,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Chevy_500: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETChevy500.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Chevy 500 DL 1.6',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 1995,
+            pais: 'EUA',
+            velocidade: 140,
+            aceleracao: 18.5,
+            direcao: 50,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Chevette_Junior: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETChevetteJunior.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Chevette Junior 1.0',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 1993,
+            pais: 'EUA',
+            velocidade: 131,
+            aceleracao: 21.6,
+            direcao: 60,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
+        Opala: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETOpala.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Opala SL 4.1',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 1992,
+            pais: 'EUA',
+            velocidade: 169,
+            aceleracao: 12,
+            direcao: 65,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
+        Caravan_Comodoro: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCaravanComodoro.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Caravan Comodoro 4.1',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 1992,
+            pais: 'EUA',
+            velocidade: 168,
+            aceleracao: 12.1,
+            direcao: 62,
+            altura: 'Médio',
+            pneus: 'Desempenho',
+            tracao: 'Traseira'
+        },
+        Caravan_Diplomata: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCaravanDiplomata.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Caravan Diplomata 4.1',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 1992,
+            pais: 'EUA',
+            velocidade: 168,
+            aceleracao: 12.1,
+            direcao: 62,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
+        Chevette_1990: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETChevette1990.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Chevette SL 1.6',
+            montadora: 'Chevrolet',
+            classe: "E",
+            ano: 1990,
+            pais: 'EUA',
+            velocidade: 151,
+            aceleracao: 14.1,
+            direcao: 57,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
     }
 };
 
-// **A MÁGICA ACONTECE AQUI**
-// Nós criamos um objeto 'cards' plano a partir da estrutura de montadoras.
-// Isso garante que o resto do seu aplicativo continue funcionando sem precisar de nenhuma alteração.
 const allCards = {};
 for (const manufacturer in manufacturers) {
     Object.assign(allCards, manufacturers[manufacturer]);
 }
 
-// Exportamos o objeto plano para manter a compatibilidade.
-export const cards = allCards;
+// Torna 'manufacturers' e 'cards' globais para que possam ser acessados por outros scripts.
+// E exporta-os para uso com importações de módulo.
+window.manufacturers = manufacturers;
+window.cards = allCards;
+
+export { allCards as cards, manufacturers };

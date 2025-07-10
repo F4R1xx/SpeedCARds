@@ -300,7 +300,7 @@
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g82j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pPz5/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=') repeat;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g82j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pP55/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=') repeat;
             background-size: 50px 50px;
             opacity: 0.05;
             pointer-events: none;
@@ -372,59 +372,59 @@
             0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
             50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
         }
-        .rank-s.card-base, .rank-s .card-base {
+        .rank-s.card-base, .rank-s .card-base, .rank-s .card-front { /* Aplicar também ao card-front */
             animation: pulsate-glow 2s infinite ease-in-out;
             border-color: #FFD700;
         }
-        .rank-s.card-base::after, .rank-s .card-base::after {
+        .rank-s.card-base::after, .rank-s .card-base::after, .rank-s .card-front::after {
             --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%);
             --shine-duration: 3s;
             --shine-opacity: 0.9;
         }
 
         /* Classe A */
-        .rank-a.card-base, .rank-a .card-base {
+        .rank-a.card-base, .rank-a .card-base, .rank-a .card-front {
             box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
             border-color: var(--primary-red);
         }
-        .rank-a.card-base:hover, .rank-a .card-base:hover {
+        .rank-a.card-base:hover, .rank-a .card-base:hover, .rank-a .card-front:hover {
             box-shadow: 0 0 25px 6px rgba(224, 26, 79, 0.9);
         }
-        .rank-a.card-base::after, .rank-a .card-base::after {
+        .rank-a.card-base::after, .rank-a .card-base::after, .rank-a .card-front::after {
             --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%);
             --shine-duration: 4s;
             --shine-opacity: 0.8;
         }
 
         /* Classe B */
-        .rank-b.card-base, .rank-b .card-base {
+        .rank-b.card-base, .rank-b .card-base, .rank-b .card-front {
             box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
             border-color: #8e44ad;
         }
-        .rank-b.card-base:hover, .rank-b .card-base:hover {
+        .rank-b.card-base:hover, .rank-b .card-base:hover, .rank-b .card-front:hover {
             box-shadow: 0 0 20px 4px rgba(142, 68, 173, 0.8);
         }
-        .rank-b.card-base::after, .rank-b .card-base::after {
+        .rank-b.card-base::after, .rank-b .card-base::after, .rank-b .card-front::after {
             --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%);
             --shine-duration: 5.5s;
             --shine-opacity: 0.7;
         }
 
         /* Classe C */
-        .rank-c.card-base, .rank-c .card-base {
+        .rank-c.card-base, .rank-c .card-base, .rank-c .card-front {
              border-color: #3498db;
         }
-        .rank-c.card-base::after, .rank-c .card-base::after {
+        .rank-c.card-base::after, .rank-c .card-base::after, .rank-c .card-front::after {
             --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%);
             --shine-duration: 7s;
             --shine-opacity: 0.6;
         }
         
         /* Classe D */
-        .rank-d.card-base, .rank-d .card-base {
+        .rank-d.card-base, .rank-d .card-base, .rank-d .card-front {
              border-color: #2ecc71;
         }
-        .rank-d.card-base::after, .rank-d .card-base::after {
+        .rank-d.card-base::after, .rank-d .card-base::after, .rank-d .card-front::after {
             --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%);
             --shine-duration: 8.5s;
             --shine-opacity: 0.5;
@@ -1008,7 +1008,7 @@
                     </div>
                 `;
 
-                // Adiciona efeito holográfico para raridades altas
+                // Adiciona efeito holográfico para raridades altas, aplicando ao card-front
                 if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                     const overlay = document.createElement('div');
                     overlay.className = 'holographic-overlay';
@@ -1271,8 +1271,15 @@
             if (targetSlot) {
                 targetSlot.classList.add('drag-over');
             } else if (targetCard && targetCard.dataset.cardId) {
-                // Se o alvo for uma carta na coleção, destaca a carta
-                targetCard.classList.add('drag-over');
+                /*
+                 * Se o alvo for uma carta na coleção, destaca a carta.
+                 * Adicionado: Verifica se a carta arrastada é diferente da carta alvo
+                 * para evitar destacar a própria carta que está a ser arrastada.
+                 */
+                const draggedCardId = e.dataTransfer.getData('text/plain');
+                if (targetCard.dataset.cardId !== draggedCardId) {
+                    targetCard.classList.add('drag-over');
+                }
             } else if (e.currentTarget.id === 'collection-drop-zone') {
                 // Se o arrasto estiver sobre a zona de drop da coleção
                 e.currentTarget.classList.add('drag-over');
@@ -1395,12 +1402,25 @@
             
             // Pega a carta que já estava no slot de destino, se houver
             const cardInTargetSlot = activeDeckIds[targetSlotIndex];
+            
+            // Verifica se a carta arrastada já está na coleção ou se é uma carta nova
+            // Se a carta arrastada não está na ownedCardIds e não é nula, adiciona-a.
+            if (draggedCardId && !ownedCardIds.includes(draggedCardId)) {
+                ownedCardIds.push(draggedCardId);
+            }
+
             newDeck[targetSlotIndex] = draggedCardId; // Coloca a nova carta no slot
 
             // Se havia uma carta no slot de destino e a carta arrastada veio do deck,
             // move a carta do slot de destino para a posição antiga da carta arrastada
             if(cardInTargetSlot && oldIndexInDeck > -1) {
                 newDeck[oldIndexInDeck] = cardInTargetSlot;
+            } else if (cardInTargetSlot && oldIndexInDeck === -1) {
+                // Se a carta veio da coleção e o slot de destino está ocupado,
+                // a carta do slot de destino é removida do deck e adicionada à coleção (se ainda não estiver lá)
+                if (!ownedCardIds.includes(cardInTargetSlot)) {
+                    ownedCardIds.push(cardInTargetSlot);
+                }
             }
 
             // Garante que o deck tem sempre 5 elementos, preenchendo com null se necessário
@@ -1422,15 +1442,18 @@
             // Conta quantas cartas não são nulas no deck
             const cardsInDeckCount = activeDeckIds.filter(id => id !== null).length;
 
-            // Impede que o deck fique completamente vazio
+            // Impede que o deck fique completamente vazio (deve ter pelo menos 1 carta)
             if (cardsInDeckCount <= 1 && activeDeckIds.includes(draggedCardId)) {
-                showCustomAlert("O deck não pode ficar vazio!");
+                showCustomAlert("O deck não pode ficar vazio! Mantenha pelo menos uma carta.");
                 return;
             }
 
-            // Se a carta arrastada estiver no deck, remove-a
+            // Se a carta arrastada estiver no deck, remove-a e adiciona à coleção (se ainda não estiver lá)
             if (activeDeckIds.includes(draggedCardId)) {
                 const newDeck = activeDeckIds.map(id => id === draggedCardId ? null : id);
+                if (!ownedCardIds.includes(draggedCardId)) {
+                    ownedCardIds.push(draggedCardId);
+                }
                 await saveDeckToFirebase(newDeck);
             }
         }
@@ -1479,14 +1502,12 @@
                             activeDeckIds.push(...Array(5 - activeDeckIds.length).fill(null));
                         }
 
-                        // Verifica se o deck já está definido no Firebase
-                        let deckIsDefined = userData.hasOwnProperty('deck');
-
-                        // Se o deck não estiver definido e o usuário tiver cartas, inicializa o deck com a primeira carta
-                        if (!deckIsDefined && ownedCardIds.length > 0) {
+                        // Se o deck não estiver definido ou estiver vazio (todos os slots nulos), inicializa com a primeira carta possuída
+                        // Isso garante que o deck nunca esteja completamente vazio se o usuário tiver cartas
+                        if (activeDeckIds.every(id => id === null) && ownedCardIds.length > 0) {
                             const initialDeck = Array(5).fill(null);
                             initialDeck[0] = ownedCardIds[0];
-                            await saveDeckToFirebase(initialDeck);
+                            await saveDeckToFirebase(initialDeck); // Salva e renderiza
                         } else {
                             renderDeck(); // Renderiza o deck existente
                         }

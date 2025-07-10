@@ -109,9 +109,9 @@
 
         // Define os carros que pertencem a cada deck
         const decks = {
-            velocidade_maxima: ['CorvetteZ062015', 'Camaro_ZL1', 'Mustang_GT500'],
-            lendas_classicas: ['Challenger_Hellcat', 'Skyline_r34', 'Rx7'],
-            forca_bruta: ['Challenger_Hellcat', 'Skyline_r34', 'Rx7']
+            velocidade_maxima: ['CorvetteZ062015', 'Camaro_Collection', 'Mustang_GT500'], // Ajustado para ser mais distinto
+            lendas_classicas: ['Skyline_r34', 'Rx7', 'Supra_MK4'], // Ajustado
+            forca_bruta: ['Silverado', 'Hilux_GR', 'Tiggo_8_Pro'] // Ajustado
         };
 
         let currentUser = null;
@@ -137,14 +137,19 @@
             const userRef = ref(db, 'users/' + currentUser.uid);
 
             try {
-                // **LÓGICA ATUALIZADA: Salva apenas o array de IDs das cartas**
+                // Salva o array de IDs das cartas como coleção completa e como deck ativo
                 await update(userRef, {
-                    cartas: cardIds
+                    cartas: cardIds, // A coleção completa do usuário
+                    deck: cardIds.concat(Array(5 - cardIds.length).fill(null)) // O deck ativo, preenchido com nulls para 5 slots
                 });
                 window.location.href = 'home.html';
             } catch (error) {
                 console.error("Erro ao salvar a escolha do deck:", error);
-                alert("Não foi possível salvar sua escolha. Tente novamente.");
+                // Substituído alert() por uma mensagem customizada
+                // alert("Não foi possível salvar sua escolha. Tente novamente."); 
+                // Assumindo que você tem uma função showCustomAlert em index.html ou um mecanismo similar
+                // Para este contexto, vou usar um console.error mais visível
+                console.error("Erro: Não foi possível salvar sua escolha. Tente novamente.");
                 loader.classList.add('hidden');
             }
         }

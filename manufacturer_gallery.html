@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCards - Galeria de Carros</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS para um tema coeso (mesmas da home.html e garagem.html) */
+        :root {
+            --primary-red: #E01A4F; /* Um vermelho mais profundo e vibrante */
+            --dark-bg: #242424;
+            --medium-dark-bg: #1A1A1A;
+            --light-text: #F0F0F0;
+            --accent-gray: #333333;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7); /* Brilho vermelho */
+            --text-shadow-strong: 0 0 8px rgba(0,0,0,0.8);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            color: var(--light-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Efeito de ruído sutil para uma textura mais "gritty" */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g82j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCejz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pPz5/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=') repeat;
+            opacity: 0.03; /* Ajuste a opacidade para mais ou menos intensidade */
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header-panel {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-strong);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            padding: 1.5rem 2rem; /* Mais espaçamento */
+        }
+
+        .info-box {
+            background: var(--accent-gray);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            text-shadow: var(--text-shadow-strong);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.05), transparent 50%, rgba(255,255,255,0.05));
+            animation: pulse-border 3s infinite ease-in-out;
+            pointer-events: none;
+        }
+        .info-box:hover {
+            background: #444444;
+            border-color: var(--primary-red);
+            box-shadow: 0 3px 12px rgba(224, 26, 79, 0.6);
+            transform: translateY(-2px);
+        }
+        @keyframes pulse-border {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .menu-button {
+            background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
+            border: 2px solid var(--border-strong);
+            color: var(--light-text);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: var(--text-shadow-strong);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centraliza o conteúdo do botão */
+            gap: 0.75rem;
+        }
+
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(224, 26, 79, 0.3), transparent);
+            transition: all 0.6s ease-out;
+            transform: skewX(-20deg);
+            z-index: 1;
+        }
+
+        .menu-button:hover::before {
+            left: 150%;
+        }
+
+        .menu-button:hover {
+            color: white;
+            background: linear-gradient(145deg, var(--primary-red), #FF3C3C);
+            border-color: white;
+            text-shadow: 0 0 15px white;
+            box-shadow: 0 0 20px var(--primary-red), inset 0 0 8px rgba(255,255,255,0.3);
+            transform: translateY(-3px) scale(1.02);
+        }
+        .menu-button svg {
+            stroke: var(--light-text);
+            transition: stroke 0.3s ease;
+        }
+        .menu-button:hover svg {
+            stroke: white;
+        }
+
+        /* Loader aprimorado */
+        .loader {
+            border-top-color: var(--primary-red);
+            border-right-color: var(--primary-red);
+            border-bottom-color: var(--primary-red);
+            animation: spin 1s linear infinite, pulse-loader 1.5s infinite alternate;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse-loader {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+        #loader-text {
+            color: var(--primary-red);
+            text-shadow: 0 0 10px var(--primary-red);
+        }
+
+        /* --- ESTILOS DE EXIBIÇÃO DE CARTAS (copiado de garagem.html) --- */
+        .card-base {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 1rem; /* Cantos mais arredondados para um visual premium */
+            overflow: hidden;
+            border: 3px solid #444; /* Borda mais espessa */
+            background-color: #1a1a1a;
+            position: relative; 
+            transform-style: preserve-3d;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra mais forte */
+        }
+        .card-base:hover {
+            transform: scale(1.08) rotateZ(0.5deg); /* Rotação sutil */
+            box-shadow: 0 0 40px var(--primary-red), 0 0 20px rgba(255, 255, 255, 0.3) inset; /* Brilho intenso no hover */
+            border-color: var(--primary-red);
+            z-index: 20;
+        }
+        
+        .rank-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 50px; /* Emblema maior */
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            color: white;
+            text-shadow: 0 0 10px rgba(0,0,0,0.9);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 10;
+            border: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 0 10px rgba(0,0,0,0.7);
+        }
+
+        .collection-card-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px; /* Altura fixa para a imagem */
+            overflow: hidden;
+            border-radius: 1rem 1rem 0 0; /* Cantos arredondados apenas no topo */
+        }
+
+        .collection-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que a imagem cubra o espaço */
+            object-position: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card-base:hover .collection-card-image {
+            transform: scale(1.05); /* Zoom sutil no hover */
+        }
+
+        .collection-card-info-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%), 
+                        linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
+        .rank-badge-small {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 20px;
+            color: white;
+            text-shadow: 0 0 10px rgba(0,0,0,0.9);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 0 10px rgba(0,0,0,0.7);
+            z-index: 10;
+        }
+
+        .card-text-shadow {
+            text-shadow: 1px 1px 6px black, 0 0 12px black;
+        }
+        .card-flag-shadow {
+             box-shadow: 0 0 6px black;
+        }
+
+        .card-base > .relative::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g82j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCejz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pPz5/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=') repeat;
+            opacity: 0.03; /* Ajuste a opacidade para mais ou menos intensidade */
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .holographic-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(
+                circle at var(--mx, 50%) var(--my, 50%),
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 3;
+            pointer-events: none;
+            border-radius: 1rem;
+        }
+
+        .card-base:hover .holographic-overlay {
+            opacity: 1;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-180%) skewX(-25deg); opacity: 0; }
+            20% { opacity: var(--shine-opacity, 0.4); }
+            80% { opacity: var(--shine-opacity, 0.4); }
+            100% { transform: translateX(180%) skewX(-25deg); opacity: 0; }
+        }
+
+        .card-base::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            opacity: 0;
+            z-index: 2;
+            animation: shine var(--shine-duration, 8s) infinite linear;
+            background: var(--shine-gradient);
+        }
+        
+        @keyframes pulsate-glow {
+            0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
+            50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
+        }
+        .rank-s.card-base {
+            animation: pulsate-glow 2s infinite ease-in-out;
+            border-color: #FFD700;
+        }
+        .rank-s.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%);
+            --shine-duration: 3s;
+            --shine-opacity: 0.9;
+        }
+
+        .rank-a.card-base {
+            box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
+            border-color: var(--primary-red);
+        }
+        .rank-a.card-base:hover {
+            box-shadow: 0 0 25px 6px rgba(224, 26, 79, 0.9);
+        }
+        .rank-a.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%);
+            --shine-duration: 4s;
+            --shine-opacity: 0.8;
+        }
+
+        .rank-b.card-base {
+            box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
+            border-color: #8e44ad;
+        }
+        .rank-b.card-base:hover {
+            box-shadow: 0 0 20px 4px rgba(142, 68, 173, 0.8);
+        }
+        .rank-b.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%);
+            --shine-duration: 5.5s;
+            --shine-opacity: 0.7;
+        }
+
+        .rank-c.card-base {
+             border-color: #3498db;
+        }
+        .rank-c.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%);
+            --shine-duration: 7s;
+            --shine-opacity: 0.6;
+        }
+        
+        .rank-d.card-base {
+             border-color: #2ecc71;
+        }
+        .rank-d.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%);
+            --shine-duration: 8.5s;
+            --shine-opacity: 0.5;
+        }
+        /* Classe E não tem efeito */
+
+        /* Responsividade para Mobile */
+        @media (max-width: 1023px) { /* Tailind CSS `lg` breakpoint */
+            body {
+                background-attachment: scroll;
+            }
+            .header-panel {
+                padding: 1rem;
+                border-radius: 0;
+            }
+            .info-box {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            main {
+                padding: 1rem;
+            }
+            .menu-button {
+                padding: 0.8rem 1rem;
+                font-size: 0.85rem;
+                border-radius: 6px;
+            }
+            .menu-button svg {
+                width: 20px;
+                height: 20px;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .rank-badge {
+                width: 38px;
+                height: 38px;
+                font-size: 22px;
+                top: 8px;
+                left: 8px;
+            }
+            .rank-badge-small {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+                top: 8px;
+                left: 8px;
+            }
+            .card-text-shadow {
+                text-shadow: 1px 1px 4px black;
+            }
+            .collection-card-info-overlay {
+                padding: 0.75rem;
+            }
+            .collection-card-image-wrapper {
+                height: 150px;
+            }
+        }
+
+        /* Novas classes para carros não possuídos */
+        .unowned-card {
+            opacity: 0.4; /* Mais apagado */
+            filter: grayscale(100%); /* Escala de cinza */
+            pointer-events: none; /* Não clicável/interagível */
+        }
+
+        /* Remove brilho e animação de shine para carros não possuídos */
+        .unowned-card.card-base::after,
+        .unowned-card.rank-s.card-base::after,
+        .unowned-card.rank-a.card-base::after,
+        .unowned-card.rank-b.card-base::after,
+        .unowned-card.rank-c.card-base::after,
+        .unowned-card.rank-d.card-base::after {
+            animation: none !important; /* Desativa a animação de brilho */
+            background: none !important; /* Remove o gradiente de brilho */
+        }
+
+        /* Remove box-shadow de raridade para carros não possuídos */
+        .unowned-card.rank-s.card-base,
+        .unowned-card.rank-a.card-base,
+        .unowned-card.rank-b.card-base,
+        .unowned-card.rank-c.card-base,
+        .unowned-card.rank-d.card-base {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6) !important; /* Restaura sombra padrão */
+            border-color: #444 !important; /* Restaura cor da borda padrão */
+        }
+
+        /* Remove efeito holográfico para carros não possuídos */
+        .unowned-card .holographic-overlay {
+            opacity: 0 !important;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Loader de Carregamento -->
+    <div id="loader" class="fixed inset-0 bg-black bg-opacity-95 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-28 w-28"></div>
+        <p id="loader-text" class="mt-8 text-2xl font-orbitron animate-pulse">Carregando Carros...</p>
+    </div>
+
+    <!-- Container Principal da Aplicação -->
+    <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
+        <!-- Header (Top Bar) -->
+        <header class="header-panel w-full p-4 md:p-6 shadow-lg sticky top-0 z-40">
+            <div class="container mx-auto flex justify-between items-center flex-wrap gap-4">
+                <div class="info-box flex items-center gap-3">
+                    <span id="username-display" class="text-xl font-bold text-red-400 font-orbitron"></span>
+                </div>
+                <div class="flex items-center gap-2 md:gap-4 flex-wrap justify-end">
+                    <div class="info-box"><span class="text-green-400 font-bold" id="reais-display">R$ 0</span></div>
+                    <div class="info-box"><span class="text-yellow-400 font-bold" id="ouro-display">0 Ouro</span></div>
+                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="hidden md:inline font-orbitron">Amigos</span></button>
+                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg><span class="hidden md:inline font-orbitron">Comprar Ouro</span></button>
+                    <button id="logout-button" class="menu-button p-2" title="Sair"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-grow p-6 md:p-10 container mx-auto">
+            <a href="galeria.html" class="menu-button inline-flex items-center gap-2 px-4 py-2 mb-8 font-orbitron">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                VOLTAR PARA MONTADORAS
+            </a>
+
+            <div class="flex flex-col lg:flex-row justify-between items-center mb-8 gap-4">
+                <h1 id="manufacturer-title" class="font-orbitron text-4xl md:text-5xl font-bold text-white text-center lg:text-left" style="text-shadow: var(--glow-effect);"></h1>
+                <p id="owned-cars-count" class="font-orbitron text-xl text-gray-400 text-center lg:text-right"></p>
+            </div>
+            
+            <section class="mb-12">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">MODELOS</h2>
+                <div id="cars-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <!-- Car cards will be rendered here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Carrega cards.js como um script regular para tornar 'manufacturers' global -->
+    <script type="module" src="./cards.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        // 'manufacturers' agora é acessível globalmente via window.manufacturers
+        // 'cards' agora é acessível globalmente via window.cards
+
+        // Configuração do Firebase (usa __firebase_config se disponível, senão um fallback)
+        const firebaseConfig = typeof __firebase_config !== 'undefined'
+            ? JSON.parse(__firebase_config)
+            : {
+                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs", 
+                authDomain: "primeiroprojetoteste01.firebaseapp.com", 
+                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com", 
+                projectId: "primeiroprojetoteste01", 
+                storageBucket: "primeiroprojetoteste01.appspot.com", 
+                messagingSenderId: "530867320810",
+                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
+            };
+
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Referências aos elementos do DOM
+        const loader = document.getElementById('loader');
+        const appContainer = document.getElementById('app-container');
+        const usernameDisplay = document.getElementById('username-display');
+        const reaisDisplay = document.getElementById('reais-display');
+        const ouroDisplay = document.getElementById('ouro-display');
+        const logoutButton = document.getElementById('logout-button');
+        const manufacturerTitle = document.getElementById('manufacturer-title');
+        const carsContainer = document.getElementById('cars-container');
+        const ownedCarsCountDisplay = document.getElementById('owned-cars-count'); // Novo elemento para o contador
+
+        let ownedCardIds = []; // Array para armazenar os IDs das cartas que o utilizador possui
+
+        /**
+         * Retorna a cor do rank com base na classe da carta.
+         * @param {string} rank - A classe da carta (ex: 'S+', 'A', 'B').
+         * @returns {string} A cor hexadecimal correspondente.
+         */
+        function getRankColor(rank) {
+            const colors = {
+                'S+': '#FFD700', 'S': '#FFD700', // Ouro
+                'A': '#E01A4F', // Vermelho Rockstar
+                'B': '#8e44ad', // Roxo
+                'C': '#3498db', // Azul
+                'D': '#2ecc71', // Verde
+                'E': '#95a5a6'  // Cinza (padrão)
+            };
+            return colors[rank] || '#7F8C8D';
+        }
+
+        /**
+         * Cria um elemento de carta para exibição na coleção.
+         * @param {object} cardData - Os dados da carta a ser criada.
+         * @param {boolean} isOwned - Indica se o utilizador possui esta carta.
+         * @returns {HTMLElement} O elemento HTML da carta.
+         */
+        function createCollectionCardElement(cardData, isOwned) {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card-base';
+            cardElement.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
+
+            // Adiciona a classe 'unowned-card' se o utilizador não possuir a carta
+            if (!isOwned) {
+                cardElement.classList.add('unowned-card');
+            }
+
+            cardElement.innerHTML = `
+                <div class="collection-card-image-wrapper">
+                    <img src="${cardData.imagem}" alt="${cardData.nome}" class="collection-card-image">
+                    <div class="rank-badge-small" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
+                    <div class="collection-card-info-overlay">
+                        <div class="flex justify-between items-start w-full">
+                            <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-5 mt-12" style="filter: drop-shadow(0 0 2px black);">
+                            <div class="text-right">
+                                <div class="font-bold text-base font-orbitron card-text-shadow">${cardData.ano}</div>
+                                <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1 card-flag-shadow">
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg md:text-xl font-orbitron leading-tight card-text-shadow">${cardData.nome}</h3>
+                    </div>
+                </div>
+                <div class="p-3 bg-[#181818] grid grid-cols-3 gap-2 text-center text-sm">
+                    <div class="text-s"><span class="font-bold block">${cardData.velocidade}</span> VEL. MÁX.</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.aceleracao}s</span> 0-100</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.direcao}</span> DIREÇÃO</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.altura}</span> ALTURA</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.pneus}</span> PNEUS</div>
+                    <div class="text-s"><span class="font-bold block">${cardData.tracao}</span> TRAÇÃO</div>
+                </div>
+            `;
+
+            // Adiciona efeito holográfico para raridades altas APENAS se a carta for possuída
+            if (isOwned && ['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
+                const overlay = document.createElement('div');
+                overlay.className = 'holographic-overlay';
+                cardElement.querySelector('.collection-card-image-wrapper').prepend(overlay);
+
+                cardElement.addEventListener('mousemove', e => {
+                    const rect = cardElement.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    cardElement.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+                    cardElement.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+                });
+                cardElement.addEventListener('mouseleave', () => {
+                    cardElement.style.setProperty('--mx', `50%`);
+                    cardElement.style.setProperty('--my', `50%`);
+                });
+            }
+
+            return cardElement;
+        }
+
+        /**
+         * Renderiza os carros da montadora selecionada.
+         * @param {string} manufacturerName - O nome da montadora a ser exibida.
+         * @param {Array<string>} userOwnedCardIds - Array de IDs das cartas que o utilizador possui.
+         */
+        function renderCarsByManufacturer(manufacturerName, userOwnedCardIds) {
+            carsContainer.innerHTML = ''; // Limpa o container
+
+            // Filtra os carros da lista 'cards' pela montadora
+            const manufacturerCars = Object.values(window.cards).filter(card => card.montadora === manufacturerName);
+
+            if (manufacturerCars.length > 0) {
+                // Define a ordem de raridade
+                const rarityOrder = { 'S+': 0, 'S': 1, 'A': 2, 'B': 3, 'C': 4, 'D': 5, 'E': 6 };
+
+                // Ordena os carros: primeiro por raridade (mais raro primeiro), depois por nome
+                const sortedCars = manufacturerCars.sort((a, b) => {
+                    const rarityA = rarityOrder[a.classe] !== undefined ? rarityOrder[a.classe] : 99;
+                    const rarityB = rarityOrder[b.classe] !== undefined ? rarityOrder[b.classe] : 99;
+
+                    if (rarityA !== rarityB) {
+                        return rarityA - rarityB;
+                    }
+                    return a.nome.localeCompare(b.nome);
+                });
+
+                let ownedCount = 0;
+                sortedCars.forEach(cardData => {
+                    // Encontra o ID da carta no objeto global 'cards'
+                    // Isso é necessário porque cardData é um objeto, não o ID da string.
+                    // Percorre todos os IDs em window.cards para encontrar o que corresponde a cardData.
+                    const cardId = Object.keys(window.cards).find(key => window.cards[key] === cardData);
+                    const isOwned = userOwnedCardIds.includes(cardId);
+                    if (isOwned) {
+                        ownedCount++;
+                    }
+                    const cardElement = createCollectionCardElement(cardData, isOwned);
+                    carsContainer.appendChild(cardElement);
+                });
+
+                // Atualiza o contador de carros possuídos
+                ownedCarsCountDisplay.textContent = `${ownedCount}/${manufacturerCars.length} carros possuídos`;
+
+            } else {
+                carsContainer.innerHTML = `<p class="text-gray-400 text-lg text-center col-span-full">Nenhum carro encontrado para esta montadora.</p>`;
+                ownedCarsCountDisplay.textContent = `0/0 carros possuídos`;
+            }
+        }
+
+        // Listener para o estado de autenticação do Firebase
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userRef = ref(db, 'users/' + user.uid);
+                try {
+                    const snapshot = await get(userRef);
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+
+                        // Atualiza as informações do usuário na interface
+                        usernameDisplay.textContent = userData.username;
+                        reaisDisplay.textContent = `R$ ${userData.reais.toLocaleString('pt-BR')}`;
+                        ouroDisplay.textContent = `${userData.ouro} Ouro`;
+                        
+                        // Carrega os IDs das cartas possuídas pelo utilizador
+                        ownedCardIds = userData.cartas || [];
+
+                        // Obtém o nome da montadora da URL
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const manufacturerName = urlParams.get('manufacturer');
+
+                        if (manufacturerName) {
+                            manufacturerTitle.textContent = manufacturerName.toUpperCase();
+                            renderCarsByManufacturer(manufacturerName, ownedCardIds);
+                        } else {
+                            manufacturerTitle.textContent = "Montadora Não Encontrada";
+                            carsContainer.innerHTML = `<p class="text-gray-400 text-lg text-center col-span-full">Por favor, selecione uma montadora na página da galeria.</p>`;
+                            ownedCarsCountDisplay.textContent = `0/0 carros possuídos`;
+                        }
+
+                        // Esconde o loader e mostra o conteúdo da aplicação
+                        appContainer.classList.remove('hidden');
+                        loader.classList.add('hidden');
+                    } else {
+                        console.error("Documento do utilizador não encontrado. Forçando logout.");
+                        await signOut(auth);
+                    }
+                } catch (error) {
+                    console.error("Erro ao buscar dados do utilizador:", error);
+                    await signOut(auth);
+                }
+            } else {
+                window.location.href = 'index.html'; // Redireciona para login se não estiver autenticado
+            }
+        });
+
+        // Listener para o botão de logout
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Erro ao fazer logout:", error);
+            }
+        });
+    </script>
+</body>
+</html>
