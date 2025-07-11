@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCards - Loja</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables for a cohesive theme (same as home.html and garagem.html) */
+        :root {
+            --primary-red: #E01A4F;
+            /* A deeper, more vibrant red */
+            --dark-bg: #0A0A0A;
+            --medium-dark-bg: #1A1A1A;
+            --light-text: #F0F0F0;
+            --accent-gray: #333333;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7);
+            /* Red glow */
+            --text-shadow-strong: 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            background-image:
+                linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0.8) 50%, rgba(10, 10, 10, 0.95)),
+                url('./assets/BannerHome.png');
+            /* Background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            color: var(--light-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Subtle noise effect for a "gritty" texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/INx6AAAAF3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobI+kKpgAAAFpJREFUeNrtwQEBAAAAgqD+r2zHBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgZpQAAQ+E4UIAAAAASUVORK5CYII=') repeat;
+            opacity: 0.03;
+            /* Adjust opacity for more or less intensity */
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header-panel {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-strong);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            padding: 1.5rem 2rem;
+            /* More spacing */
+        }
+
+        .info-box {
+            background: var(--accent-gray);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            text-shadow: var(--text-shadow-strong);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05), transparent 50%, rgba(255, 255, 255, 0.05));
+            animation: pulse-border 3s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .info-box:hover {
+            background: #444444;
+            border-color: var(--primary-red);
+            box-shadow: 0 3px 12px rgba(224, 26, 79, 0.6);
+            transform: translateY(-2px);
+        }
+
+        @keyframes pulse-border {
+
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .menu-button {
+            background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
+            border: 2px solid var(--border-strong);
+            color: var(--light-text);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: var(--text-shadow-strong);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Center button content */
+            gap: 0.75rem;
+        }
+
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(224, 26, 79, 0.3), transparent);
+            transition: all 0.6s ease-out;
+            transform: skewX(-20deg);
+            z-index: 1;
+        }
+
+        .menu-button:hover::before {
+            left: 150%;
+        }
+
+        .menu-button:hover {
+            color: white;
+            background: linear-gradient(145deg, var(--primary-red), #FF3C3C);
+            border-color: white;
+            text-shadow: 0 0 15px white;
+            box-shadow: 0 0 20px var(--primary-red), inset 0 0 8px rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .menu-button svg {
+            stroke: var(--light-text);
+            transition: stroke 0.3s ease;
+        }
+
+        .menu-button:hover svg {
+            stroke: white;
+        }
+
+        /* Enhanced loader */
+        .loader {
+            border-top-color: var(--primary-red);
+            border-right-color: var(--primary-red);
+            border-bottom-color: var(--primary-red);
+            animation: spin 1s linear infinite, pulse-loader 1.5s infinite alternate;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse-loader {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        #loader-text {
+            color: var(--primary-red);
+            text-shadow: 0 0 10px var(--primary-red);
+        }
+
+        /* Custom alert */
+        .custom-alert {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            background-color: var(--primary-red);
+            color: var(--light-text);
+            border-radius: 8px;
+            /* More rounded */
+            box-shadow: 0 0 15px rgba(224, 26, 79, 0.7);
+            /* Glow shadow */
+        }
+
+        .custom-alert.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Card pack styles */
+        .pack-card {
+            background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
+            border: 3px solid #444;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            /* Added for internal layout */
+            flex-direction: column;
+            /* Added for internal layout */
+            justify-content: space-between;
+            /* Added for internal layout */
+        }
+
+        /* Pulsating glow for pack cards (similar to S-rank cards in Garagem) */
+        @keyframes pulsate-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset;
+            }
+
+            50% {
+                box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset;
+            }
+        }
+
+        .pack-card.pack-s {
+            animation: pulsate-glow 2s infinite ease-in-out;
+            border-color: #FFD700;
+        }
+
+        .pack-card.pack-a {
+            box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
+            border-color: var(--primary-red);
+        }
+
+        .pack-card.pack-b {
+            box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
+            border-color: #8e44ad;
+        }
+
+        /* Add hover effects for all pack cards to enhance interaction */
+        .pack-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3) inset;
+        }
+
+        .pack-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: all 0.6s ease-out;
+            transform: skewX(-20deg);
+            z-index: 1;
+        }
+
+        .pack-card:hover::before {
+            left: 150%;
+        }
+
+        .pack-image {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+            margin: 0 auto 1rem;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+
+        .pack-card:hover .pack-image {
+            transform: scale(1.05);
+        }
+
+        .pack-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2ecc71;
+            /* Green for money */
+            text-shadow: 0 0 8px rgba(46, 204, 113, 0.6);
+        }
+
+        .pack-gold-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            /* Slightly smaller than real price */
+            font-weight: bold;
+            color: #FFD700;
+            /* Gold for gold */
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        .pack-class {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-shadow: var(--text-shadow-strong);
+        }
+
+        /* Colors for pack titles by class */
+        .pack-s .pack-class {
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .pack-a .pack-class {
+            color: var(--primary-red);
+            text-shadow: 0 0 10px rgba(224, 26, 79, 0.8);
+        }
+
+        .pack-b .pack-class {
+            color: #8e44ad;
+            text-shadow: 0 0 10px rgba(142, 68, 173, 0.8);
+        }
+
+        .pack-c .pack-class {
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.8);
+        }
+
+        .pack-d .pack-class {
+            color: #2ecc71;
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+        }
+
+        .pack-e .pack-class {
+            color: #95a5a6;
+            text-shadow: 0 0 10px rgba(149, 165, 166, 0.8);
+        }
+
+        .buy-button-group {
+            display: flex;
+            gap: 0.5rem;
+            /* Spacing between buy buttons */
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .buy-button {
+            flex: 1;
+            /* Make buttons take up equal space */
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .buy-button.reais {
+            background-color: #2ecc71;
+            color: white;
+            border: 2px solid #2ecc71;
+        }
+
+        .buy-button.reais:hover {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.6);
+        }
+
+        .buy-button.gold {
+            background-color: #FFD700;
+            color: #1a1a1a;
+            border: 2px solid #FFD700;
+        }
+
+        .buy-button.gold:hover {
+            background-color: #e6c200;
+            border-color: #e6c200;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Pack opening modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            transition: background-color 0.5s ease-in-out;
+            /* Smooth transition for background color */
+        }
+
+        /* Tremor animation */
+        @keyframes tremor-animation {
+            0% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-1deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(1deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-1deg);
+            }
+
+            60% {
+                transform: translate(-3px, 1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(3px, 1px) rotate(-1deg);
+            }
+
+            80% {
+                transform: translate(-1px, -1px) rotate(1deg);
+            }
+
+            90% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(1px, -2px) rotate(-1deg);
+            }
+        }
+
+        .modal-a-effect {
+            animation: tremor-animation 0.1s infinite;
+            /* Fast tremor */
+            background-color: rgba(224, 26, 79, 0.6) !important;
+            /* Red glow for A class */
+        }
+
+        .modal-s-effect {
+            animation: tremor-animation 0.1s infinite;
+            /* Fast tremor */
+            background-color: rgba(255, 215, 0, 0.6) !important;
+            /* Gold glow for S class */
+        }
+
+
+        .modal-content {
+            background: linear-gradient(160deg, #1a1a1a, #2a2a2a);
+            border: 3px solid var(--primary-red);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 90%;
+            width: 800px;
+            box-shadow: 0 0 40px rgba(224, 26, 79, 0.7);
+            text-align: center;
+            position: relative;
+            animation: modal-pop-in 0.4s ease-out;
+        }
+
+        /* Increased modal size */
+        .modal-overlay #final-summary-content {
+            max-width: 95%;
+            /* Increased max-width */
+            width: 1200px;
+            /* Increased fixed width */
+            max-height: 95vh;
+            /* Increased max-height */
+            overflow-y: auto;
+            /* Allow scrolling if content overflows */
+        }
+
+        @keyframes modal-pop-in {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close-button:hover {
+            color: var(--primary-red);
+        }
+
+        /* Adjustments for opened card display (single card at a time) */
+        #opened-cards-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            /* Fixed height for the display area */
+            position: relative;
+            /* For absolute positioning of cards */
+            margin-bottom: 1rem;
+        }
+
+        .opened-card {
+            width: 400px;
+            /* Increased width to better fit horizontal aspect ratio */
+            aspect-ratio: 16 / 10;
+            /* Fixed aspect ratio for horizontal cards */
+            background-color: #1a1a1a;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 3px solid;
+            /* Default border, will be overridden by rank-specific */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            position: absolute;
+            /* Position absolutely to stack and control visibility */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out, z-index 0s 0.6s;
+            /* Transition for reveal and movement */
+            transform-style: preserve-3d;
+            opacity: 0;
+            /* Start hidden for animation */
+            cursor: pointer;
+            /* Indicate clickable */
+            left: 50%;
+            /* Center horizontally */
+            top: 50%;
+            /* Center vertically */
+            transform: translate(-50%, -50%) translateY(20px) scale(0.8);
+            /* Combined centering and initial state */
+            z-index: 1;
+            /* Default z-index */
+        }
+
+        /* Animation for card reveal */
+        @keyframes card-reveal {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateY(20px) scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(0) scale(1);
+            }
+        }
+
+        /* Card flip animation */
+        @keyframes card-flip {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(180deg);
+            }
+        }
+
+        .opened-card.flipping .card-inner {
+            animation: card-flip 0.6s forwards;
+        }
+
+        .opened-card.duplicate {
+            /* No specific border-color for duplicates, it will now inherit from rank-specific styles */
+            box-shadow: 0 0 20px #FFD700;
+            /* Gold shadow for duplicates */
+            background-color: #e0e0e0;
+            /* Light gray background for duplicates */
+        }
+
+        .opened-card .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            transform: rotateY(0deg);
+            /* Start showing the back of the card */
+        }
+
+        .opened-card.flipped .card-inner {
+            transform: rotateY(180deg);
+            /* Flip to show front */
+        }
+
+        .opened-card .card-front,
+        .opened-card .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .opened-card .card-front {
+            transform: rotateY(180deg);
+            /* Initially rotated to be visible after flip */
+        }
+
+        .opened-card.duplicate .card-front {
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+
+        .opened-card .collection-card-image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 62.5%;
+            /* 10/16 = 0.625 for 16:10 aspect ratio */
+            overflow: hidden;
+            border-radius: 1rem 1rem 0 0;
+            /* Rounded corners only at the top */
+        }
+
+        .opened-card .collection-card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ensures the image covers the space */
+            object-position: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .opened-card .collection-card-info-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 60%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
+        .opened-card .rank-badge-small {
+            position: absolute;
+            /* Added */
+            top: 12px;
+            /* Added */
+            left: 12px;
+            /* Added */
+            width: 38px;
+            /* Smaller badge for collection cards */
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 20px;
+            /* Smaller font size */
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            z-index: 10;
+            /* Ensures it stays above the image */
+        }
+
+        .opened-card .card-text-shadow {
+            text-shadow: 1px 1px 6px black, 0 0 12px black;
+        }
+
+        .opened-card .card-flag-shadow {
+            box-shadow: 0 0 6px black;
+        }
+
+        .opened-card .card-back {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--dark-bg);
+            background-image: url('./assets/backcard.png');
+            /* Back of the card image */
+            background-size: cover;
+            background-position: center;
+            border: 3px solid var(--current-rank-color);
+            /* Border color for card back */
+        }
+
+        .opened-card .card-back h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            text-shadow: var(--text-shadow-strong);
+        }
+
+        .opened-card .card-back .grid {
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .opened-card .card-back .grid>div {
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+        }
+
+        .opened-card .card-back .font-bold {
+            color: var(--primary-red);
+        }
+
+        /* Rarity styles for opened cards - BORDER COLOR IS NOW BASED ON RANK */
+        /* Apply pulsating glow to S-rank opened cards */
+        .opened-card.rank-s {
+            animation: pulsate-glow 2s infinite ease-in-out;
+            border-color: #FFD700;
+            /* Gold */
+        }
+
+        .opened-card.rank-a {
+            border-color: #E01A4F;
+        }
+
+        /* Rockstar Red */
+        .opened-card.rank-b {
+            border-color: #8e44ad;
+        }
+
+        /* Purple */
+        .opened-card.rank-c {
+            border-color: #3498db;
+        }
+
+        /* Blue */
+        .opened-card.rank-d {
+            border-color: #2ecc71;
+        }
+
+        /* Green */
+        .opened-card.rank-e {
+            border-color: #95a5a6;
+        }
+
+        /* Gray */
+
+        /* Rarity glow on the back of the card */
+        .opened-card .card-back {
+            box-shadow: 0 0 0px 0px transparent;
+            /* Reset default box-shadow */
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        /* Apply rank specific border to the card back */
+        .opened-card.rank-s .card-back {
+            box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.8);
+        }
+
+        .opened-card.rank-a .card-back {
+            box-shadow: 0 0 15px 4px rgba(224, 26, 79, 0.6);
+        }
+
+        .opened-card.rank-b .card-back {
+            box-shadow: 0 0 12px 3px rgba(142, 68, 173, 0.6);
+        }
+
+        .opened-card.rank-c .card-back {
+            box-shadow: 0 0 10px 2px rgba(52, 152, 219, 0.6);
+        }
+
+        .opened-card.rank-d .card-back {
+            box-shadow: 0 0 8px 2px rgba(46, 204, 113, 0.6);
+        }
+
+        .opened-card.rank-e .card-back {
+            box-shadow: 0 0 5px 1px rgba(149, 165, 166, 0.6);
+        }
+
+
+        /* Duplicate badge */
+        .duplicate-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 215, 0, 0.8);
+            /* Semi-transparent gold background */
+            color: #1a1a1a;
+            /* Dark text */
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            z-index: 20;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Duplicate value text on the card front, below the image */
+        .duplicate-value-text {
+            position: absolute;
+            bottom: 5px;
+            /* Adjust as needed for spacing from bottom of image */
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-red);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7), 0 0 10px rgba(224, 26, 79, 0.5);
+            z-index: 21;
+            text-align: center;
+            line-height: 1.2;
+            white-space: nowrap;
+            opacity: 0;
+            /* HIDDEN BY DEFAULT */
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .opened-card.flipped .duplicate-value-text {
+            opacity: 1;
+            /* SHOW WHEN FLIPPED */
+        }
+
+
+        /* Active card scaling and glow */
+        .opened-card.active-large {
+            transform: translate(-50%, -50%) scale(1.2) translateY(-20px);
+            z-index: 50;
+            /* Dynamic glow based on rank color */
+            box-shadow: 0 0 20px 5px var(--current-rank-color), inset 0 0 10px rgba(255, 255, 255, 0.3);
+            border-color: var(--current-rank-color);
+        }
+
+        /* New styles for single card display */
+        .modal-overlay.single-card-mode .modal-content {
+            display: none;
+            /* Hide the main modal content */
+        }
+
+        #individual-reveal-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            inset: 0;
+        }
+
+        #individual-reveal-container #individual-cards-display {
+            position: relative;
+            width: 400px;
+            aspect-ratio: 16 / 10;
+            perspective: 1000px;
+            margin-bottom: 2rem;
+        }
+
+        #individual-reveal-container #individual-cards-display .opened-card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(calc(-10px * var(--card-stack-index))) translateY(calc(10px * var(--card-stack-index)));
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            pointer-events: none;
+        }
+
+        #individual-reveal-container #individual-cards-display .opened-card.active-reveal {
+            opacity: 1;
+            transform: translate(-50%, -50%) translateZ(0) translateY(0);
+            pointer-events: auto;
+            z-index: var(--card-stack-index);
+        }
+
+        /* When a card is active for reveal, it should also be large */
+        #individual-reveal-container #individual-cards-display .opened-card.active-reveal.active-large {
+            transform: translate(-50%, -50%) scale(1.2) translateY(-20px);
+            z-index: 50;
+            /* Dynamic glow based on rank color */
+            box-shadow: 0 0 20px 5px var(--current-rank-color), inset 0 0 10px rgba(255, 255, 255, 0.3);
+            border-color: var(--current-rank-color);
+        }
+
+
+        .reveal-instruction-text {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 0 0 15px var(--primary-red);
+            pointer-events: none;
+            z-index: 60;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .reveal-instruction-text.show {
+            opacity: 1;
+        }
+
+        /* Particle effect for card reveal */
+        .particle-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 55;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--particle-color);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-burst 1s forwards;
+        }
+
+        @keyframes particle-burst {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--dx), var(--dy)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Holographic effect for high rarity cards */
+        .holographic-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            mix-blend-mode: overlay;
+            opacity: 0.8;
+            pointer-events: none;
+            transition: background 0.1s linear;
+        }
+
+        /* Final cards grid display (to show cards fully, not overlapping) */
+        #final-cards-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            /* Adjust minmax for card size */
+            justify-content: center;
+            align-items: start;
+            gap: 1.5rem;
+            /* Increased gap between cards */
+        }
+
+        #final-cards-grid .opened-card {
+            position: static;
+            /* Remove absolute positioning */
+            transform: none;
+            /* Remove transforms */
+            opacity: 1;
+            /* Ensure visible */
+            pointer-events: auto;
+            /* Enable interaction */
+            width: 100%;
+            /* Make them take full grid column width */
+            max-width: 300px;
+            /* Max width for individual cards in the grid */
+            margin: 0 auto;
+            /* Center cards in their grid cell */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            /* Reapply shadow for individual cards */
+            border: 3px solid var(--current-rank-color);
+            /* Ensure border based on rank */
+        }
+
+        /* Ensure holographic effect works on final grid cards */
+        #final-cards-grid .opened-card .holographic-overlay {
+            opacity: 1;
+            /* Keep holographic effect visible in final grid */
+        }
+
+        /* Styles for section titles/separators */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: var(--glow-effect);
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, transparent, var(--primary-red), transparent);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--primary-red);
+        }
+
+        /* Probability button and tooltip */
+        .probability-button {
+            background-color: var(--accent-gray);
+            color: var(--light-text);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--border-subtle);
+            cursor: help;
+            /* Change cursor to help to indicate more info */
+            position: relative;
+            z-index: 10;
+            /* Ensure it's above other elements */
+            transition: all 0.2s ease-in-out;
+        }
+
+        .probability-button:hover {
+            background-color: #444444;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 10px rgba(224, 26, 79, 0.4);
+        }
+
+        .probability-tooltip {
+            position: absolute;
+            bottom: 100%;
+            /* Position above the button */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--primary-red);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--light-text);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 20;
+            /* Ensure it's above everything else */
+            box-shadow: 0 0 15px rgba(224, 26, 79, 0.7);
+            margin-bottom: 10px;
+            /* Space between button and tooltip */
+        }
+
+        .probability-button:hover .probability-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .probability-tooltip p {
+            margin-bottom: 0.25rem;
+            text-align: left;
+        }
+
+        .probability-tooltip p:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* Responsiveness for Mobile */
+        @media (max-width: 1023px) {
+
+            /* Tailwind CSS `lg` breakpoint */
+            body {
+                background-attachment: scroll;
+            }
+
+            .header-panel {
+                padding: 1rem;
+                border-radius: 0;
+            }
+
+            .info-box {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            .menu-button {
+                padding: 0.8rem 1rem;
+                font-size: 0.85rem;
+                border-radius: 6px;
+            }
+
+            .menu-button svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .pack-card {
+                padding: 1rem;
+            }
+
+            .pack-image {
+                max-width: 120px;
+            }
+
+            .pack-price {
+                font-size: 1.5rem;
+            }
+
+            .pack-class {
+                font-size: 1.2rem;
+            }
+
+            .modal-content {
+                padding: 1rem;
+            }
+
+            #opened-cards-display {
+                height: 300px;
+                /* Adjusted height for mobile */
+            }
+
+            .opened-card {
+                width: 280px;
+                /* Adjusted width for mobile to maintain aspect ratio */
+            }
+
+            .buy-button-group {
+                flex-direction: column;
+                /* Buy buttons stacked on mobile */
+            }
+
+            .duplicate-value-text {
+                font-size: 0.9rem;
+                /* Adjust for mobile */
+                bottom: 2px;
+                /* Adjusted for mobile */
+            }
+
+            .opened-card.active-large {
+                transform: translate(-50%, -50%) scale(1.05) translateY(-10px);
+                /* Slightly larger scale for mobile */
+            }
+
+            .reveal-instruction-text {
+                font-size: 1.2rem;
+                /* Smaller font for mobile */
+                bottom: 1rem;
+            }
+
+            .opened-card .collection-card-info-overlay .h-5 {
+                /* Adjust logo size */
+                height: 0.9rem;
+            }
+
+            .opened-card .rank-badge-small {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+
+            #final-cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                /* Adjust for smaller screens */
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading Loader -->
+    <div id="loader" class="fixed inset-0 bg-black bg-opacity-95 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-28 w-28"></div>
+        <p id="loader-text" class="mt-8 text-2xl font-orbitron animate-pulse">Carregando Loja...</p>
+    </div>
+
+    <!-- Custom Alert (replaces alert() and confirm()) -->
+    <div id="custom-alert"
+        class="custom-alert fixed top-5 right-0 text-white py-3 px-5 rounded-l-lg shadow-lg z-50 opacity-0 transform translate-x-full">
+        <p id="custom-alert-message" class="font-bold"></p>
+    </div>
+
+    <!-- Pack Opening Modal -->
+    <div id="pack-open-modal" class="modal-overlay hidden">
+        <!-- Individual Card Reveal Phase -->
+        <div id="individual-reveal-container" class="absolute inset-0 flex items-center justify-center flex-col hidden">
+            <div id="individual-cards-display" class="relative">
+                <!-- Individual opened cards will be placed here, absolutely positioned to stack -->
+            </div>
+            <div id="reveal-instruction-text" class="reveal-instruction-text">Clique para revelar!</div>
+            <div id="particle-burst-container" class="particle-container"></div>
+        </div>
+
+        <!-- Final Summary Grid Phase (initially hidden) -->
+        <div id="final-summary-content" class="modal-content hidden">
+            <button class="modal-close-button" id="close-modal-button"><i class="fas fa-times-circle"></i></button>
+            <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-6"
+                style="text-shadow: var(--glow-effect);">VOCÊ ABRIU UM PACOTE!</h2>
+            <div id="final-cards-grid"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 justify-items-center p-4">
+                <!-- All revealed cards will be placed here in a grid -->
+            </div>
+            <p id="duplicate-money-info" class="text-yellow-400 font-bold text-lg mt-4 hidden"></p>
+            <button id="continue-button" class="menu-button mt-8 px-6 py-3 font-orbitron"><i
+                    class="fas fa-arrow-circle-right"></i> CONTINUAR</button>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
+        <!-- Header (Top Bar) -->
+        <header class="header-panel w-full p-4 md:p-6 shadow-lg sticky top-0 z-40">
+            <div class="container mx-auto flex justify-between items-center flex-wrap gap-4">
+                <div class="info-box flex items-center gap-3">
+                    <i class="fas fa-user-circle text-red-400 text-2xl"></i>
+                    <span id="username-display" class="text-xl font-bold text-red-400 font-orbitron"></span>
+                </div>
+                <div class="flex items-center gap-2 md:gap-4 flex-wrap justify-end">
+                    <div class="info-box"><i class="fas fa-dollar-sign text-green-400"></i><span
+                            class="text-green-400 font-bold ml-2" id="reais-display">R$ 0</span></div>
+                    <div class="info-box"><i class="fas fa-gold text-yellow-400"></i><span
+                            class="text-yellow-400 font-bold ml-2" id="ouro-display">0 Ouro</span></div>
+                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><i
+                            class="fas fa-user-friends"></i><span
+                            class="hidden md:inline font-orbitron">Amigos</span></button>
+                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><i
+                            class="fas fa-shopping-bag"></i><span class="hidden md:inline font-orbitron">Comprar
+                            Ouro</span></button>
+                    <button id="logout-button" class="menu-button p-2" title="Sair"><i
+                            class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow p-6 md:p-10 container mx-auto">
+            <a href="home.html" class="menu-button inline-flex items-center gap-2 px-4 py-2 mb-8 font-orbitron">
+                <i class="fas fa-arrow-circle-left"></i>
+                VOLTAR PARA HOME
+            </a>
+
+            <h1 class="font-orbitron text-4xl md:text-5xl font-bold text-white mb-8 text-center lg:text-left"
+                style="text-shadow: var(--glow-effect);">LOJA DE PACOTES</h1>
+            <p class="text-gray-400 text-center mb-12">Escolha um pacote e teste sua sorte para expandir sua coleção de
+                carros!</p>
+
+            <section class="mb-12">
+                <h2 class="section-title">PACOTES PADRÃO</h2>
+                <div id="standard-packs-container"
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-8">
+                    <!-- Standard card packs will be rendered here -->
+                </div>
+
+                <h2 class="section-title mt-12">PACOTES ESPECIAIS</h2>
+                <div id="special-packs-container"
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-8">
+                    <!-- Special card packs will be rendered here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loads cards.js as a regular script to make 'cards' global -->
+    <script type="module" src="./cards.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        // 'cards' is now globally accessible via window.cards
+
+        // Firebase configuration (uses __firebase_config if available, otherwise a fallback)
+        const firebaseConfig = typeof __firebase_config !== 'undefined'
+            ? JSON.parse(__firebase_config)
+            : {
+                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs",
+                authDomain: "primeiroprojetoteste01.firebaseapp.com",
+                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com",
+                projectId: "primeiroprojetoteste01",
+                storageBucket: "primeiroprojetoteste01.appspot.com",
+                messagingSenderId: "530867320810",
+                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
+            };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // DOM element references
+        const loader = document.getElementById('loader');
+        const appContainer = document.getElementById('app-container');
+        const usernameDisplay = document.getElementById('username-display');
+        const reaisDisplay = document.getElementById('reais-display');
+        const ouroDisplay = document.getElementById('ouro-display');
+        const logoutButton = document.getElementById('logout-button');
+        const standardPacksContainer = document.getElementById('standard-packs-container'); // New container for standard packs
+        const specialPacksContainer = document.getElementById('special-packs-container'); // New container for special packs
+
+        const customAlert = document.getElementById('custom-alert');
+        const customAlertMessage = document.getElementById('custom-alert-message');
+
+        // Modal elements
+        const packOpenModal = document.getElementById('pack-open-modal');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const individualRevealContainer = document.getElementById('individual-reveal-container');
+        const individualCardsDisplay = document.getElementById('individual-cards-display');
+        const finalSummaryContent = document.getElementById('final-summary-content');
+        const finalCardsGrid = document.getElementById('final-cards-grid');
+        const duplicateMoneyInfo = document.getElementById('duplicate-money-info');
+        const continueButton = document.getElementById('continue-button'); // Renamed from collectCardsButton
+        const revealInstructionText = document.getElementById('reveal-instruction-text');
+        const particleBurstContainer = document.getElementById('particle-burst-container');
+
+
+        let currentUser = null;
+        let userReais = 0;
+        let userOuro = 0;
+        let ownedCardIds = [];
+        let allAvailableCardIds = []; // All available card IDs in the game
+
+        // Centralized data for all packs
+        const packsData = {
+            'E': {
+                type: 'standard',
+                image: './assets/pack_e.png',
+                classTitle: 'PACOTE CLASSE E',
+                description: 'Contém 4 cartas',
+                reaisPrice: 35000,
+                goldPrice: 50,
+                probabilities: { 'E': 0.70, 'D': 0.20, 'C': 0.07, 'B': 0.02, 'A': 0.009, 'S': 0.001 }
+            },
+            'D': {
+                type: 'standard',
+                image: './assets/pack_d.png',
+                classTitle: 'PACOTE CLASSE D',
+                description: 'Contém 4 cartas',
+                reaisPrice: 60000,
+                goldPrice: 60,
+                probabilities: { 'E': 0.30, 'D': 0.60, 'C': 0.07, 'B': 0.02, 'A': 0.008, 'S': 0.002 }
+            },
+            'C': {
+                type: 'standard',
+                image: './assets/pack_c.png',
+                classTitle: 'PACOTE CLASSE C',
+                description: 'Contém 4 cartas',
+                reaisPrice: 100000,
+                goldPrice: 70,
+                probabilities: { 'E': 0.01, 'D': 0.04, 'C': 0.60, 'B': 0.25, 'A': 0.095, 'S': 0.005 }
+            },
+            'B': {
+                type: 'standard',
+                image: './assets/pack_b.png',
+                classTitle: 'PACOTE CLASSE B',
+                description: 'Contém 4 cartas',
+                reaisPrice: 150000,
+                goldPrice: 140,
+                // Ajustado para somar 1.00 e manter a proporção desejada
+                probabilities: { 'E': 0.02, 'D': 0.15, 'C': 0.15, 'B': 0.50, 'A': 0.15, 'S': 0.03 }
+            },
+            'A': {
+                type: 'standard',
+                image: './assets/pack_a.png',
+                classTitle: 'PACOTE CLASSE A',
+                description: 'Contém 4 cartas',
+                reaisPrice: 499000,
+                goldPrice: 250,
+                probabilities: { 'E': 0.001, 'D': 0.009, 'C': 0.11, 'B': 0.35, 'A': 0.50, 'S': 0.03 }
+            },
+            'S': {
+                type: 'standard',
+                image: './assets/pack_s.png',
+                classTitle: 'PACOTE CLASSE S',
+                description: 'Contém 4 cartas',
+                reaisPrice: null, // Cannot be bought with Reais
+                goldPrice: 500,
+                probabilities: { 'E': 0.00, 'D': 0.00, 'C': 0.12, 'B': 0.28, 'A': 0.50, 'S': 0.10 }
+            },
+            // --- Novos Pacotes Especiais ---
+            'TOYOTA_PACK': {
+                type: 'special',
+                image: './assets/TOYOTA_PACK.png', // Placeholder image for Toyota Pack
+                classTitle: 'PACOTE TOYOTA',
+                description: 'Contém 4 cartas exclusivas Toyota',
+                reaisPrice: null,
+                goldPrice: 100,
+                probabilities: { 'E': 0.05, 'D': 0.15, 'C': 0.30, 'B': 0.34, 'A': 0.15, 'S': 0.01 },
+                filterCriteria: { montadora: 'Toyota' }
+            },
+            'OFFROAD_PACK': {
+                type: 'special',
+                image: './assets/OFFROAD_PACK.png', // Placeholder image for Offroad Pack
+                classTitle: 'PACOTE OFFROAD',
+                description: 'Contém 4 cartas com Pneus Offroad',
+                reaisPrice: null,
+                goldPrice: 100,
+                probabilities: { 'E': 0.05, 'D': 0.15, 'C': 0.30, 'B': 0.34, 'A': 0.15, 'S': 0.01 },
+                filterCriteria: { pneus: 'Off-Road' }
+            },
+            '4X4_PACK': {
+                type: 'special',
+                image: './assets/4X4_PACK.png', // Placeholder image for 4x4 Pack
+                classTitle: 'PACOTE 4X4',
+                description: 'Contém 4 cartas com Tração 4x4',
+                reaisPrice: null,
+                goldPrice: 100,
+                probabilities: { 'E': 0.10, 'D': 0.10, 'C': 0.20, 'B': 0.34, 'A': 0.25, 'S': 0.01 },
+                filterCriteria: { tracao: '4x4' }
+            }
+        };
+
+        // Duplicate conversion values in Reais (remains the same)
+        const duplicateConversionValue = {
+            'E': 1000,
+            'D': 2500,
+            'C': 5000,
+            'B': 15000,
+            'A': 50000,
+            'S': 300000
+        };
+
+        let currentOpenedCards = []; // Stores the cards opened in the current pack
+        let currentCardIndex = 0; // Tracks which card is currently being revealed
+        let totalDuplicateReais = 0; // Global for the current pack opening
+
+        /**
+         * Displays a custom alert on the screen.
+         * @param {string} message - The message to be displayed in the alert.
+         * @param {boolean} isError - Whether the message is an error (true) or success (false).
+         */
+        function showCustomAlert(message, isError = true) {
+            customAlertMessage.textContent = message;
+            customAlert.classList.toggle('bg-red-500', isError);
+            customAlert.classList.toggle('bg-green-500', !isError);
+            customAlert.classList.add('show');
+            setTimeout(() => {
+                customAlert.classList.remove('show');
+            }, 3000);
+        }
+
+        /**
+         * Returns the rank color based on the card's class.
+         * @param {string} rank - The card's class (e.g., 'S+', 'A', 'B').
+         * @returns {string} The corresponding hexadecimal color.
+         */
+        function getRankColor(rank) {
+            const colors = {
+                'S+': '#FFD700', 'S': '#FFD700', // Gold
+                'A': '#E01A4F', // Rockstar Red
+                'B': '#8e44ad', // Purple
+                'C': '#3498db', // Blue
+                'D': '#2ecc71', // Green
+                'E': '#95a5a6'  // Gray (default)
+            };
+            return colors[rank] || '#7F8C8D';
+        }
+
+        /**
+         * Creates a card element for display in the pack opening modal.
+         * This function now creates the card structure similar to manufacturer_gallery.html
+         * to allow consistent styling across the app.
+         * @param {object} cardData - The card data object.
+         * @param {boolean} isDuplicate - Indicates if the card is a duplicate.
+         * @param {number} duplicateValue - The value in Reais received for the duplicate.
+         * @param {boolean} isIndividualReveal - True if for individual reveal, false for final grid.
+         * @returns {HTMLElement|null} The HTML element of the card, or null if card data is not found.
+         */
+        function createOpenedCardElement(cardData, isDuplicate, duplicateValue = 0, isIndividualReveal = true) {
+            if (!cardData) return null;
+
+            const cardElement = document.createElement('div');
+            cardElement.className = 'opened-card'; // This class will be styled for the large view
+            cardElement.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
+            // Set custom property for dynamic border/shadow color
+            cardElement.style.setProperty('--current-rank-color', getRankColor(cardData.classe));
+
+            cardElement.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-back" style="background-color: ${getRankColor(cardData.classe)};">
+                        <!-- Back of the card content -->
+                        <!-- The "Clique para revelar!" text is outside this element now -->
+                    </div>
+                    <div class="card-front">
+                        <div class="collection-card-image-wrapper">
+                            <img src="${cardData.imagem}" alt="${cardData.nome}" class="collection-card-image">
+                            <div class="rank-badge-small" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
+                            ${isDuplicate ? '<div class="duplicate-badge">DUPLICATA</div>' : ''}
+                            <div class="collection-card-info-overlay">
+                                <div class="flex justify-between items-start w-full">
+                                    <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-5 mt-12" style="filter: drop-shadow(0 0 2px black);">
+                                    <div class="text-right">
+                                        <div class="font-bold text-base font-orbitron card-text-shadow">${cardData.ano}</div>
+                                        <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1 card-flag-shadow">
+                                    </div>
+                                </div>
+                                <h3 class="font-bold text-lg md:text-xl font-orbitron leading-tight card-text-shadow">${cardData.nome}</h3>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-[#181818] grid grid-cols-3 gap-2 text-center text-sm">
+                            <div class="text-s"><span class="font-bold block">${cardData.velocidade}</span> VEL. MÁX.</div>
+                            <div class="text-s"><span class="font-bold block">${cardData.aceleracao}s</span> 0-100</div>
+                            <div class="text-s"><span class="font-bold block">${cardData.direcao}</span> DIREÇÃO</div>
+                            <div class="text-s"><span class="font-bold block">${cardData.altura}</span> ALTURA</div>
+                            <div class="text-s"><span class="font-bold block">${cardData.pneus}</span> PNEUS</div>
+                            <div class="text-s"><span class="font-bold block">${cardData.tracao}</span> TRAÇÃO</div>
+                        </div>
+                    </div>
+                </div>
+                ${isDuplicate ? `<div class="duplicate-value-text">+ R$ ${duplicateValue.toLocaleString('pt-BR')}</div>` : ''}
+            `;
+
+            // Apply duplicate specific styles
+            if (isDuplicate) {
+                cardElement.classList.add('duplicate');
+                // Apply grayscale and opacity to the image within the card-front
+                const cardFrontImage = cardElement.querySelector('.collection-card-image');
+                if (cardFrontImage) {
+                    cardFrontImage.style.filter = 'grayscale(100%)';
+                    cardFrontImage.style.opacity = '0.6';
+                }
+            }
+
+            // Add holographic effect for high rarities
+            if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
+                const overlay = document.createElement('div');
+                overlay.className = 'holographic-overlay';
+                cardElement.querySelector('.collection-card-image-wrapper').prepend(overlay);
+
+                cardElement.addEventListener('mousemove', e => {
+                    const rect = cardElement.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    cardElement.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+                    cardElement.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+                });
+                cardElement.addEventListener('mouseleave', () => {
+                    cardElement.style.setProperty('--mx', `50%`);
+                    cardElement.style.setProperty('--my', `50%`);
+                });
+            }
+
+            return cardElement;
+        }
+
+        /**
+         * Generates a particle burst effect.
+         * @param {string} color - The color of the particles.
+         */
+        function createParticleBurst(color) {
+            const numParticles = 30;
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.setProperty('--particle-color', color);
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 100 + 50; // Distance from center
+                const dx = Math.cos(angle) * distance;
+                const dy = Math.sin(angle) * distance;
+                particle.style.setProperty('--dx', `${dx}px`);
+                particle.style.setProperty('--dy', `${dy}px`);
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                particle.style.width = `${Math.random() * 5 + 2}px`;
+                particle.style.height = `${Math.random() * 5 + 2}px`;
+                particleBurstContainer.appendChild(particle);
+
+                // Remove particle after animation
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                });
+            }
+        }
+
+        /**
+         * Selects a random card based on pack probabilities and filter criteria.
+         * @param {string} packId - The ID of the pack (e.g., 'E', 'TOYOTA_PACK').
+         * @returns {string} The ID of the selected card.
+         */
+        function getRandomCard(packId) {
+            const packInfo = packsData[packId];
+            let eligibleCardIds = allAvailableCardIds;
+
+            // Apply filter criteria if present (for special packs)
+            if (packInfo.filterCriteria) {
+                eligibleCardIds = allAvailableCardIds.filter(cardId => {
+                    const card = window.cards[cardId];
+                    for (const criterion in packInfo.filterCriteria) {
+                        if (card[criterion] !== packInfo.filterCriteria[criterion]) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
+                if (eligibleCardIds.length === 0) {
+                    console.warn(`No cards found matching criteria for pack ${packId}. Falling back to all available cards.`);
+                    eligibleCardIds = allAvailableCardIds; // Fallback to all if no specific cards found
+                }
+            }
+
+            // For standard packs, or if fallback, apply probability logic
+            if (packInfo.type === 'standard') {
+                const probabilities = packInfo.probabilities;
+                const randomValue = Math.random();
+                let cumulativeProbability = 0;
+
+                let targetClass = '';
+                for (const className in probabilities) {
+                    cumulativeProbability += probabilities[className];
+                    if (randomValue <= cumulativeProbability) {
+                        targetClass = className;
+                        break;
+                    }
+                }
+
+                // If for some reason a class was not found (rounding, etc.), try the pack's main class
+                if (!targetClass) targetClass = packId;
+
+                const cardsOfTargetClass = eligibleCardIds.filter(cardId => window.cards[cardId].classe === targetClass);
+
+                if (cardsOfTargetClass.length === 0) {
+                    console.warn(`No cards found for target class ${targetClass} after filtering. Selecting from all eligible cards.`);
+                    const randomIndex = Math.floor(Math.random() * eligibleCardIds.length);
+                    return eligibleCardIds[randomIndex];
+                }
+
+                const randomIndex = Math.floor(Math.random() * cardsOfTargetClass.length);
+                return cardsOfTargetClass[randomIndex];
+
+            } else if (packInfo.type === 'special') {
+                // For special packs, just pick a random card from the already filtered eligibleCardIds
+                if (eligibleCardIds.length === 0) {
+                    console.error(`No eligible cards for special pack ${packId}. This should not happen if filterCriteria is correctly set.`);
+                    return null; // Or handle this error more gracefully
+                }
+                const randomIndex = Math.floor(Math.random() * eligibleCardIds.length);
+                return eligibleCardIds[randomIndex];
+            }
+        }
+
+        /**
+         * Reveals the next card in the sequence or flips the current one.
+         * This function is called on a general click within the modal.
+         */
+        function revealNextCard(event) {
+            // Prevent clicks on buttons from triggering card flips
+            if (event.target.closest('#continue-button') || event.target.closest('#close-modal-button')) {
+                return;
+            }
+
+            if (currentCardIndex < currentOpenedCards.length) {
+                const cardElement = individualCardsDisplay.children[currentCardIndex];
+                const cardData = window.cards[currentOpenedCards[currentCardIndex].id];
+
+                // If the current card is not yet flipped
+                if (!cardElement.classList.contains('flipped')) {
+                    // Apply screen tremor and color effect for A/S cards BEFORE flipping
+                    if (cardData.classe === 'A') {
+                        packOpenModal.classList.add('modal-a-effect');
+                    } else if (cardData.classe === 'S' || cardData.classe === 'S+') {
+                        packOpenModal.classList.add('modal-s-effect');
+                    }
+
+                    cardElement.classList.add('flipping'); // Triggers the CSS flip animation
+                    revealInstructionText.classList.remove('show'); // Hide instruction text
+
+                    cardElement.querySelector('.card-inner').addEventListener('animationend', (e) => {
+                        if (e.animationName === 'card-flip') {
+                            cardElement.classList.remove('flipping');
+                            cardElement.classList.add('flipped'); // Mark as flipped
+
+                            // Show duplicate value text if it's a duplicate
+                            const duplicateValueText = cardElement.querySelector('.duplicate-value-text');
+                            if (duplicateValueText) {
+                                duplicateValueText.style.opacity = 1;
+                            }
+
+                            // Create particle burst based on card rarity
+                            createParticleBurst(getRankColor(cardData.classe));
+
+                            // Remove screen tremor and color effect after flip
+                            packOpenModal.classList.remove('modal-a-effect', 'modal-s-effect');
+
+                            // If it's the last card being flipped, transition to final summary
+                            if (currentCardIndex === currentOpenedCards.length - 1) {
+                                revealInstructionText.classList.remove('show'); // Hide instruction text
+                                individualRevealContainer.classList.add('hidden'); // Hide individual reveal container
+                                finalSummaryContent.classList.remove('hidden'); // Show final summary content
+
+                                // Populate final grid
+                                finalCardsGrid.innerHTML = '';
+                                currentOpenedCards.forEach(card => {
+                                    const cardElement = createOpenedCardElement(window.cards[card.id], card.isDuplicate, card.duplicateValue, false); // Pass false for isIndividualReveal
+                                    if (cardElement) {
+                                        // Ensure cards are displayed correctly in the grid
+                                        cardElement.style.position = 'static'; // Reset positioning
+                                        cardElement.style.transform = 'none'; // Reset transform
+                                        cardElement.style.opacity = 1; // Ensure visible
+                                        cardElement.style.pointerEvents = 'auto'; // Re-enable interaction
+                                        cardElement.classList.remove('active-large'); // Remove large class
+                                        cardElement.classList.add('flipped'); // Keep them flipped
+                                        finalCardsGrid.appendChild(cardElement);
+
+                                        // Ensure duplicate value is visible in final grid
+                                        const finalDuplicateValueText = cardElement.querySelector('.duplicate-value-text');
+                                        if (finalDuplicateValueText) {
+                                            finalDuplicateValueText.style.opacity = 1;
+                                        }
+                                    }
+                                });
+
+                                if (totalDuplicateReais > 0) {
+                                    duplicateMoneyInfo.textContent = `Você ganhou R$ ${totalDuplicateReais.toLocaleString('pt-BR')} de duplicatas!`;
+                                    duplicateMoneyInfo.classList.remove('hidden');
+                                } else {
+                                    duplicateMoneyInfo.classList.add('hidden');
+                                }
+                                continueButton.classList.remove('hidden'); // Enable continue button
+
+                            } else {
+                                // Show instruction text for the next flip
+                                revealInstructionText.classList.add('show');
+                            }
+                        }
+                    }, { once: true }); // Use transitionend for 'transform' property
+
+                } else {
+                    // Card is already flipped, and there are more cards to reveal: advance to next card
+                    cardElement.classList.remove('active-large'); // Shrink current card
+                    cardElement.classList.remove('active-reveal'); // Hide current card
+                    cardElement.style.pointerEvents = 'none'; // Disable interaction
+
+                    // Remove screen tremor and color effect when advancing to next card
+                    packOpenModal.classList.remove('modal-a-effect', 'modal-s-effect');
+
+                    currentCardIndex++; // Move to the next card
+                    if (currentCardIndex < currentOpenedCards.length) {
+                        const nextCardElement = individualCardsDisplay.children[currentCardIndex];
+                        nextCardElement.style.animation = 'card-reveal 0.8s forwards'; // Reveal the next card
+                        nextCardElement.classList.add('active-large'); // Make the newly revealed card active
+                        nextCardElement.classList.add('active-reveal'); // Make the newly revealed card visible
+                        revealInstructionText.classList.add('show');
+                    }
+                }
+            }
+        }
+
+        /**
+         * Opens a pack of cards.
+         * @param {string} packClass - The pack class to be opened.
+         * @param {string} currency - The currency to be used ('reais' or 'gold').
+         */
+        async function openPack(packClass, currency) {
+            if (!currentUser) {
+                showCustomAlert("Você precisa estar logado para comprar pacotes.");
+                return;
+            }
+
+            const packInfo = packsData[packClass];
+            if (!packInfo) {
+                showCustomAlert("Pacote inválido.");
+                return;
+            }
+
+            let cost;
+            let currentCurrencyAmount;
+
+            if (currency === 'reais') {
+                cost = packInfo.reaisPrice;
+                currentCurrencyAmount = userReais;
+                // Specific rule: S-class pack cannot be bought with Reais
+                if (packClass === 'S' && cost === null) {
+                    showCustomAlert("O Pacote Classe S só pode ser comprado com Ouro.");
+                    return;
+                }
+            } else if (currency === 'gold') {
+                cost = packInfo.goldPrice;
+                currentCurrencyAmount = userOuro;
+            } else {
+                showCustomAlert("Moeda inválida para compra.");
+                return;
+            }
+
+            if (cost === null || currentCurrencyAmount < cost) {
+                showCustomAlert(`Dinheiro insuficiente para comprar este pacote com ${currency === 'reais' ? 'Reais' : 'Ouro'}!`);
+                return;
+            }
+
+            loader.classList.remove('hidden');
+
+            currentOpenedCards = []; // Reset for new pack opening
+            totalDuplicateReais = 0; // Reset for new pack opening
+            const cardsAcquiredInThisPack = new Set(); // To track unique cards acquired in this pack opening
+
+            for (let i = 0; i < 4; i++) { // Each pack has 4 cards
+                const drawnCardId = getRandomCard(packClass); // Draw a card based on probabilities
+                let isDuplicate = false;
+                let currentCardDuplicateValue = 0;
+
+                // Check if the card is already owned by the user OR if it was already acquired in this pack
+                if (ownedCardIds.includes(drawnCardId) || cardsAcquiredInThisPack.has(drawnCardId)) {
+                    isDuplicate = true;
+                    currentCardDuplicateValue = duplicateConversionValue[window.cards[drawnCardId].classe];
+                    totalDuplicateReais += currentCardDuplicateValue;
+                } else {
+                    // If it's a new unique card, add it to the set of acquired cards for this pack
+                    cardsAcquiredInThisPack.add(drawnCardId);
+                }
+
+                currentOpenedCards.push({ id: drawnCardId, isDuplicate: isDuplicate, duplicateValue: currentCardDuplicateValue });
+            }
+
+            // Sort the opened cards from least rare to most rare
+            const rarityOrder = ['E', 'D', 'C', 'B', 'A', 'S', 'S+'];
+            currentOpenedCards.sort((a, b) => {
+                const rankA = rarityOrder.indexOf(window.cards[a.id].classe);
+                const rankB = rarityOrder.indexOf(window.cards[b.id].classe);
+                return rankA - rankB;
+            });
+
+            try {
+                // Update user's money and card collection in Firebase
+                const userRef = ref(db, 'users/' + currentUser.uid);
+                const updates = {};
+
+                if (currency === 'reais') {
+                    updates.reais = userReais - cost + totalDuplicateReais; // Subtract cost in Reais, add duplicates in Reais
+                } else { // currency === 'gold'
+                    updates.ouro = userOuro - cost; // Subtract only cost in Gold
+                    updates.reais = userReais + totalDuplicateReais; // Add duplicates in Reais
+                }
+
+                // Combine already owned cards with new unique cards acquired in this pack
+                updates.cartas = [...ownedCardIds, ...Array.from(cardsAcquiredInThisPack)];
+
+                await update(userRef, updates);
+
+                // Update local state
+                if (currency === 'reais') {
+                    userReais = userReais - cost;
+                    userReais += totalDuplicateReais; // Add duplicates in Reais
+                } else {
+                    userOuro = userOuro - cost;
+                    userReais += totalDuplicateReais; // Add duplicates in Reais
+                }
+                ownedCardIds = updates.cartas; // Update locally owned card list
+
+                // Update currency display
+                reaisDisplay.textContent = `R$ ${userReais.toLocaleString('pt-BR')}`;
+                ouroDisplay.textContent = `${userOuro} Ouro`;
+
+                // Prepare for individual card reveal
+                individualCardsDisplay.innerHTML = '';
+                currentCardIndex = 0; // Reset card index for new opening
+                continueButton.classList.add('hidden'); // Hide continue button initially
+                duplicateMoneyInfo.classList.add('hidden'); // Hide duplicate money info initially
+                revealInstructionText.classList.remove('show'); // Hide instruction text initially
+
+                // Show individual reveal container and hide final summary content
+                individualRevealContainer.classList.remove('hidden');
+                finalSummaryContent.classList.add('hidden');
+
+                // Add single click listener to the modal overlay for revealing cards
+                packOpenModal.addEventListener('click', revealNextCard);
+
+                currentOpenedCards.forEach((card, index) => {
+                    const cardElement = createOpenedCardElement(window.cards[card.id], card.isDuplicate, card.duplicateValue, true); // Pass true for isIndividualReveal
+                    if (cardElement) {
+                        cardElement.style.setProperty('--card-stack-index', index); // Set custom property for stacking
+                        individualCardsDisplay.appendChild(cardElement);
+                    }
+                });
+
+                packOpenModal.classList.remove('hidden');
+                loader.classList.add('hidden');
+
+                // Start the reveal animation for the first card and show instruction text
+                if (currentOpenedCards.length > 0) {
+                    individualCardsDisplay.children[0].classList.add('active-reveal'); // Make the first card appear
+                    individualCardsDisplay.children[0].classList.add('active-large'); // Make the first card large
+                    revealInstructionText.classList.add('show');
+                } else {
+                    // No cards opened, show continue button immediately (shouldn't happen with 4 cards)
+                    continueButton.classList.remove('hidden');
+                }
+
+            } catch (error) {
+                console.error("Erro ao abrir pacote:", error);
+                showCustomAlert("Erro ao abrir o pacote. Tente novamente.");
+                loader.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Renders card packs on the interface.
+         */
+        function renderPacks() {
+            standardPacksContainer.innerHTML = ''; // Clear standard container
+            specialPacksContainer.innerHTML = ''; // Clear special container
+
+            // Iterate over the centralized packsData
+            for (const packKey in packsData) {
+                const packInfo = packsData[packKey];
+                const packElement = document.createElement('div');
+                // Use packKey for class to allow specific styling per pack, e.g., pack-toyota
+                packElement.className = `pack-card pack-${packKey.toLowerCase().replace('_pack', '')} rounded-lg`;
+                packElement.dataset.packClass = packKey; // Use full key for data attribute
+
+                let reaisPriceDisplay = '';
+                let reaisButton = '';
+                if (packInfo.reaisPrice !== null) { // Only show Reais button if price is not null
+                    reaisPriceDisplay = `<p class="pack-price"><i class="fas fa-dollar-sign text-green-400"></i> R$ ${packInfo.reaisPrice.toLocaleString('pt-BR')}</p>`;
+                    reaisButton = `<button class="buy-button reais" data-currency="reais"><i class="fas fa-money-bill-wave"></i>Comprar</button>`;
+                }
+
+                // Create the probability button and tooltip
+                let probabilityHtml = `<button class="probability-button">Ver minhas chances
+                                            <div class="probability-tooltip">`;
+                const sortedProbabilities = Object.keys(packInfo.probabilities).sort((a, b) => {
+                    const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+                    return rarityOrder.indexOf(a) - rarityOrder.indexOf(b);
+                });
+
+                sortedProbabilities.forEach(classe => {
+                    if (packInfo.probabilities[classe] > 0) {
+                        probabilityHtml += `<p>Classe ${classe.replace('Any', 'Qualquer')}: ${(packInfo.probabilities[classe] * 100).toFixed(2)}%</p>`;
+                    }
+                });
+                probabilityHtml += `</div></button>`;
+
+
+                packElement.innerHTML = `
+                    <img src="${packInfo.image}" alt="${packInfo.classTitle}" class="pack-image">
+                    <h2 class="pack-class">${packInfo.classTitle}</h2>
+                    <p class="text-gray-400 text-sm mb-2">${packInfo.description}</p>
+                    ${reaisPriceDisplay}
+                    <p class="pack-gold-price"><i class="fas fa-gold text-yellow-400"></i> ${packInfo.goldPrice.toLocaleString('pt-BR')} Ouro</p>
+                    ${probabilityHtml}
+                    <div class="buy-button-group">
+                        ${reaisButton}
+                        <button class="buy-button gold" data-currency="gold"><i class="fas fa-gold"></i>Comprar</button>
+                    </div>
+                `;
+
+                // Append to the correct container based on pack type
+                if (packInfo.type === 'standard') {
+                    standardPacksContainer.appendChild(packElement);
+                } else {
+                    specialPacksContainer.appendChild(packElement);
+                }
+
+                // Add listeners for the new buy buttons
+                packElement.querySelectorAll('.buy-button').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const currency = event.target.dataset.currency;
+                        openPack(packKey, currency); // Pass packKey directly
+                    });
+                });
+            }
+        }
+
+        // Listener for Firebase authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user; // Set current user
+                const userRef = ref(db, 'users/' + user.uid);
+                try {
+                    const snapshot = await get(userRef);
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+
+                        // Update user information on the interface
+                        usernameDisplay.textContent = userData.username;
+                        userReais = userData.reais;
+                        userOuro = userData.ouro;
+                        reaisDisplay.textContent = `R$ ${userReais.toLocaleString('pt-BR')}`;
+                        ouroDisplay.textContent = `${userOuro} Ouro`;
+
+                        ownedCardIds = userData.cartas || [];
+                        allAvailableCardIds = Object.keys(window.cards); // Get all card IDs from the game
+
+                        renderPacks(); // Render packs
+
+                        // Hide loader and show application content
+                        appContainer.classList.remove('hidden');
+                        loader.classList.add('hidden');
+                    } else {
+                        // If user document not found, force logout
+                        console.error("User document not found. Forcing logout.");
+                        await signOut(auth);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    await signOut(auth);
+                }
+            } else {
+                // If user is not logged in, redirect to login page
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Listener for logout button
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Error logging out:", error);
+            }
+        });
+
+        // Listener to close modal
+        closeModalButton.addEventListener('click', () => {
+            packOpenModal.classList.add('hidden');
+            // Remove the event listener from the modal overlay when closed
+            packOpenModal.removeEventListener('click', revealNextCard);
+            revealInstructionText.classList.remove('show'); // Hide instruction text
+            // Ensure any active modal effects are removed when closing
+            packOpenModal.classList.remove('modal-a-effect', 'modal-s-effect');
+        });
+
+        // Listener for "Continue" button (formerly "Collect Cards")
+        continueButton.addEventListener('click', () => {
+            packOpenModal.classList.add('hidden');
+            // Remove the event listener from the modal overlay when collected
+            packOpenModal.removeEventListener('click', revealNextCard);
+            revealInstructionText.classList.remove('show'); // Hide instruction text
+            // Ensure any active modal effects are removed when continuing
+            packOpenModal.classList.remove('modal-a-effect', 'modal-s-effect');
+        });
+    </script>
+</body>
+
+</html>
