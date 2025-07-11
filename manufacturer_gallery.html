@@ -8,194 +8,70 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        /* Variáveis CSS para um tema coeso (mesmas da home.html e garagem.html) */
+        /* --- IDENTIDADE VISUAL DA HOME.HTML E EFEITOS DE CARTA DA GARAGEM.HTML APLICADOS --- */
         :root {
-            --primary-red: #E01A4F; /* Um vermelho mais profundo e vibrante */
-            --dark-bg: #0A0A0A;
-            --medium-dark-bg: #1A1A1A;
-            --light-text: #F0F0F0;
-            --accent-gray: #333333;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(255, 255, 255, 0.15);
-            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7); /* Brilho vermelho */
-            --text-shadow-strong: 0 0 8px rgba(0,0,0,0.8);
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --primary-red: #E01A4F;
+            --text-light: #f0f2f5;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --font-body: 'Inter', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7);
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--dark-bg);
-            background-image:
-                linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0.8) 50%, rgba(10, 10, 10, 0.95)),
-                url('./assets/BannerHome.png'); /* Background image */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            overflow-x: hidden;
-            color: var(--light-text);
+            font-family: var(--font-body);
+            background-color: var(--background-dark);
+            background-image: radial-gradient(circle at top right, rgba(224, 26, 79, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(224, 26, 79, 0.1), transparent 40%);
+            color: var(--text-light);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
         .font-orbitron {
-            font-family: 'Orbitron', sans-serif;
+            font-family: var(--font-display);
         }
 
-        /* Subtle noise effect for a "gritty" texture */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/INx6AAAAF3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobI+kKpgAAAFpJREFUeNrtwQEBAAAAgqD+r2zHBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgZpQAAQ+E4UIAAAAASUVORK5CYII=') repeat;
-            opacity: 0.03; /* Adjust opacity for more or less intensity */
-            pointer-events: none;
-            z-index: -1;
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        .header-panel {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border-strong);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
-            padding: 1.5rem 2rem; /* More spacing */
+        /* Loader */
+        .loader-container {
+            background: var(--background-dark);
         }
-
-        .info-box {
-            background: var(--accent-gray);
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 0.75rem 1.5rem;
-            text-shadow: var(--text-shadow-strong);
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        .info-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255,255,255,0.05), transparent 50%, rgba(255,255,255,0.05));
-            animation: pulse-border 3s infinite ease-in-out;
-            pointer-events: none;
-        }
-        .info-box:hover {
-            background: #444444;
-            border-color: var(--primary-red);
-            box-shadow: 0 3px 12px rgba(224, 26, 79, 0.6);
-            transform: translateY(-2px);
-        }
-        @keyframes pulse-border {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-
-        .menu-button {
-            background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
-            border: 2px solid var(--border-strong);
-            color: var(--light-text);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            padding: 1rem 1.5rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-shadow: var(--text-shadow-strong);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Center button content */
-            gap: 0.75rem;
-        }
-
-        .menu-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(224, 26, 79, 0.3), transparent);
-            transition: all 0.6s ease-out;
-            transform: skewX(-20deg);
-            z-index: 1;
-        }
-
-        .menu-button:hover::before {
-            left: 150%;
-        }
-
-        .menu-button:hover {
-            color: white;
-            background: linear-gradient(145deg, var(--primary-red), #FF3C3C);
-            border-color: white;
-            text-shadow: 0 0 15px white;
-            box-shadow: 0 0 20px var(--primary-red), inset 0 0 8px rgba(255,255,255,0.3);
-            transform: translateY(-3px) scale(1.02);
-        }
-        .menu-button svg {
-            stroke: var(--light-text);
-            transition: stroke 0.3s ease;
-        }
-        .menu-button:hover svg {
-            stroke: white;
-        }
-
-        /* Enhanced loader */
         .loader {
             border-top-color: var(--primary-red);
             border-right-color: var(--primary-red);
             border-bottom-color: var(--primary-red);
-            animation: spin 1s linear infinite, pulse-loader 1.5s infinite alternate;
+            animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        @keyframes pulse-loader {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.1); opacity: 0.8; }
-        }
-        #loader-text {
-            color: var(--primary-red);
-            text-shadow: 0 0 10px var(--primary-red);
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Custom alert */
-        .custom-alert {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-            background-color: var(--primary-red);
-            color: var(--light-text);
-            border-radius: 8px; /* More rounded */
-            box-shadow: 0 0 15px rgba(224, 26, 79, 0.7); /* Glow shadow */
-        }
-        .custom-alert.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        /* Card styles (similar to garagem.html for consistency) */
+        /* Estilos de Carta (da Garagem para consistência) */
         .card-base {
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border-radius: 1rem; /* More rounded corners for a premium look */
+            border-radius: 1rem;
             overflow: hidden;
-            border: 3px solid #444; /* Thicker border */
+            border: 3px solid #444;
             background-color: #1a1a1a;
             position: relative; 
             transform-style: preserve-3d;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Stronger shadow */
-            cursor: pointer; /* Indicate clickable */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
         }
         .card-base:hover {
-            transform: scale(1.08) rotateZ(0.5deg); /* Subtle rotation */
-            box-shadow: 0 0 40px var(--primary-red), 0 0 20px rgba(255, 255, 255, 0.3) inset; /* Intense glow on hover */
+            transform: scale(1.08) rotateZ(0.5deg);
+            box-shadow: 0 0 40px var(--primary-red), 0 0 20px rgba(255, 255, 255, 0.3) inset;
             border-color: var(--primary-red);
             z-index: 20;
         }
@@ -204,48 +80,45 @@
             position: absolute;
             top: 12px;
             left: 12px;
-            width: 38px; /* Smaller badge for collection cards */
+            width: 38px;
             height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
-            font-size: 20px; /* Smaller font size */
+            font-size: 20px;
             color: white;
             text-shadow: 0 0 10px rgba(0,0,0,0.9);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             border: 2px solid rgba(255,255,255,0.4);
             box-shadow: 0 0 10px rgba(0,0,0,0.7);
-            z-index: 10; /* Ensure it stays above the image */
+            z-index: 10;
         }
 
         .collection-card-image-wrapper {
             position: relative;
             width: 100%;
-            height: 200px; /* Fixed height for the image */
+            height: 200px;
             overflow: hidden;
-            border-radius: 1rem 1rem 0 0; /* Rounded corners only at the top */
+            border-radius: 1rem 1rem 0 0;
         }
 
         .collection-card-image {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures the image covers the space */
+            object-fit: cover;
             object-position: center;
             transition: transform 0.3s ease-in-out;
         }
 
         .card-base:hover .collection-card-image {
-            transform: scale(1.05); /* Subtle zoom on hover */
+            transform: scale(1.05);
         }
 
         .collection-card-info-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%), 
                         linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 50%);
             display: flex;
@@ -254,237 +127,97 @@
             padding: 1rem;
         }
 
-        .card-text-shadow {
-            text-shadow: 1px 1px 6px black, 0 0 12px black;
-        }
-        .card-flag-shadow {
-             box-shadow: 0 0 6px black;
-        }
+        .card-text-shadow { text-shadow: 1px 1px 6px black, 0 0 12px black; }
+        .card-flag-shadow { box-shadow: 0 0 6px black; }
 
-        /* Subtle texture for all cards */
-        .card-base > .collection-card-image-wrapper::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGGZnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g82j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pP55/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=') repeat;
-            background-size: 50px 50px;
-            opacity: 0.05;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Holographic Effect */
+        /* Efeito Holográfico */
         .holographic-overlay {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: radial-gradient(
-                circle at var(--mx, 50%) var(--my, 50%),
-                rgba(255, 255, 255, 0.5) 0%,
-                rgba(255, 255, 255, 0) 60%
-            );
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 3;
-            pointer-events: none;
-            border-radius: 1rem; /* More rounded */
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 60%);
+            opacity: 0; transition: opacity 0.4s ease; z-index: 3; pointer-events: none; border-radius: 1rem;
         }
+        .card-base:hover .holographic-overlay { opacity: 1; }
 
-        .card-base:hover .holographic-overlay {
-            opacity: 1;
-        }
-
+        /* Animação de Brilho Contínuo */
         @keyframes shine {
             0% { transform: translateX(-180%) skewX(-25deg); opacity: 0; }
             20% { opacity: var(--shine-opacity, 0.4); }
             80% { opacity: var(--shine-opacity, 0.4); }
             100% { transform: translateX(180%) skewX(-25deg); opacity: 0; }
         }
-
         .card-base::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            opacity: 0;
-            z-index: 2;
-            animation: shine var(--shine-duration, 8s) infinite linear;
-            background: var(--shine-gradient);
+            content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 100%;
+            opacity: 0; z-index: 2; animation: shine var(--shine-duration, 8s) infinite linear; background: var(--shine-gradient);
         }
-        
-        /* Rarity Glow and Shine Effects (consistent with garagem.html) */
+
+        /* Animação de Brilho Pulsante para Rank S */
         @keyframes pulsate-glow {
             0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
             50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
         }
-        .rank-s.card-base {
-            animation: pulsate-glow 2s infinite ease-in-out;
-            border-color: #FFD700;
-        }
-        .rank-s.card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%);
-            --shine-duration: 3s;
-            --shine-opacity: 0.9;
-        }
 
-        .rank-a.card-base {
-            box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
-            border-color: var(--primary-red);
-        }
-        .rank-a.card-base:hover {
-            box-shadow: 0 0 25px 6px rgba(224, 26, 79, 0.9);
-        }
-        .rank-a.card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%);
-            --shine-duration: 4s;
-            --shine-opacity: 0.8;
-        }
-
-        .rank-b.card-base {
-            box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
-            border-color: #8e44ad;
-        }
-        .rank-b.card-base:hover {
-            box-shadow: 0 0 20px 4px rgba(142, 68, 173, 0.8);
-        }
-        .rank-b.card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%);
-            --shine-duration: 5.5s;
-            --shine-opacity: 0.7;
-        }
-
-        .rank-c.card-base {
-             border-color: #3498db;
-        }
-        .rank-c.card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%);
-            --shine-duration: 7s;
-            --shine-opacity: 0.6;
-        }
+        /* Efeitos de Raridade */
+        .rank-s.card-base { animation: pulsate-glow 2s infinite ease-in-out; border-color: #FFD700; }
+        .rank-s.card-base::after { --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%); --shine-duration: 3s; --shine-opacity: 0.9; }
         
-        .rank-d.card-base {
-             border-color: #2ecc71;
-        }
-        .rank-d.card-base::after {
-            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%);
-            --shine-duration: 8.5s;
-            --shine-opacity: 0.5;
-        }
-        /* Class E has no effect */
+        .rank-a.card-base { box-shadow: 0 0 12px 3px var(--primary-red); border-color: var(--primary-red); }
+        .rank-a.card-base:hover { box-shadow: 0 0 25px 6px var(--primary-red); }
+        .rank-a.card-base::after { --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%); --shine-duration: 4s; --shine-opacity: 0.8; }
 
-        /* Responsiveness for Mobile */
-        @media (max-width: 1023px) { /* Tailwind CSS `lg` breakpoint */
-            body {
-                background-attachment: scroll;
-            }
-            .header-panel {
-                padding: 1rem;
-                border-radius: 0;
-            }
-            .info-box {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.9rem;
-            }
-            main {
-                padding: 1rem;
-            }
-            .menu-button {
-                padding: 0.8rem 1rem;
-                font-size: 0.85rem;
-                border-radius: 6px;
-            }
-            .menu-button svg {
-                width: 20px;
-                height: 20px;
-            }
-            h1 {
-                font-size: 2.2rem;
-            }
-            h2 {
-                font-size: 1.8rem;
-            }
-            .rank-badge-small {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
-                top: 8px;
-                left: 8px;
-            }
-            .collection-card-image-wrapper {
-                height: 150px; /* Adjust image height for mobile */
-            }
-            .collection-card-info-overlay {
-                padding: 0.75rem;
-            }
-            .collection-card-info-overlay .h-5 { /* Adjust logo height */
-                height: 0.9rem;
-            }
-            .card-text-shadow {
-                text-shadow: 1px 1px 4px black;
-            }
+        .rank-b.card-base { box-shadow: 0 0 10px 2px #8e44ad; border-color: #8e44ad; }
+        .rank-b.card-base:hover { box-shadow: 0 0 20px 4px #8e44ad; }
+        .rank-b.card-base::after { --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%); --shine-duration: 5.5s; --shine-opacity: 0.7; }
+
+        .rank-c.card-base { border-color: #3498db; }
+        .rank-c.card-base::after { --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%); --shine-duration: 7s; --shine-opacity: 0.6; }
+        
+        .rank-d.card-base { border-color: #2ecc71; }
+        .rank-d.card-base::after { --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%); --shine-duration: 8.5s; --shine-opacity: 0.5; }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .collection-card-image-wrapper { height: 150px; }
+            .rank-badge-small { width: 30px; height: 30px; font-size: 16px; top: 8px; left: 8px; }
         }
     </style>
 </head>
-<body>
+<body class="text-white">
 
-    <!-- Loading Loader -->
-    <div id="loader" class="fixed inset-0 bg-black bg-opacity-95 flex flex-col items-center justify-center z-50">
-        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-28 w-28"></div>
-        <p id="loader-text" class="mt-8 text-2xl font-orbitron animate-pulse">Carregando Galeria da Montadora...</p>
+    <!-- Loader de Carregamento -->
+    <div id="loader" class="loader-container fixed inset-0 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-600 h-28 w-28"></div>
+        <p id="loader-text" class="mt-8 text-2xl font-orbitron text-red-400 animate-pulse">A Carregar Galeria da Montadora...</p>
     </div>
 
-    <!-- Custom Alert (replaces alert() and confirm()) -->
-    <div id="custom-alert" class="custom-alert fixed top-5 right-0 text-white py-3 px-5 rounded-l-lg shadow-lg z-50 opacity-0 transform translate-x-full">
-        <p id="custom-alert-message" class="font-bold"></p>
-    </div>
-
-    <!-- Main Application Container -->
+    <!-- Container Principal da Aplicação -->
     <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
-        <!-- Header (Top Bar) -->
-        <header class="header-panel w-full p-4 md:p-6 shadow-lg sticky top-0 z-40">
-            <div class="container mx-auto flex justify-between items-center flex-wrap gap-4">
-                <div class="info-box flex items-center gap-3">
-                    <span id="username-display" class="text-xl font-bold text-red-400 font-orbitron"></span>
-                </div>
-                <div class="flex items-center gap-2 md:gap-4 flex-wrap justify-end">
-                    <div class="info-box"><span class="text-green-400 font-bold" id="reais-display">R$ 0</span></div>
-                    <div class="info-box"><span class="text-yellow-400 font-bold" id="ouro-display">0 Ouro</span></div>
-                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="hidden md:inline font-orbitron">Amigos</span></button>
-                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg><span class="hidden md:inline font-orbitron">Comprar Ouro</span></button>
-                    <button id="logout-button" class="menu-button p-2" title="Sair"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
-                </div>
+        
+        <!-- HEADER INJETADO PELO MENU.JS -->
+        <header id="header-placeholder" class="sticky top-0 z-40 w-full"></header>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="glass-panel p-4 sm:p-6 lg:p-8">
+                <h1 id="manufacturer-title" class="font-orbitron text-4xl md:text-5xl font-bold text-white mb-4 text-center lg:text-left" style="text-shadow: var(--glow-effect);"></h1>
+                <p id="manufacturer-description" class="text-gray-400 text-center lg:text-left mb-12"></p>
+                
+                <section class="mb-12">
+                    <div id="cars-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <!-- Carros da montadora serão renderizados aqui -->
+                    </div>
+                </section>
             </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="flex-grow p-6 md:p-10 container mx-auto">
-            <a href="galeria.html" class="menu-button inline-flex items-center gap-2 px-4 py-2 mb-8 font-orbitron">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                VOLTAR PARA GALERIA
-            </a>
-
-            <h1 id="manufacturer-title" class="font-orbitron text-4xl md:text-5xl font-bold text-white mb-8 text-center lg:text-left" style="text-shadow: var(--glow-effect);"></h1>
-            <p id="manufacturer-description" class="text-gray-400 text-center mb-12"></p>
-            
-            <section class="mb-12">
-                <div id="cars-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                    <!-- Manufacturer's cars will be rendered here -->
-                </div>
-            </section>
         </main>
     </div>
 
-    <!-- Loads cards.js as a module to allow import -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
-        // Import 'cards' and 'manufacturers' from cards.js
         import { cards, manufacturers } from './cards.js'; 
+        // --- IMPORTAÇÃO DO NOVO MENU.JS ---
+        import { createHeader } from './menu.js'; 
 
-        // Firebase configuration (uses __firebase_config if available, otherwise a fallback)
         const firebaseConfig = typeof __firebase_config !== 'undefined'
             ? JSON.parse(__firebase_config)
             : {
@@ -497,78 +230,41 @@
                 appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
             };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // DOM element references
         const loader = document.getElementById('loader');
         const appContainer = document.getElementById('app-container');
-        const usernameDisplay = document.getElementById('username-display');
-        const reaisDisplay = document.getElementById('reais-display');
-        const ouroDisplay = document.getElementById('ouro-display');
-        const logoutButton = document.getElementById('logout-button');
+        const headerPlaceholder = document.getElementById('header-placeholder');
         const manufacturerTitle = document.getElementById('manufacturer-title');
         const manufacturerDescription = document.getElementById('manufacturer-description');
         const carsContainer = document.getElementById('cars-container');
 
-        let ownedCardIds = []; // Variable to store the IDs of cards the user owns
+        let ownedCardIds = [];
 
-        /**
-         * Displays a custom alert on the screen.
-         * @param {string} message - The message to be displayed in the alert.
-         * @param {boolean} isError - Whether the message is an error (true) or success (false).
-         */
-        function showCustomAlert(message, isError = true) {
-            const alertElement = document.getElementById('custom-alert');
-            const messageElement = document.getElementById('custom-alert-message');
-            messageElement.textContent = message;
-            alertElement.classList.toggle('bg-red-500', isError);
-            alertElement.classList.toggle('bg-green-500', !isError);
-            alertElement.classList.add('show');
-            setTimeout(() => {
-                alertElement.classList.remove('show');
-            }, 3000);
-        }
-
-        /**
-         * Returns the rank color based on the card's class.
-         * @param {string} rank - The card's class (e.g., 'S+', 'A', 'B').
-         * @returns {string} The corresponding hexadecimal color.
-         */
         function getRankColor(rank) {
             const colors = {
-                'S+': '#FFD700', 'S': '#FFD700', // Gold
-                'A': '#E01A4F', // Rockstar Red
-                'B': '#8e44ad', // Purple
-                'C': '#3498db', // Blue
-                'D': '#2ecc71', // Green
-                'E': '#95a5a6'  // Gray (default)
+                'S+': '#FFD700', 'S': '#FFD700',
+                'A': '#E01A4F',
+                'B': '#8e44ad',
+                'C': '#3498db',
+                'D': '#2ecc71',
+                'E': '#95a5a6'
             };
             return colors[rank] || '#7F8C8D';
         }
 
-        /**
-         * Creates a card element for display in the manufacturer's gallery.
-         * @param {object} cardData - The card data object.
-         * @param {boolean} isOwned - Indicates if the user owns this card.
-         * @returns {HTMLElement|null} The HTML element of the card, or null if card data is not found.
-         */
         function createCardElement(cardData, isOwned) {
             if (!cardData) return null;
 
             const cardElement = document.createElement('div');
             cardElement.className = 'card-base';
             cardElement.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
-            // Add a class for owned/unowned cards for styling if needed
-            if (isOwned) {
-                cardElement.classList.add('owned-card');
-            } else {
-                cardElement.classList.add('unowned-card');
-                // You might want to apply a grayscale filter or opacity to unowned cards
-                cardElement.style.filter = 'grayscale(100%)';
-                cardElement.style.opacity = '0.7';
+            
+            if (!isOwned) {
+                cardElement.style.filter = 'grayscale(80%)';
+                cardElement.style.opacity = '0.6';
             }
 
             cardElement.innerHTML = `
@@ -587,17 +283,16 @@
                     </div>
                 </div>
                 <div class="p-3 bg-[#181818] grid grid-cols-3 gap-2 text-center text-sm">
-                    <div class="text-s"><span class="font-bold block">${cardData.velocidade}</span> VEL. MÁX.</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.aceleracao}s</span> 0-100</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.direcao}</span> DIREÇÃO</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.altura}</span> ALTURA</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.pneus}</span> PNEUS</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.tracao}</span> TRAÇÃO</div>
+                    <div><span class="font-bold block">${cardData.velocidade}</span><span class="text-xs text-gray-400">VEL. MÁX.</span></div>
+                    <div><span class="font-bold block">${cardData.aceleracao}s</span><span class="text-xs text-gray-400">0-100</span></div>
+                    <div><span class="font-bold block">${cardData.direcao}</span><span class="text-xs text-gray-400">DIREÇÃO</span></div>
+                    <div><span class="font-bold block">${cardData.altura}</span><span class="text-xs text-gray-400">ALTURA</span></div>
+                    <div><span class="font-bold block">${cardData.pneus}</span><span class="text-xs text-gray-400">PNEUS</span></div>
+                    <div><span class="font-bold block">${cardData.tracao}</span><span class="text-xs text-gray-400">TRAÇÃO</span></div>
                 </div>
             `;
 
-            // Add holographic effect for high rarities
-            if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
+            if (isOwned && ['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                 const overlay = document.createElement('div');
                 overlay.className = 'holographic-overlay';
                 cardElement.querySelector('.collection-card-image-wrapper').prepend(overlay);
@@ -618,13 +313,8 @@
             return cardElement;
         }
 
-        /**
-         * Renders the cars for a specific manufacturer.
-         * @param {string} manufacturerName - The name of the manufacturer to display.
-         * @param {Array<string>} userOwnedCardIds - IDs of cards the user owns.
-         */
         function renderManufacturerCars(manufacturerName, userOwnedCardIds) {
-            carsContainer.innerHTML = ''; // Clear the container
+            carsContainer.innerHTML = '';
 
             const manufacturerCars = manufacturers[manufacturerName];
             if (!manufacturerCars) {
@@ -635,7 +325,6 @@
             manufacturerTitle.textContent = manufacturerName.toUpperCase();
             manufacturerDescription.textContent = `Explore todos os carros da ${manufacturerName}.`;
 
-            // Convert object of cars to an array and sort them by class (rarity)
             const sortedCars = Object.keys(manufacturerCars).map(cardId => ({
                 id: cardId,
                 data: manufacturerCars[cardId]
@@ -653,7 +342,6 @@
             });
         }
 
-        // Listener for Firebase authentication state
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userRef = ref(db, 'users/' + user.uid);
@@ -662,15 +350,11 @@
                     if (snapshot.exists()) {
                         const userData = snapshot.val();
 
-                        // Update user information on the interface
-                        usernameDisplay.textContent = userData.username;
-                        reaisDisplay.textContent = `R$ ${userData.reais.toLocaleString('pt-BR')}`;
-                        ouroDisplay.textContent = `${userData.ouro} Ouro`;
+                        // --- CRIA O CABEÇALHO USANDO O NOVO MENU.JS ---
+                        createHeader(auth, userData, headerPlaceholder, 'manufacturer_gallery');
                         
-                        // Load the IDs of cards owned by the user
                         ownedCardIds = userData.cartas || [];
 
-                        // Get manufacturer name from URL query parameter
                         const urlParams = new URLSearchParams(window.location.search);
                         const manufacturer = urlParams.get('manufacturer');
 
@@ -682,29 +366,18 @@
                             carsContainer.innerHTML = '<p class="text-center text-gray-500 col-span-full">Nenhuma montadora selecionada.</p>';
                         }
 
-                        // Hide loader and show application content
                         appContainer.classList.remove('hidden');
                         loader.classList.add('hidden');
                     } else {
-                        console.error("User document not found. Forcing logout.");
+                        console.error("Documento do usuário não encontrado. Forçando logout.");
                         await signOut(auth);
                     }
                 } catch (error) {
-                    console.error("Error fetching user data:", error);
+                    console.error("Erro ao buscar dados do usuário:", error);
                     await signOut(auth);
                 }
             } else {
-                // If user is not logged in, redirect to login page
                 window.location.href = 'index.html';
-            }
-        });
-
-        // Listener for logout button
-        logoutButton.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error("Error logging out:", error);
             }
         });
     </script>

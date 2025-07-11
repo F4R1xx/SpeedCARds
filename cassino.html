@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCards - Cassino Royal</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        /*-------------------------------------------*/
+        /* TEMA GERAL DO CASSINO                     */
+        /*-------------------------------------------*/
+        :root {
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --primary-red: #E01A4F;
+            --primary-red-dark: #c01040;
+            --aviator-line-color: #FF00FF; /* Cor da linha do avião (Magenta) */
+            --text-light: #f0f2f5;
+            --text-medium: #a0aec0;
+            --text-dark: #718096;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --font-body: 'Inter', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--background-dark);
+            background-image: radial-gradient(circle at top right, rgba(224, 26, 79, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(224, 26, 79, 0.1), transparent 40%);
+            color: var(--text-light);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-orbitron {
+            font-family: var(--font-display);
+        }
+
+        /*-------------------------------------------*/
+        /* COMPONENTES DA UI (INCLUINDO MENU)    */
+        /*-------------------------------------------*/
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.6); /* --background-light com transparência */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .btn-primary {
+            background-image: linear-gradient(to right, var(--primary-red), var(--primary-red-dark));
+            color: var(--text-light);
+            font-weight: 700;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px 0 rgba(224, 26, 79, 0.4);
+            border: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(224, 26, 79, 0.5);
+        }
+        .btn-primary:disabled {
+            background: var(--text-dark);
+            box-shadow: none;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-secondary {
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            font-weight: 700;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: #4a5568; /* Um cinza um pouco mais claro */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+        }
+        .btn-secondary.selected, .btn-secondary:focus {
+             background-color: var(--primary-red-dark);
+             box-shadow: 0 6px 20px 0 rgba(224, 26, 79, 0.5);
+        }
+        .btn-secondary:disabled {
+            background: var(--text-dark);
+            color: var(--text-light);
+            box-shadow: none;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .input-field {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(224, 26, 79, 0.3);
+        }
+
+        .game-tabs {
+            border-bottom: 2px solid var(--border-color);
+        }
+        .game-tab {
+            background: transparent;
+            color: var(--text-medium);
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            position: relative;
+            border-bottom: 4px solid transparent;
+        }
+        .game-tab:hover {
+            color: var(--text-light);
+        }
+        .game-tab.active {
+            color: var(--primary-red);
+            border-bottom-color: var(--primary-red);
+        }
+
+        .game-section {
+            display: none;
+        }
+        .game-section.active {
+            display: flex;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /*-------------------------------------------*/
+        /* JOGO CARA OU COROA                        */
+        /*-------------------------------------------*/
+        .coin-flip-container {
+            width: 200px;
+            height: 200px;
+            perspective: 1200px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .coin {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            position: relative;
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.9);
+            overflow: hidden;
+        }
+
+        .coin-face::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(125deg, transparent 40%, rgba(255, 255, 255, 0.3) 50%, transparent 60%);
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .coin-front { /* Lado CARA (Vermelho) */
+            background: radial-gradient(circle at 70% 30%, #ff5e84, #e01a4f 60%, #a01030);
+            box-shadow: inset 0 0 20px rgba(224, 26, 79, 0.8), 0 5px 15px rgba(0,0,0,0.3);
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            transform: rotateY(0deg);
+        }
+        .coin-front .coin-edge {
+            border: 12px solid #c01040;
+        }
+        .coin-front .coin-edge-inner {
+            border: 2px dotted #800020;
+        }
+
+        .coin-back { /* Lado COROA (Cinza Escuro) */
+            background: radial-gradient(circle at 70% 30%, #666, #333 60%, #111);
+            box-shadow: inset 0 0 20px rgba(20, 20, 20, 0.8), 0 5px 15px rgba(0,0,0,0.3);
+            text-shadow: 0 0 5px rgba(0,0,0,0.8);
+            transform: rotateY(180deg);
+        }
+        .coin-back .coin-edge {
+            border: 12px solid #222;
+        }
+        .coin-back .coin-edge-inner {
+            border: 2px dotted #000;
+        }
+
+        .coin-edge, .coin-edge-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /*-------------------------------------------*/
+        /* OUTROS JOGOS (Estilos Adaptados)     */
+        /*-------------------------------------------*/
+        #aviator-game-container {
+            border-radius: 1rem;
+            background: linear-gradient(to top, #1c1827, #121019);
+            border: 1px solid var(--border-color);
+        }
+        #roulette-wheel-container {
+            border-radius: 0.5rem;
+            border: 2px solid var(--border-color);
+            background-color: rgba(0,0,0,0.2);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+        }
+        #roulette-pointer {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid var(--primary-red);
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            filter: drop-shadow(0 -2px 3px rgba(224, 26, 79, 0.5));
+        }
+        .roulette-bet-option {
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-medium);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            font-weight: 700;
+        }
+        .roulette-bet-option:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-light);
+        }
+        .roulette-bet-option.selected {
+            background-color: var(--primary-red);
+            border-color: var(--primary-red);
+            color: var(--text-light);
+        }
+        
+        /* Loader */
+        .loader-container {
+            background: var(--background-dark);
+        }
+        .loader {
+            border-top-color: var(--primary-red);
+            border-right-color: var(--primary-red);
+            border-bottom-color: var(--primary-red);
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Overlay de Vitória/Derrota Centralizado */
+        #win-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Loader -->
+    <div id="loader" class="loader-container fixed inset-0 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-600 h-28 w-28"></div>
+        <p class="mt-8 text-2xl font-orbitron text-red-400 animate-pulse">A CARREGAR O CASINO</p>
+    </div>
+
+    <!-- Alerta Customizado -->
+    <div id="custom-alert" class="fixed top-5 right-5 text-white py-3 px-6 rounded-lg shadow-lg z-50 opacity-0 transform translate-x-10 transition-all duration-300">
+        <p id="custom-alert-message" class="font-bold"></p>
+    </div>
+
+    <!-- Efeitos de Vitória/Derrota -->
+    <div id="win-overlay" class="fixed inset-0 bg-black/70 items-center justify-center z-[60] opacity-0 invisible transition-opacity duration-300 backdrop-blur-sm">
+        <div id="win-message" class="font-orbitron text-5xl md:text-8xl font-black opacity-0 transform scale-50 transition-all duration-500"></div>
+    </div>
+    <div id="particles-container" class="fixed inset-0 pointer-events-none z-[70]"></div>
+
+    <!-- Container Principal da Aplicação -->
+    <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
+        
+        <!-- Cabeçalho (Gerado dinamicamente pelo menu.js) -->
+        <header id="main-header" class="w-full sticky top-0 z-40"></header>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="glass-panel p-4 sm:p-6 lg:p-8">
+                <!-- Abas de Navegação dos Jogos -->
+                <div class="game-tabs flex items-center justify-center mb-8">
+                    <button id="tab-coinflip" class="game-tab active">Cara ou Coroa</button>
+                    <button id="tab-aviator" class="game-tab">Aviãozinho</button>
+                    <button id="tab-roulette" class="game-tab">Roleta</button>
+                </div>
+
+                <!-- Seção do Jogo Cara ou Coroa -->
+                <div id="coinflip-game" class="game-section active flex-col items-center justify-center w-full">
+                    <div class="w-full max-w-md mx-auto">
+                        <div class="coin-flip-container">
+                            <div id="coin" class="coin">
+                                <div class="coin-face coin-front">
+                                    <div class="coin-edge">
+                                        <div class="coin-edge-inner">CARA</div>
+                                    </div>
+                                </div>
+                                <div class="coin-face coin-back">
+                                    <div class="coin-edge">
+                                        <div class="coin-edge-inner">COROA</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p id="coinflip-result-message" class="text-center text-3xl font-orbitron font-bold my-6 h-10"></p>
+                        
+                        <div class="space-y-4 mt-12">
+                            <div>
+                                <label for="coinflip-bet-amount" class="block text-sm font-medium text-text-medium mb-1">Valor da Aposta (R$)</label>
+                                <input type="number" id="coinflip-bet-amount" class="input-field w-full text-center text-lg" value="100" min="1">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button id="bet-heads" class="btn-primary py-4">Apostar em Cara</button>
+                                <button id="bet-tails" class="btn-secondary py-4">Apostar em Coroa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção do Jogo Aviãozinho -->
+                <div id="aviator-game" class="game-section flex-col items-center justify-center w-full">
+                    <div class="w-full max-w-3xl mx-auto">
+                        <div id="aviator-game-container" class="relative w-full h-64 md:h-80 mb-6">
+                            <canvas id="aviator-graph-canvas"></canvas>
+                            <div id="aviator-multiplier-display" class="absolute inset-0 flex items-center justify-center font-orbitron text-5xl md:text-7xl font-black text-green-400 transition-colors duration-300" style="text-shadow: 0 0 20px #2ecc71;">1.00x</div>
+                        </div>
+                        <p id="aviator-status-message" class="text-center text-2xl font-orbitron font-bold my-4 h-8"></p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="number" id="aviator-bet-amount" class="input-field w-full text-center text-lg" value="100" min="1" placeholder="Valor da Aposta">
+                            <button id="aviator-bet-button" class="btn-primary py-3">Apostar</button>
+                            <button id="aviator-cashout-button" class="btn-secondary py-3 md:col-span-2" disabled>Sacar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção do Jogo Roleta -->
+                <div id="roulette-game" class="game-section flex-col items-center justify-center w-full">
+                    <div class="w-full max-w-3xl mx-auto">
+                        <div id="roulette-wheel-container" class="relative w-full h-24 overflow-hidden flex items-center mb-6">
+                            <div id="roulette-track" class="flex h-full"></div>
+                            <div id="roulette-pointer"></div>
+                        </div>
+                        <p id="roulette-result-message" class="text-center text-3xl font-orbitron font-bold my-6 h-10"></p>
+                        <div class="space-y-4">
+                            <input type="number" id="roulette-bet-amount" class="input-field w-full text-center text-lg" value="100" min="1" placeholder="Valor da Aposta">
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                                <button id="roulette-bet-red" class="roulette-bet-option">Vermelho</button>
+                                <button id="roulette-bet-black" class="roulette-bet-option">Preto</button>
+                                <button id="roulette-bet-green" class="roulette-bet-option">Verde</button>
+                                <input type="number" id="roulette-bet-number" class="roulette-bet-option text-center" placeholder="Número">
+                            </div>
+                            <button id="roulette-spin-button" class="btn-primary w-full py-4">Girar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { createHeader } from './menu.js'; // Importa a função do menu
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined'
+            ? JSON.parse(__firebase_config)
+            : {
+                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs",
+                authDomain: "primeiroprojetoteste01.firebaseapp.com",
+                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com",
+                projectId: "primeiroprojetoteste01",
+                storageBucket: "primeiroprojetoteste01.appspot.com",
+                messagingSenderId: "530867320810",
+                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
+            };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // --- Referências aos elementos do DOM ---
+        const loader = document.getElementById('loader');
+        const appContainer = document.getElementById('app-container');
+        const mainHeader = document.getElementById('main-header'); // Container para o menu
+        const customAlert = document.getElementById('custom-alert');
+        const customAlertMessage = document.getElementById('custom-alert-message');
+        const winOverlay = document.getElementById('win-overlay');
+        const winMessage = document.getElementById('win-message');
+        const particlesContainer = document.getElementById('particles-container');
+
+        // --- Seleção de Jogos ---
+        const gameTabs = document.querySelectorAll('.game-tab');
+        const gameSections = document.querySelectorAll('.game-section');
+        
+        // --- Elementos do Cara ou Coroa ---
+        const coinflipBetAmountInput = document.getElementById('coinflip-bet-amount');
+        const betHeadsButton = document.getElementById('bet-heads');
+        const betTailsButton = document.getElementById('bet-tails');
+        const coinElement = document.getElementById('coin');
+        const coinflipResultMessage = document.getElementById('coinflip-result-message');
+        
+        // --- Elementos do Aviãozinho ---
+        const aviatorGameContainer = document.getElementById('aviator-game-container');
+        const aviatorGraphCanvas = document.getElementById('aviator-graph-canvas');
+        const aviatorMultiplierDisplay = document.getElementById('aviator-multiplier-display');
+        const aviatorBetAmountInput = document.getElementById('aviator-bet-amount');
+        const aviatorBetButton = document.getElementById('aviator-bet-button');
+        const aviatorCashoutButton = document.getElementById('aviator-cashout-button');
+        const aviatorStatusMessage = document.getElementById('aviator-status-message');
+
+        // --- Elementos da Roleta ---
+        const rouletteWheelContainer = document.getElementById('roulette-wheel-container');
+        const rouletteTrack = document.getElementById('roulette-track');
+        const rouletteBetAmountInput = document.getElementById('roulette-bet-amount');
+        const rouletteBetRedButton = document.getElementById('roulette-bet-red');
+        const rouletteBetBlackButton = document.getElementById('roulette-bet-black');
+        const rouletteBetGreenButton = document.getElementById('roulette-bet-green');
+        const rouletteBetNumberInput = document.getElementById('roulette-bet-number');
+        const rouletteSpinButton = document.getElementById('roulette-spin-button');
+        const rouletteResultMessage = document.getElementById('roulette-result-message');
+
+        // --- Estado Global ---
+        let currentUser = null;
+        let userReais = 0;
+        let userOuro = 0;
+        let aviatorChart;
+        let isFirstLoad = true; // Flag para controlar a inicialização da página
+
+        // --- Configurações dos Jogos ---
+        const gameConfigs = {
+            coinFlip: { 
+                multiplier: 2,
+                winChance: 0.37 // 30% de chance de ganhar
+            },
+            aviator: {
+                resultBands: [
+                    { min: 1.00, max: 1.01, weight: 40 }, // Aumentado
+                    { min: 1.02, max: 1.50, weight: 60 }, // Aumentado
+                    { min: 1.51, max: 2.00, weight: 20 }, // Diminuído
+                    { min: 2.01, max: 3.00, weight: 10 }, // Diminuído
+                    { min: 3.01, max: 5.00, weight: 5 },  // Diminuído
+                    { min: 5.01, max: 10.00, weight: 2 },  // Diminuído
+                    { min: 10.01, max: 50.00, weight: 1 }, // Diminuído
+                    { min: 50.01, max: 200.00, weight: 0.5 } // Muito raro
+                ],
+                baseMultiplierIncrementSpeed: 0.001,
+                accelerationFactor: 0.0005
+            },
+            roulette: {
+                numbers: [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26],
+                colors: { 0: 'green', 1: 'red', 3: 'red', 5: 'red', 7: 'red', 9: 'red', 12: 'red', 14: 'red', 16: 'red', 18: 'red', 19: 'red', 21: 'red', 23: 'red', 25: 'red', 27: 'red', 30: 'red', 32: 'red', 34: 'red', 36: 'red', 2: 'black', 4: 'black', 6: 'black', 8: 'black', 10: 'black', 11: 'black', 13: 'black', 15: 'black', 17: 'black', 20: 'black', 22: 'black', 24: 'black', 26: 'black', 28: 'black', 29: 'black', 31: 'black', 33: 'black', 35: 'black' },
+                payouts: { singleNumber: 30, redBlack: 1.8, green: 14 }, // Pagamentos reduzidos
+                spinDuration: 5000,
+                segmentWidth: 80,
+            },
+        };
+
+        // --- Funções da UI ---
+        function showCustomAlert(message, isSuccess = false) {
+            customAlertMessage.textContent = message;
+            customAlert.classList.toggle('bg-green-500', isSuccess);
+            customAlert.classList.toggle('bg-red-500', !isSuccess);
+            customAlert.classList.remove('opacity-0', 'translate-x-10');
+            setTimeout(() => {
+                customAlert.classList.add('opacity-0', 'translate-x-10');
+            }, 3000);
+        }
+
+        function createWinEffect(type) {
+            const isWin = type === 'win';
+            winMessage.textContent = isWin ? 'GANHOU!' : 'PERDEU!';
+            winMessage.style.color = isWin ? 'var(--success)' : 'var(--danger)';
+            winMessage.style.textShadow = `0 0 30px ${isWin ? 'var(--success)' : 'var(--danger)'}`;
+            
+            winOverlay.classList.remove('invisible', 'opacity-0');
+            winMessage.classList.remove('opacity-0', 'scale-50');
+            
+            const particleColor = isWin ? 'var(--success)' : 'var(--danger)';
+            for (let i = 0; i < 80; i++) {
+                const p = document.createElement('div');
+                p.style.position = 'absolute';
+                p.style.left = '50%';
+                p.style.top = '50%';
+                p.style.width = `${Math.random() * 5 + 2}px`;
+                p.style.height = p.style.width;
+                p.style.backgroundColor = particleColor;
+                p.style.borderRadius = '50%';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 200 + 50;
+                p.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+                p.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+                p.animate([
+                    { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                    { transform: `translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0)`, opacity: 0 }
+                ], { duration: 1000, easing: 'cubic-bezier(0.1, 0.7, 1.0, 0.1)' });
+                particlesContainer.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }
+
+            setTimeout(() => {
+                winOverlay.classList.add('invisible', 'opacity-0');
+                winMessage.classList.add('opacity-0', 'scale-50');
+            }, 2000);
+        }
+
+        function showGameSection(targetId) {
+            gameTabs.forEach(tab => tab.classList.toggle('active', tab.id === `tab-${targetId}`));
+            gameSections.forEach(section => section.classList.toggle('active', section.id === `${targetId}-game`));
+            if (targetId === 'aviator') {
+                initializeAviatorChart();
+                resizeAviatorCanvas();
+            }
+        }
+
+        // --- Lógica dos Jogos ---
+        
+        // --- Cara ou Coroa ---
+        let isCoinFlipping = false;
+        let totalCoinRotation = 0;
+
+        async function placeCoinflipBet(userChoice) {
+            if (isCoinFlipping) return;
+            const betAmount = parseInt(coinflipBetAmountInput.value);
+            if (isNaN(betAmount) || betAmount <= 0) {
+                showCustomAlert("Insira uma aposta válida.");
+                return;
+            }
+            if (betAmount > userReais) {
+                showCustomAlert("Saldo insuficiente.");
+                return;
+            }
+
+            isCoinFlipping = true;
+            betHeadsButton.disabled = true;
+            betTailsButton.disabled = true;
+            coinflipResultMessage.textContent = 'A virar...';
+            coinflipResultMessage.style.color = 'var(--text-light)';
+
+            const userRef = ref(db, 'users/' + currentUser.uid);
+            let newBalance = userReais - betAmount;
+            await update(userRef, { reais: newBalance });
+
+            const winChance = gameConfigs.coinFlip.winChance;
+            const isWin = Math.random() < winChance;
+            
+            const actualResult = isWin ? userChoice : (userChoice === 'cara' ? 'coroa' : 'cara');
+            const landsOnTails = actualResult === 'coroa';
+
+            const randomSpins = Math.floor(Math.random() * 4) + 3;
+            totalCoinRotation += (randomSpins * 360);
+
+            if (landsOnTails) {
+                 totalCoinRotation += 180;
+            }
+            
+            // Garante que a rotação final seja consistente com o resultado
+            if ((totalCoinRotation / 180) % 2 !== (landsOnTails ? 1 : 0)) {
+                totalCoinRotation += 180;
+            }
+
+            coinElement.style.transform = `rotateY(${totalCoinRotation}deg)`;
+
+            setTimeout(() => {
+                coinflipResultMessage.textContent = `Deu ${actualResult.toUpperCase()}!`;
+                
+                setTimeout(async () => {
+                    coinflipResultMessage.textContent = isWin ? "GANHOU!" : "PERDEU!";
+                    coinflipResultMessage.style.color = isWin ? 'var(--success)' : 'var(--danger)';
+                    createWinEffect(isWin ? 'win' : 'lose');
+
+                    if (isWin) {
+                        const winnings = betAmount * gameConfigs.coinFlip.multiplier;
+                        newBalance += winnings;
+                        await update(userRef, { reais: newBalance });
+                    }
+                    
+                    isCoinFlipping = false;
+                    betHeadsButton.disabled = false;
+                    betTailsButton.disabled = false;
+                }, 1000);
+
+            }, 1500);
+        }
+
+
+        // --- Aviãozinho ---
+        let aviatorState = { currentMultiplier: 1.00, crashPoint: 0, animationFrameId: null, betActive: false, lastFrameTime: 0 };
+        
+        function generateCrashPoint() {
+            const bands = gameConfigs.aviator.resultBands;
+            const totalWeight = bands.reduce((sum, band) => sum + band.weight, 0);
+            let randomWeight = Math.random() * totalWeight;
+
+            for (const band of bands) {
+                if (randomWeight < band.weight) {
+                    return Math.random() * (band.max - band.min) + band.min;
+                }
+                randomWeight -= band.weight;
+            }
+            return 1.5; // Fallback
+        }
+
+        function initializeAviatorChart() {
+            if (aviatorChart) aviatorChart.destroy();
+            const ctx = aviatorGraphCanvas.getContext('2d');
+            aviatorChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{ data: [], borderColor: 'var(--aviator-line-color)', borderWidth: 3, pointRadius: 0, tension: 0.4, fill: false }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, animation: false,
+                    scales: {
+                        x: { display: false },
+                        y: { min: 1, max: 10, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white', callback: (value) => `${parseFloat(value).toFixed(1)}x` } }
+                    },
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } }
+                }
+            });
+        }
+
+        function resizeAviatorCanvas() { if (aviatorChart) aviatorChart.resize(); }
+
+        function updateAviatorGame(currentTime) {
+            if (!aviatorState.betActive) return;
+            if (!aviatorState.lastFrameTime) aviatorState.lastFrameTime = currentTime;
+            const deltaTime = (currentTime - aviatorState.lastFrameTime) / 1000;
+            aviatorState.lastFrameTime = currentTime;
+
+            const dynamicIncrementSpeed = gameConfigs.aviator.baseMultiplierIncrementSpeed + (aviatorState.currentMultiplier - 1) * gameConfigs.aviator.accelerationFactor;
+            aviatorState.currentMultiplier += dynamicIncrementSpeed * (deltaTime * 60);
+            aviatorMultiplierDisplay.textContent = `${aviatorState.currentMultiplier.toFixed(2)}x`;
+
+            const newDataPoint = { x: aviatorChart.data.datasets[0].data.length, y: parseFloat(aviatorState.currentMultiplier.toFixed(2)) };
+            aviatorChart.data.labels.push(newDataPoint.x);
+            aviatorChart.data.datasets[0].data.push(newDataPoint.y);
+            const maxVisibleMultiplier = Math.max(10, aviatorState.currentMultiplier * 1.5);
+            if (aviatorChart.options.scales.y.max < maxVisibleMultiplier) aviatorChart.options.scales.y.max = maxVisibleMultiplier;
+            aviatorChart.update('none');
+            
+            if (aviatorState.currentMultiplier >= aviatorState.crashPoint) {
+                cancelAnimationFrame(aviatorState.animationFrameId);
+                aviatorMultiplierDisplay.classList.add('text-red-500');
+                aviatorMultiplierDisplay.style.textShadow = '0 0 20px var(--danger)';
+                aviatorState.betActive = false;
+                aviatorBetButton.disabled = false;
+                aviatorBetAmountInput.disabled = false;
+                aviatorCashoutButton.disabled = true;
+                if (!aviatorCashoutButton.dataset.cashedOut) {
+                    createWinEffect('lose');
+                    aviatorStatusMessage.textContent = `CRASH! ${aviatorState.currentMultiplier.toFixed(2)}x`;
+                }
+            } else {
+                aviatorState.animationFrameId = requestAnimationFrame(updateAviatorGame);
+            }
+        }
+
+        async function startAviatorRound() {
+            const betAmount = parseInt(aviatorBetAmountInput.value);
+            if (isNaN(betAmount) || betAmount <= 0) return showCustomAlert("Insira uma aposta válida.");
+            if (betAmount > userReais) return showCustomAlert("Saldo insuficiente.");
+
+            aviatorBetButton.disabled = true;
+            aviatorBetAmountInput.disabled = true;
+            
+            const userRef = ref(db, 'users/' + currentUser.uid);
+            let newBalance = userReais - betAmount;
+            await update(userRef, { reais: newBalance });
+
+            aviatorState = { ...aviatorState, betActive: true, currentMultiplier: 1.00, crashPoint: generateCrashPoint(), lastFrameTime: 0 };
+            aviatorCashoutButton.disabled = false;
+            aviatorCashoutButton.dataset.cashedOut = "";
+            aviatorMultiplierDisplay.classList.remove('text-red-500');
+            aviatorMultiplierDisplay.style.textShadow = '0 0 20px var(--success)';
+            aviatorMultiplierDisplay.textContent = '1.00x';
+            aviatorStatusMessage.textContent = '';
+            
+            if(aviatorChart) {
+                aviatorChart.data.labels = [];
+                aviatorChart.data.datasets[0].data = [];
+                aviatorChart.options.scales.y.max = 10;
+                aviatorChart.update('none');
+            }
+            
+            aviatorState.animationFrameId = requestAnimationFrame(updateAviatorGame);
+        }
+
+        async function cashOutAviator() {
+            if (!aviatorState.betActive) return;
+            cancelAnimationFrame(aviatorState.animationFrameId);
+            aviatorState.betActive = false;
+            aviatorCashoutButton.disabled = true;
+            aviatorBetButton.disabled = false;
+            aviatorBetAmountInput.disabled = false;
+            aviatorCashoutButton.dataset.cashedOut = "true";
+
+            const betAmount = parseInt(aviatorBetAmountInput.value);
+            const totalReturn = Math.round(betAmount * aviatorState.currentMultiplier);
+            
+            const userRef = ref(db, 'users/' + currentUser.uid);
+            const newBalance = userReais + totalReturn;
+            await update(userRef, { reais: newBalance });
+            
+            createWinEffect('win');
+            aviatorStatusMessage.textContent = `Retorno: R$ ${totalReturn.toLocaleString()}`;
+        }
+
+        // --- Roleta ---
+        let rouletteState = { selectedBetType: null, selectedNumber: null, spinning: false };
+
+        function generateRouletteWheelSegments() {
+            rouletteTrack.innerHTML = '';
+            const totalRepetitions = 5;
+            for (let rep = 0; rep < totalRepetitions; rep++) {
+                gameConfigs.roulette.numbers.forEach(number => {
+                    const color = gameConfigs.roulette.colors[number];
+                    const segmentDiv = document.createElement('div');
+                    segmentDiv.className = `roulette-segment flex-shrink-0 w-20 h-full flex items-center justify-center font-orbitron text-xl font-bold text-white border-r border-white/10`;
+                    if (color === 'red') segmentDiv.style.backgroundColor = 'var(--danger)';
+                    if (color === 'black') segmentDiv.style.backgroundColor = '#333';
+                    if (color === 'green') segmentDiv.style.backgroundColor = 'var(--success)';
+                    segmentDiv.textContent = number;
+                    rouletteTrack.appendChild(segmentDiv);
+                });
+            }
+        }
+
+        function selectRouletteBet(betType, number = null) {
+            rouletteState.selectedBetType = betType;
+            rouletteState.selectedNumber = (betType === 'number') ? number : null;
+            document.querySelectorAll('.roulette-bet-option').forEach(btn => btn.classList.remove('selected'));
+            
+            if (betType === 'red') rouletteBetRedButton.classList.add('selected');
+            else if (betType === 'black') rouletteBetBlackButton.classList.add('selected');
+            else if (betType === 'green') rouletteBetGreenButton.classList.add('selected');
+            else if (betType === 'number' && number !== null) rouletteBetNumberInput.classList.add('selected');
+        }
+
+        async function spinRoulette() {
+            if (rouletteState.spinning) return;
+            const betAmount = parseInt(rouletteBetAmountInput.value);
+            if (isNaN(betAmount) || betAmount <= 0) return showCustomAlert("Insira uma aposta válida.");
+            if (!rouletteState.selectedBetType) return showCustomAlert("Selecione um tipo de aposta.");
+            if (rouletteState.selectedBetType === 'number' && (rouletteState.selectedNumber === null || rouletteState.selectedNumber < 0 || rouletteState.selectedNumber > 36)) return showCustomAlert("Selecione um número válido (0-36).");
+            if (betAmount > userReais) return showCustomAlert("Saldo insuficiente.");
+
+            rouletteState.spinning = true;
+            const allBetButtons = [rouletteSpinButton, rouletteBetAmountInput, rouletteBetRedButton, rouletteBetBlackButton, rouletteBetGreenButton, rouletteBetNumberInput];
+            allBetButtons.forEach(btn => btn.disabled = true);
+            rouletteResultMessage.textContent = '';
+            
+            const userRef = ref(db, 'users/' + currentUser.uid);
+            let newBalance = userReais - betAmount;
+            await update(userRef, { reais: newBalance });
+
+            const winningNumberCore = gameConfigs.roulette.numbers[Math.floor(Math.random() * gameConfigs.roulette.numbers.length)];
+            const winningColor = gameConfigs.roulette.colors[winningNumberCore];
+
+            const targetRepetitionIndex = 2;
+            const winningNumberIndexInCore = gameConfigs.roulette.numbers.indexOf(winningNumberCore);
+            const winningNumberIndexInTrack = (gameConfigs.roulette.numbers.length * targetRepetitionIndex) + winningNumberIndexInCore;
+            const finalPosition = (winningNumberIndexInTrack * gameConfigs.roulette.segmentWidth) - (rouletteWheelContainer.offsetWidth / 2) + (gameConfigs.roulette.segmentWidth / 2);
+
+            rouletteTrack.style.transition = `transform ${gameConfigs.roulette.spinDuration / 1000}s cubic-bezier(0.15, 0.45, 0.25, 1.0)`;
+            rouletteTrack.style.transform = `translateX(-${finalPosition}px)`;
+
+            rouletteTrack.addEventListener('transitionend', () => handleRouletteResult(winningNumberCore, winningColor, betAmount), { once: true });
+        }
+
+        async function handleRouletteResult(winningNumberCore, winningColor, betAmount) {
+            let isWin = false;
+            let winnings = 0;
+            if (rouletteState.selectedBetType === 'number' && rouletteState.selectedNumber === winningNumberCore) { isWin = true; winnings = betAmount * gameConfigs.roulette.payouts.singleNumber; }
+            else if (rouletteState.selectedBetType === 'red' && winningColor === 'red') { isWin = true; winnings = betAmount * gameConfigs.roulette.payouts.redBlack; }
+            else if (rouletteState.selectedBetType === 'black' && winningColor === 'black') { isWin = true; winnings = betAmount * gameConfigs.roulette.payouts.redBlack; }
+            else if (rouletteState.selectedBetType === 'green' && winningColor === 'green') { isWin = true; winnings = betAmount * gameConfigs.roulette.payouts.green; }
+
+            rouletteResultMessage.textContent = isWin ? "GANHOU!" : "PERDEU!";
+            rouletteResultMessage.style.color = isWin ? 'var(--success)' : 'var(--danger)';
+            createWinEffect(isWin ? 'win' : 'lose');
+
+            if (isWin) {
+                const userRef = ref(db, 'users/' + currentUser.uid);
+                const newBalance = userReais + winnings;
+                await update(userRef, { reais: newBalance });
+            }
+
+            setTimeout(() => {
+                rouletteTrack.style.transition = 'none';
+                const resetRepetitionIndex = 1;
+                const winningNumberIndexInCore = gameConfigs.roulette.numbers.indexOf(winningNumberCore);
+                const resetIndexInTrack = (gameConfigs.roulette.numbers.length * resetRepetitionIndex) + winningNumberIndexInCore;
+                const resetPosition = (resetIndexInTrack * gameConfigs.roulette.segmentWidth) - (rouletteWheelContainer.offsetWidth / 2) + (gameConfigs.roulette.segmentWidth / 2);
+                rouletteTrack.style.transform = `translateX(-${resetPosition}px)`;
+            }, 500);
+
+            rouletteState.spinning = false;
+            const allBetButtons = [rouletteSpinButton, rouletteBetAmountInput, rouletteBetRedButton, rouletteBetBlackButton, rouletteBetGreenButton, rouletteBetNumberInput];
+            allBetButtons.forEach(btn => btn.disabled = false);
+        }
+
+
+        // --- Inicialização e Event Listeners ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userRef = ref(db, 'users/' + currentUser.uid);
+                
+                onValue(userRef, async (snapshot) => {
+                    let userData;
+                    if (snapshot.exists()) {
+                        userData = snapshot.val();
+                    } else {
+                        // Se o utilizador não existe, cria um novo e retorna para que o onValue seja acionado novamente
+                        const newUsername = user.email ? user.email.split('@')[0] : 'Jogador' + user.uid.substring(0, 4);
+                        userData = { username: newUsername, reais: 1000, ouro: 0 };
+                        await set(userRef, userData);
+                        showCustomAlert("Bem-vindo! R$ 1000 de bônus creditados!", true);
+                        return; // Sai da função atual, o onValue será chamado novamente com os novos dados
+                    }
+
+                    // Atualiza o estado global com os dados mais recentes
+                    userReais = userData.reais || 0;
+                    userOuro = userData.ouro || 0;
+
+                    // Recria o cabeçalho com os dados atualizados
+                    createHeader(auth, userData, mainHeader, 'cassino');
+
+                    // Executa a configuração inicial da página apenas na primeira vez que os dados são carregados
+                    if (isFirstLoad) {
+                        appContainer.classList.remove('hidden');
+                        loader.classList.add('hidden');
+                        generateRouletteWheelSegments();
+                        showGameSection('coinflip');
+                        isFirstLoad = false;
+                    }
+                });
+
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        gameTabs.forEach(tab => tab.addEventListener('click', () => showGameSection(tab.id.replace('tab-', ''))));
+        betHeadsButton.addEventListener('click', () => placeCoinflipBet('cara'));
+        betTailsButton.addEventListener('click', () => placeCoinflipBet('coroa'));
+        
+        rouletteSpinButton.addEventListener('click', spinRoulette);
+        rouletteBetRedButton.addEventListener('click', () => selectRouletteBet('red'));
+        rouletteBetBlackButton.addEventListener('click', () => selectRouletteBet('black'));
+        rouletteBetGreenButton.addEventListener('click', () => selectRouletteBet('green'));
+        rouletteBetNumberInput.addEventListener('input', (e) => {
+            const num = parseInt(e.target.value);
+            selectRouletteBet('number', !isNaN(num) && num >= 0 && num <= 36 ? num : null);
+        });
+        aviatorBetButton.addEventListener('click', startAviatorRound);
+        aviatorCashoutButton.addEventListener('click', cashOutAviator);
+        window.addEventListener('resize', resizeAviatorCanvas);
+
+    </script>
+</body>
+</html>

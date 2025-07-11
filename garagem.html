@@ -53,12 +53,22 @@
             z-index: -1;
         }
 
+        /* Estilo para o painel de vidro do menu (usado por menu.js) */
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.7); /* Cor de fundo semi-transparente */
+            backdrop-filter: blur(10px); /* Efeito de vidro fosco */
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px; /* Cantos arredondados */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra para profundidade */
+        }
+
         .header-panel {
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
             backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border-strong);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
-            padding: 1.5rem 2rem; /* Mais espaçamento */
+            padding: 1.5rem 2rem;
         }
 
         .info-box {
@@ -109,7 +119,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
-            justify-content: center; /* Centraliza o conteúdo do botão */
+            justify-content: center;
             gap: 0.75rem;
         }
 
@@ -170,8 +180,8 @@
             transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
             background-color: var(--primary-red);
             color: var(--light-text);
-            border-radius: 8px; /* Mais arredondado */
-            box-shadow: 0 0 15px rgba(224, 26, 79, 0.7); /* Sombra de brilho */
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(224, 26, 79, 0.7);
         }
         .custom-alert.show {
             transform: translateX(0);
@@ -181,18 +191,18 @@
         /* --- ESTILOS DE EXIBIÇÃO DE CARTAS --- */
         .card-base {
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border-radius: 1rem; /* Cantos mais arredondados para um visual premium */
+            border-radius: 1rem;
             overflow: hidden;
-            border: 3px solid #444; /* Borda mais espessa */
+            border: 3px solid #444;
             background-color: #1a1a1a;
             position: relative; 
             transform-style: preserve-3d;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra mais forte */
-            cursor: grab; /* Mantém o cursor de arrastar */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            cursor: grab;
         }
         .card-base:hover {
-            transform: scale(1.08) rotateZ(0.5deg); /* Rotação sutil */
-            box-shadow: 0 0 40px var(--primary-red), 0 0 20px rgba(255, 255, 255, 0.3) inset; /* Brilho intenso no hover */
+            transform: scale(1.08) rotateZ(0.5deg);
+            box-shadow: 0 0 40px var(--primary-red), 0 0 20px rgba(255, 255, 255, 0.3) inset;
             border-color: var(--primary-red);
             z-index: 20;
         }
@@ -201,7 +211,7 @@
             position: absolute;
             top: 12px;
             left: 12px;
-            width: 50px; /* Emblema maior */
+            width: 50px;
             height: 50px;
             display: flex;
             align-items: center;
@@ -217,7 +227,6 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.7);
         }
 
-        /* Estilo original para o overlay da imagem no deck (RESTAURADO) */
         .card-image-overlay {
             background-image: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 60%), 
                               linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, transparent 50%);
@@ -229,25 +238,24 @@
             padding: 1rem;
         }
 
-        /* Novo estilo para a imagem da carta na coleção */
         .collection-card-image-wrapper {
             position: relative;
             width: 100%;
-            height: 200px; /* Altura fixa para a imagem */
+            height: 200px;
             overflow: hidden;
-            border-radius: 1rem 1rem 0 0; /* Cantos arredondados apenas no topo */
+            border-radius: 1rem 1rem 0 0;
         }
 
         .collection-card-image {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Garante que a imagem cubra o espaço */
+            object-fit: cover;
             object-position: center;
             transition: transform 0.3s ease-in-out;
         }
 
         .card-base:hover .collection-card-image {
-            transform: scale(1.05); /* Zoom sutil no hover */
+            transform: scale(1.05);
         }
 
         .collection-card-info-overlay {
@@ -264,25 +272,24 @@
             padding: 1rem;
         }
 
-        /* Novo estilo para o rank badge nas cartas da coleção (menor e posicionado) */
         .rank-badge-small {
-            position: absolute; /* Adicionado */
-            top: 12px; /* Adicionado */
-            left: 12px; /* Adicionado */
-            width: 38px; /* Smaller badge for collection cards */
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 38px;
             height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
-            font-size: 20px; /* Smaller font size */
+            font-size: 20px;
             color: white;
             text-shadow: 0 0 10px rgba(0,0,0,0.9);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             border: 2px solid rgba(255,255,255,0.4);
             box-shadow: 0 0 10px rgba(0,0,0,0.7);
-            z-index: 10; /* Garante que fique acima da imagem */
+            z-index: 10;
         }
 
         .card-text-shadow {
@@ -292,7 +299,6 @@
              box-shadow: 0 0 6px black;
         }
 
-        /* Textura sutil para todas as cartas */
         .card-base > .relative::before {
             content: "";
             position: absolute;
@@ -304,7 +310,6 @@
             z-index: 1;
         }
 
-        /* Efeito Holográfico */
         .holographic-overlay {
             position: absolute;
             top: 0; left: 0;
@@ -318,7 +323,7 @@
             transition: opacity 0.4s ease;
             z-index: 3;
             pointer-events: none;
-            border-radius: 1rem; /* Mais arredondado */
+            border-radius: 1rem;
         }
 
         .card-base:hover .holographic-overlay, .deck-card-container:hover .holographic-overlay {
@@ -345,31 +350,29 @@
             background: var(--shine-gradient);
         }
         
-        /* Indicador de Carta Selecionada */
         .selected-indicator {
             position: absolute;
-            top: 15px; /* Ajustado */
-            left: 65px; /* Ajustado para não sobrepor o rank-badge-small */
+            top: 15px;
+            left: 65px;
             background-color: rgba(255, 215, 0, 0.9);
             color: #1a1a1a;
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
-            padding: 5px 12px; /* Ajustado */
-            border-radius: 6px; /* Mais arredondado */
-            font-size: 12px; /* Ajustado */
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
             z-index: 15;
             pointer-events: none;
             text-transform: uppercase;
-            letter-spacing: 0.75px; /* Mais espaçamento */
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Sombra mais forte */
+            letter-spacing: 0.75px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
 
-        /* Classe S (Mais Rara) */
         @keyframes pulsate-glow {
             0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
             50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
         }
-        .rank-s.card-base, .rank-s .card-base, .rank-s .card-front { /* Aplicar também ao card-front */
+        .rank-s.card-base, .rank-s .card-base, .rank-s .card-front {
             animation: pulsate-glow 2s infinite ease-in-out;
             border-color: #FFD700;
         }
@@ -379,7 +382,6 @@
             --shine-opacity: 0.9;
         }
 
-        /* Classe A */
         .rank-a.card-base, .rank-a .card-base, .rank-a .card-front {
             box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
             border-color: var(--primary-red);
@@ -393,7 +395,6 @@
             --shine-opacity: 0.8;
         }
 
-        /* Classe B */
         .rank-b.card-base, .rank-b .card-base, .rank-b .card-front {
             box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
             border-color: #8e44ad;
@@ -407,7 +408,6 @@
             --shine-opacity: 0.7;
         }
 
-        /* Classe C */
         .rank-c.card-base, .rank-c .card-base, .rank-c .card-front {
              border-color: #3498db;
         }
@@ -417,7 +417,6 @@
             --shine-opacity: 0.6;
         }
         
-        /* Classe D */
         .rank-d.card-base, .rank-d .card-base, .rank-d .card-front {
              border-color: #2ecc71;
         }
@@ -426,9 +425,7 @@
             --shine-duration: 8.5s;
             --shine-opacity: 0.5;
         }
-        /* Classe E não tem efeito */
 
-        /* Drag & Drop */
         [draggable="true"].dragging {
             opacity: 0.2;
             cursor: grabbing;
@@ -440,14 +437,14 @@
             transition: all 0.3s ease;
             min-height: 180px;
             height: 100%;
-            border-radius: 1rem; /* Mais arredondado */
+            border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
         }
         .card-slot.drag-over {
-            background-color: rgba(224, 26, 79, 0.2); /* Vermelho Rockstar */
+            background-color: rgba(224, 26, 79, 0.2);
             border-color: var(--primary-red);
             box-shadow: inset 0 0 20px rgba(224, 26, 79, 0.4);
         }
@@ -456,7 +453,6 @@
              box-shadow: 0 0 25px var(--primary-red);
         }
 
-        /* Estilos dos filtros */
         .filters-section {
             background: linear-gradient(145deg, var(--medium-dark-bg), #222222);
             border: 1px solid var(--border-strong);
@@ -469,8 +465,8 @@
             border: 1px solid var(--border-subtle);
             color: var(--light-text);
             width: 100%;
-            padding: 0.75rem; /* Mais padding */
-            border-radius: 8px; /* Mais arredondado */
+            padding: 0.75rem;
+            border-radius: 8px;
             font-size: 0.95rem;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
         }
@@ -483,11 +479,10 @@
             box-shadow: 0 0 0 3px rgba(224, 26, 79, 0.3);
         }
         .text-sm.font-medium.text-gray-400 {
-            color: var(--light-text); /* Garante visibilidade */
+            color: var(--light-text);
             text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
 
-        /* CARD FLIP STYLES */
         .deck-card-container {
             perspective: 1000px;
             cursor: grab;
@@ -509,12 +504,12 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden; /* Safari */
+            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-            border-radius: 1rem; /* Mais arredondado */
+            border-radius: 1rem;
             overflow: hidden;
-            border: 3px solid #444; /* Borda mais espessa */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra mais forte */
+            border: 3px solid #444;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
         }
 
         .card-front {
@@ -522,43 +517,41 @@
         }
 
         .card-back {
-            background-color: var(--dark-bg); /* Fundo escuro */
+            background-color: var(--dark-bg);
             transform: rotateY(180deg);
-            padding: 1rem; /* Mais padding */
+            padding: 1rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.7); /* Sombra interna */
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
         }
         .card-back h3 {
-            font-size: 90%; /* Título maior */
+            font-size: 90%;
             margin-bottom: 0.75rem;
             text-shadow: var(--text-shadow-strong);
         }
         .card-back .grid {
             width: 110%;
-            max-width: 250px; /* Limita a largura do grid de stats */
+            max-width: 250px;
         }
         .card-back .grid > div {
-            font-size: 90%; /* Texto menor para stats */
+            font-size: 90%;
             padding: 0.25rem 0;
         }
         .card-back .font-bold {
-            color: var(--primary-red); /* Stats em vermelho */
+            color: var(--primary-red);
         }
 
-        /* RANK BADGE STYLES (para cartas do deck) */
         .deck-card-container .rank-badge {
-             width: 45px; /* Ajustado */
-             height: 45px; /* Ajustado */
-             font-size: 26px; /* Ajustado */
-             top: 10px; /* Ajustado */
-             left: 10px; /* Ajustado */
+             width: 45px;
+             height: 45px;
+             font-size: 26px;
+             top: 10px;
+             left: 10px;
         }
 
-        /* --- ANIMAÇÕES DE PARTÍCULAS E DROP --- */
         @keyframes card-drop-effect {
             0% { transform: scale(1); filter: brightness(1); }
             50% { transform: scale(1.05); filter: brightness(1.75); }
@@ -588,66 +581,6 @@
             }
         }
         
-        /* --- EFEITOS DE BRILHO E RARIDADE DAS CARTAS (mesmos da home.html) --- */
-        @keyframes pulsate-glow {
-            0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
-            50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
-        }
-        .rank-s.card-base, .rank-s .card-base, .rank-s .card-front { /* Aplicar também ao card-front */
-            animation: pulsate-glow 2s infinite ease-in-out;
-            border-color: #FFD700;
-        }
-        .rank-s.card-base::after, .rank-s .card-base::after, .rank-s .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%);
-            --shine-duration: 3s;
-            --shine-opacity: 0.9;
-        }
-
-        .rank-a.card-base, .rank-a .card-base, .rank-a .card-front {
-            box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
-            border-color: var(--primary-red);
-        }
-        .rank-a.card-base:hover, .rank-a .card-base:hover, .rank-a .card-front:hover {
-            box-shadow: 0 0 25px 6px rgba(224, 26, 79, 0.9);
-        }
-        .rank-a.card-base::after, .rank-a .card-base::after, .rank-a .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%);
-            --shine-duration: 4s;
-            --shine-opacity: 0.8;
-        }
-
-        .rank-b.card-base, .rank-b .card-base, .rank-b .card-front {
-            box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
-            border-color: #8e44ad;
-        }
-        .rank-b.card-base:hover, .rank-b .card-base:hover, .rank-b .card-front:hover {
-            box-shadow: 0 0 20px 4px rgba(142, 68, 173, 0.8);
-        }
-        .rank-b.card-base::after, .rank-b .card-base::after, .rank-b .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%);
-            --shine-duration: 5.5s;
-            --shine-opacity: 0.7;
-        }
-
-        .rank-c.card-base, .rank-c .card-base, .rank-c .card-front {
-             border-color: #3498db;
-        }
-        .rank-c.card-base::after, .rank-c .card-base::after, .rank-c .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%);
-            --shine-duration: 7s;
-            --shine-opacity: 0.6;
-        }
-        
-        .rank-d.card-base, .rank-d .card-base, .rank-d .card-front {
-             border-color: #2ecc71;
-        }
-        .rank-d.card-base::after, .rank-d .card-base::after, .rank-d .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%);
-            --shine-duration: 8.5s;
-            --shine-opacity: 0.5;
-        }
-
-        /* Responsividade para Mobile */
         @media (max-width: 1023px) { /* Tailind CSS `lg` breakpoint */
             body {
                 background-attachment: scroll;
@@ -675,7 +608,6 @@
             h2 {
                 font-size: 2.2rem;
             }
-            /* Ajustes para rank-badge e selected-indicator em mobile */
             .rank-badge {
                 width: 38px;
                 height: 38px;
@@ -683,23 +615,23 @@
                 top: 8px;
                 left: 8px;
             }
-            .rank-badge-small { /* Ajuste para o badge pequeno em mobile */
+            .rank-badge-small {
                 width: 30px;
                 height: 30px;
                 font-size: 16px;
                 top: 8px;
                 left: 8px;
             }
-            .selected-indicator { /* Ajuste para o indicador selecionado em mobile */
+            .selected-indicator {
                 top: 10px;
-                left: 50px; /* Ajustado para mobile */
+                left: 50px;
                 padding: 3px 8px;
                 font-size: 10px;
             }
             .card-text-shadow {
                 text-shadow: 1px 1px 4px black;
             }
-            .card-image-overlay { /* Ajustado para o deck no mobile */
+            .card-image-overlay {
                 padding: 0.75rem;
             }
             .collection-card-info-overlay {
@@ -712,7 +644,7 @@
                 font-size: 90%;
             }
             .collection-card-image-wrapper {
-                height: 150px; /* Ajuste a altura da imagem para mobile */
+                height: 150px;
             }
         }
     </style>
@@ -722,7 +654,7 @@
     <!-- Loader de Carregamento -->
     <div id="loader" class="fixed inset-0 bg-black bg-opacity-95 flex flex-col items-center justify-center z-50">
         <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-28 w-28"></div>
-        <p id="loader-text" class="mt-8 text-2xl font-orbitron animate-pulse">Buscando seus carros...</p>
+        <p id="loader-text" class="mt-8 text-2xl font-orbitron animate-pulse">A procurar os seus carros...</p>
     </div>
 
     <!-- Alerta Customizado (substitui alert() e confirm()) -->
@@ -732,31 +664,15 @@
 
     <!-- Container Principal da Aplicação -->
     <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
-        <!-- Header (Top Bar) -->
-        <header class="header-panel w-full p-4 md:p-6 shadow-lg sticky top-0 z-40">
-            <div class="container mx-auto flex justify-between items-center flex-wrap gap-4">
-                <div class="info-box flex items-center gap-3">
-                    <span id="username-display" class="text-xl font-bold text-red-400 font-orbitron"></span>
-                </div>
-                <div class="flex items-center gap-2 md:gap-4 flex-wrap justify-end">
-                    <div class="info-box"><span class="text-green-400 font-bold" id="reais-display">R$ 0</span></div>
-                    <div class="info-box"><span class="text-yellow-400 font-bold" id="ouro-display">0 Ouro</span></div>
-                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="hidden md:inline font-orbitron">Amigos</span></button>
-                    <button class="menu-button p-2 flex items-center gap-2 text-sm md:text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg><span class="hidden md:inline font-orbitron">Comprar Ouro</span></button>
-                    <button id="logout-button" class="menu-button p-2" title="Sair"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
-                </div>
-            </div>
-        </header>
+        
+        <!-- Header (Top Bar) - Será preenchido pelo menu.js -->
+        <header id="main-header" class="w-full sticky top-0 z-40"></header>
 
         <!-- Conteúdo Principal -->
         <main class="flex-grow p-6 md:p-10 container mx-auto">
-            <a href="home.html" class="menu-button inline-flex items-center gap-2 px-4 py-2 mb-8 font-orbitron">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                VOLTAR PARA HOME
-            </a>
-
-            <section class="mb-12">
-                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">SEU DECK ATIVO</h2>
+            
+            <section class="mb-12 mt-8">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">O SEU DECK ATIVO</h2>
                 <div id="deck-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                 </div>
             </section>
@@ -791,8 +707,8 @@
             </section>
 
             <section id="collection-drop-zone" class="min-h-[300px] p-6 border-2 border-dashed border-gray-700 rounded-xl flex flex-col items-center justify-center bg-black/40 shadow-inner">
-                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">MINHAS CARTAS</h2>
-                <p class="text-gray-400 text-lg mb-6 text-center">Arraste cartas do seu deck para aqui para removê-las, ou arraste cartas da sua coleção para os slots do deck.</p>
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">AS MINHAS CARTAS</h2>
+                <p class="text-gray-400 text-lg mb-6 text-center">Arraste cartas do seu deck para aqui para as remover, ou arraste cartas da sua coleção para os espaços do deck.</p>
                 <div id="collection-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
                 </div>
             </section>
@@ -800,12 +716,14 @@
     </div>
 
     <script type="module">
+        // Importações do Firebase e de outros módulos
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
         import { cards as localCardsDatabase } from './cards.js';
+        import { createHeader } from './menu.js'; // <-- Importa a função do menu
 
-        // Configuração do Firebase (usa __firebase_config se disponível, senão um fallback)
+        // Configuração do Firebase
         const firebaseConfig = typeof __firebase_config !== 'undefined'
             ? JSON.parse(__firebase_config)
             : {
@@ -818,7 +736,7 @@
                 appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
             };
 
-        // Inicializa o Firebase
+        // Inicialização do Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
@@ -826,38 +744,32 @@
         // Referências aos elementos do DOM
         const loader = document.getElementById('loader');
         const appContainer = document.getElementById('app-container');
-        const usernameDisplay = document.getElementById('username-display');
-        const reaisDisplay = document.getElementById('reais-display');
-        const ouroDisplay = document.getElementById('ouro-display');
-        const logoutButton = document.getElementById('logout-button');
         const deckContainer = document.getElementById('deck-container');
         const collectionContainer = document.getElementById('collection-container');
         const collectionDropZone = document.getElementById('collection-drop-zone');
-
         const searchInput = document.getElementById('search-nome');
         const montadoraFilter = document.getElementById('filter-montadora');
         const classeFilter = document.getElementById('filter-classe');
         const paisFilter = document.getElementById('filter-pais');
         const tracaoFilter = document.getElementById('filter-tracao');
         const clearFiltersButton = document.getElementById('clear-filters-button');
+        const mainHeader = document.getElementById('main-header'); // Referência para o novo header
 
+        // Variáveis de estado da aplicação
         let currentUser = null;
         let ownedCardIds = [];
         let activeDeckIds = [];
-
         let scrollInterval = null;
         let draggedGhost = null;
         let offsetX = 0;
         let offsetY = 0;
-        
-        // --- Drag Optimization Variables ---
         let latestMouseX = 0;
         let latestMouseY = 0;
         let animationFrameId = null;
 
         /**
          * Mostra um alerta customizado na tela.
-         * @param {string} message - A mensagem a ser exibida no alerta.
+         * @param {string} message - A mensagem a ser exibida.
          */
         function showCustomAlert(message) {
             const alertElement = document.getElementById('custom-alert');
@@ -871,34 +783,28 @@
 
         /**
          * Retorna a cor do rank com base na classe da carta.
-         * @param {string} rank - A classe da carta (ex: 'S+', 'A', 'B').
-         * @returns {string} A cor hexadecimal correspondente.
+         * @param {string} rank - A classe da carta.
+         * @returns {string} A cor hexadecimal.
          */
         function getRankColor(rank) {
             const colors = {
-                'S+': '#FFD700',
-                'S': '#FFD700',   // Dourado
-                'A': '#E01A4F',   // Vermelho Rockstar
-                'B': '#8e44ad',   // Roxo
-                'C': '#3498db',   // Azul
-                'D': '#2ecc71',   // Verde
-                'E': '#95a5a6'    // Cinza
+                'S+': '#FFD700', 'S': '#FFD700', 'A': '#E01A4F',
+                'B': '#8e44ad', 'C': '#3498db', 'D': '#2ecc71', 'E': '#95a5a6'
             };
-            return colors[rank] || '#7F8C8D'; // Cor Padrão
+            return colors[rank] || '#7F8C8D';
         }
 
         /**
-         * Cria um elemento de carta para exibição na coleção.
-         * @param {string} cardId - O ID da carta a ser criada.
-         * @returns {HTMLElement|null} O elemento HTML da carta, ou null se os dados da carta não forem encontrados.
+         * Cria um elemento de carta para a coleção.
+         * @param {string} cardId - O ID da carta.
+         * @returns {HTMLElement|null} O elemento da carta.
          */
         function createCollectionCardElement(cardId) {
             const cardData = localCardsDatabase[cardId];
             if (!cardData) return null;
 
             const cardElement = document.createElement('div');
-            cardElement.className = 'card-base';
-            cardElement.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
+            cardElement.className = `card-base rank-${cardData.classe.toLowerCase().replace('+', '')}`;
             cardElement.setAttribute('draggable', true);
             cardElement.dataset.cardId = cardId;
 
@@ -918,27 +824,23 @@
                     </div>
                 </div>
                 <div class="p-3 bg-[#181818] grid grid-cols-3 gap-2 text-center text-sm">
-                    <div class="text-s"><span class="font-bold block">${cardData.velocidade}</span> VEL. MÁX.</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.aceleracao}s</span> 0-100</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.direcao}</span> DIREÇÃO</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.altura}</span> ALTURA</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.pneus}</span> PNEUS</div>
-                    <div class="text-s"><span class="font-bold block">${cardData.tracao}</span> TRAÇÃO</div>
+                    <div><span class="font-bold block">${cardData.velocidade}</span> VEL. MÁX.</div>
+                    <div><span class="font-bold block">${cardData.aceleracao}s</span> 0-100</div>
+                    <div><span class="font-bold block">${cardData.direcao}</span> DIREÇÃO</div>
+                    <div><span class="font-bold block">${cardData.altura}</span> ALTURA</div>
+                    <div><span class="font-bold block">${cardData.pneus}</span> PNEUS</div>
+                    <div><span class="font-bold block">${cardData.tracao}</span> TRAÇÃO</div>
                 </div>
             `;
 
-            // Adiciona efeito holográfico para raridades altas
             if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                 const overlay = document.createElement('div');
                 overlay.className = 'holographic-overlay';
                 cardElement.querySelector('.collection-card-image-wrapper').prepend(overlay);
-
                 cardElement.addEventListener('mousemove', e => {
                     const rect = cardElement.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    cardElement.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
-                    cardElement.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+                    cardElement.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+                    cardElement.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`);
                 });
                 cardElement.addEventListener('mouseleave', () => {
                     cardElement.style.setProperty('--mx', `50%`);
@@ -948,31 +850,26 @@
 
             cardElement.addEventListener('dragstart', handleDragStart);
             cardElement.addEventListener('dragend', handleDragEnd);
-
             return cardElement;
         }
 
         /**
-         * Cria um elemento de slot para o deck ativo.
-         * @param {number} index - O índice do slot no deck.
-         * @param {string|null} cardId - O ID da carta no slot, ou null se o slot estiver vazio.
-         * @returns {HTMLElement} O elemento HTML do slot (com ou sem carta).
+         * Cria um slot de carta para o deck.
+         * @param {number} index - O índice do slot.
+         * @param {string|null} cardId - O ID da carta no slot.
+         * @returns {HTMLElement} O elemento do slot.
          */
         function createDeckSlotElement(index, cardId = null) {
             const slotWrapper = document.createElement('div');
             slotWrapper.dataset.slotIndex = index;
-
             const cardData = cardId ? localCardsDatabase[cardId] : null;
 
             if (cardData) {
-                slotWrapper.className = 'deck-card-container aspect-[16/10]';
-                slotWrapper.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
+                slotWrapper.className = `deck-card-container aspect-[16/10] rank-${cardData.classe.toLowerCase().replace('+', '')}`;
                 slotWrapper.setAttribute('draggable', true);
                 slotWrapper.dataset.cardId = cardId;
-
                 slotWrapper.innerHTML = `
                     <div class="deck-card-inner">
-                        <!-- Frente da Carta -->
                         <div class="card-front card-base">
                             <div class="relative w-full h-full bg-cover bg-center" style="background-image: url('${cardData.imagem}')">
                                 <div class="rank-badge" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
@@ -988,10 +885,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Verso da Carta -->
                         <div class="card-back">
                             <h3 class="font-bold font-orbitron mb-1 text-center">${cardData.nome}</h3>
-                             <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
                                 <div class="flex justify-between"><span>Vel. Máx:</span> <span class="font-bold">${cardData.velocidade}</span></div>
                                 <div class="flex justify-between"><span>0-100km/h:</span> <span class="font-bold">${cardData.aceleracao}s</span></div>
                                 <div class="flex justify-between"><span>Direção:</span> <span class="font-bold">${cardData.direcao}</span></div>
@@ -1002,28 +898,22 @@
                                 <div class="flex justify-between"><span>Montadora:</span> <span class="font-bold">${cardData.montadora}</span></div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
 
-                // Adiciona efeito holográfico para raridades altas, aplicando ao card-front
                 if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                     const overlay = document.createElement('div');
                     overlay.className = 'holographic-overlay';
                     slotWrapper.querySelector('.card-front .relative').prepend(overlay);
-
                     slotWrapper.addEventListener('mousemove', e => {
                         const rect = slotWrapper.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        slotWrapper.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
-                        slotWrapper.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+                        slotWrapper.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+                        slotWrapper.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`);
                     });
                     slotWrapper.addEventListener('mouseleave', () => {
                         slotWrapper.style.setProperty('--mx', '50%');
                         slotWrapper.style.setProperty('--my', '50%');
                     });
                 }
-
                 slotWrapper.addEventListener('dragstart', handleDragStart);
                 slotWrapper.addEventListener('dragend', handleDragEnd);
             } else {
@@ -1034,20 +924,18 @@
             slotWrapper.addEventListener('dragover', handleDragOver);
             slotWrapper.addEventListener('dragleave', handleDragLeave);
             slotWrapper.addEventListener('drop', handleDropOnDeck);
-
             return slotWrapper;
         }
 
         /**
          * Renderiza a coleção de cartas filtradas.
-         * @param {Array<string>} filteredIds - Um array de IDs de cartas filtradas.
+         * @param {Array<string>} filteredIds - IDs das cartas a renderizar.
          */
         function renderCollection(filteredIds) {
             collectionContainer.innerHTML = '';
             filteredIds.forEach(cardId => {
                 const cardElement = createCollectionCardElement(cardId);
                 if (cardElement) {
-                    // Adiciona o indicador "Selecionado" se a carta estiver no deck ativo
                     if (activeDeckIds.includes(cardId)) {
                         const selectedIndicator = document.createElement('div');
                         selectedIndicator.className = 'selected-indicator';
@@ -1060,8 +948,8 @@
         }
         
         /**
-         * Renderiza o deck ativo de cartas.
-         * @param {number} [animatedIndex=-1] - O índice da carta que deve ser animada após o drop.
+         * Renderiza o deck ativo.
+         * @param {number} [animatedIndex=-1] - Índice da carta a animar.
          */
         function renderDeck(animatedIndex = -1) {
             deckContainer.innerHTML = '';
@@ -1069,21 +957,17 @@
                 const cardId = activeDeckIds[i] || null;
                 const slotElement = createDeckSlotElement(i, cardId);
                 deckContainer.appendChild(slotElement);
-
                 if (i === animatedIndex && cardId) {
-                    // Adiciona a classe para acionar a animação de drop
                     setTimeout(() => {
                         slotElement.classList.add('card-dropped');
-                        slotElement.addEventListener('animationend', () => {
-                            slotElement.classList.remove('card-dropped');
-                        }, { once: true });
+                        slotElement.addEventListener('animationend', () => slotElement.classList.remove('card-dropped'), { once: true });
                     }, 0);
                 }
             }
         }
 
         /**
-         * Aplica os filtros e renderiza a coleção de cartas.
+         * Aplica os filtros atuais e re-renderiza a coleção.
          */
         function applyFilters() {
             const searchTerm = searchInput.value.toLowerCase();
@@ -1091,371 +975,190 @@
             const selectedClasse = classeFilter.value;
             const selectedPais = paisFilter.value;
             const selectedTracao = tracaoFilter.value;
-
-            // Ordem de raridade para classificação
             const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+
             const sortedOwnedCardIds = [...ownedCardIds].sort((a, b) => {
                 const aInDeck = activeDeckIds.includes(a);
                 const bInDeck = activeDeckIds.includes(b);
-
-                // Prioriza cartas no deck
                 if (aInDeck && !bInDeck) return -1;
                 if (!aInDeck && bInDeck) return 1;
-
                 const cardA = localCardsDatabase[a];
                 const cardB = localCardsDatabase[b];
-
                 if (!cardA || !cardB) return 0;
-
-                // Classifica por raridade
-                const rarityA = rarityOrder.indexOf(cardA.classe);
-                const rarityB = rarityOrder.indexOf(cardB.classe);
-
-                return rarityA - rarityB;
+                return rarityOrder.indexOf(cardA.classe) - rarityOrder.indexOf(cardB.classe);
             });
 
-            // Filtra as cartas com base nos critérios de pesquisa e seleção
             const filtered = sortedOwnedCardIds.filter(cardId => {
                 const card = localCardsDatabase[cardId];
                 if (!card) return false;
-
-                const nameMatch = card.nome.toLowerCase().includes(searchTerm);
-                const montadoraMatch = !selectedMontadora || card.montadora === selectedMontadora;
-                const classeMatch = !selectedClasse || card.classe === selectedClasse;
-                const paisMatch = !selectedPais || card.pais === selectedPais;
-                const tracaoMatch = !selectedTracao || card.tracao === selectedTracao;
-
-                return nameMatch && montadoraMatch && classeMatch && paisMatch && tracaoMatch;
+                return card.nome.toLowerCase().includes(searchTerm) &&
+                       (!selectedMontadora || card.montadora === selectedMontadora) &&
+                       (!selectedClasse || card.classe === selectedClasse) &&
+                       (!selectedPais || card.pais === selectedPais) &&
+                       (!selectedTracao || card.tracao === selectedTracao);
             });
-
             renderCollection(filtered);
         }
 
         /**
-         * Popula os dropdowns de filtro com opções únicas das cartas possuídas.
+         * Popula os menus de filtro com opções únicas.
          */
         function populateFilters() {
             const ownedCardsData = ownedCardIds.map(id => localCardsDatabase[id]).filter(Boolean);
-            const montadoras = [...new Set(ownedCardsData.map(c => c.montadora))].sort();
-            const classes = [...new Set(ownedCardsData.map(c => c.classe))].sort((a, b) => {
-                const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
-                return rarityOrder.indexOf(a) - rarityOrder.indexOf(b);
-            });
-            const paises = [...new Set(ownedCardsData.map(c => c.pais))].sort();
-            const tracoes = [...new Set(ownedCardsData.map(c => c.tracao))].sort();
-
-            const populateSelect = (selectElement, options) => {
-                selectElement.innerHTML = '<option value="">Todos</option>';
-                options.forEach(option => {
-                    selectElement.innerHTML += `<option value="${option}">${option}</option>`;
-                });
+            const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+            const populateSelect = (select, options) => {
+                select.innerHTML = '<option value="">Todos</option>';
+                options.forEach(opt => select.innerHTML += `<option value="${opt}">${opt}</option>`);
             };
-
-            populateSelect(montadoraFilter, montadoras);
-            populateSelect(classeFilter, classes);
-            populateSelect(paisFilter, paises);
-            populateSelect(tracaoFilter, tracoes);
+            populateSelect(montadoraFilter, [...new Set(ownedCardsData.map(c => c.montadora))].sort());
+            populateSelect(classeFilter, [...new Set(ownedCardsData.map(c => c.classe))].sort((a, b) => rarityOrder.indexOf(a) - rarityOrder.indexOf(b)));
+            populateSelect(paisFilter, [...new Set(ownedCardsData.map(c => c.pais))].sort());
+            populateSelect(tracaoFilter, [...new Set(ownedCardsData.map(c => c.tracao))].sort());
         }
 
         /**
-         * Salva o deck atualizado no Firebase.
-         * @param {Array<string|null>} newDeck - O novo array de IDs do deck.
-         * @param {number} [animatedIndex=-1] - O índice da carta que deve ser animada após o drop.
+         * Guarda o deck no Firebase.
+         * @param {Array<string|null>} newDeck - O novo array do deck.
+         * @param {number} [animatedIndex=-1] - Índice da carta a animar.
          */
         async function saveDeckToFirebase(newDeck, animatedIndex = -1) {
             if (!currentUser) return;
-            const userRef = ref(db, 'users/' + currentUser.uid);
             try {
-                await update(userRef, { deck: newDeck });
+                await update(ref(db, 'users/' + currentUser.uid), { deck: newDeck });
                 activeDeckIds = newDeck;
                 renderDeck(animatedIndex);
-                applyFilters(); // Re-renderiza a coleção para atualizar o status "Selecionado"
+                applyFilters();
             } catch (error) {
-                console.error("Erro ao salvar o deck:", error);
-                showCustomAlert("Não foi possível salvar seu deck.");
+                console.error("Erro ao guardar o deck:", error);
+                showCustomAlert("Não foi possível guardar o seu deck.");
             }
         }
 
-        /**
-         * Atualiza a posição do ghost element durante o arrasto.
-         */
+        // Funções de Drag and Drop
         function updateGhostPosition() {
             if (!draggedGhost) return;
             draggedGhost.style.transform = `translate3d(${latestMouseX - offsetX}px, ${latestMouseY - offsetY}px, 0) rotateZ(8deg) scale(0.7)`;
             animationFrameId = null;
         }
 
-        /**
-         * Manipula o início do evento de arrasto.
-         * @param {Event} e - O evento de arrasto.
-         */
         function handleDragStart(e) {
             const originalElement = e.currentTarget;
-            
             const rect = originalElement.getBoundingClientRect();
             offsetX = e.clientX - rect.left;
             offsetY = e.clientY - rect.top;
-
-            // Cria um clone "burro" do elemento para ser o ghost, sem listeners de eventos
             draggedGhost = document.createElement('div');
             draggedGhost.className = originalElement.className;
             draggedGhost.innerHTML = originalElement.innerHTML;
-
-            // Remove o overlay holográfico do clone para evitar problemas de performance
             const holo = draggedGhost.querySelector('.holographic-overlay');
             if (holo) holo.remove();
-
-            draggedGhost.style.position = 'fixed';
-            draggedGhost.style.zIndex = '1000';
-            draggedGhost.style.pointerEvents = 'none';
-            draggedGhost.style.width = `${rect.width}px`;
-            draggedGhost.style.height = `${rect.height}px`;
-            draggedGhost.style.left = '0px';
-            draggedGhost.style.top = '0px';
-            draggedGhost.style.transform = `translate3d(${e.clientX - offsetX}px, ${e.clientY - offsetY}px, 0) rotateZ(8deg) scale(0.7)`;
-
+            Object.assign(draggedGhost.style, {
+                position: 'fixed', zIndex: '1000', pointerEvents: 'none',
+                width: `${rect.width}px`, height: `${rect.height}px`, left: '0px', top: '0px',
+                transform: `translate3d(${e.clientX - offsetX}px, ${e.clientY - offsetY}px, 0) rotateZ(8deg) scale(0.7)`
+            });
             document.body.appendChild(draggedGhost);
-            
-            // Adiciona a classe 'dragging' após um pequeno atraso para evitar conflitos visuais
-            setTimeout(() => {
-                originalElement.classList.add('dragging');
-            }, 0);
-
-            // Define uma imagem vazia para o ghost padrão do navegador
-            const emptyImage = new Image();
-            e.dataTransfer.setDragImage(emptyImage, 0, 0);
-
+            setTimeout(() => originalElement.classList.add('dragging'), 0);
+            e.dataTransfer.setDragImage(new Image(), 0, 0);
             e.dataTransfer.setData('text/plain', originalElement.dataset.cardId);
             e.dataTransfer.effectAllowed = 'move';
         }
 
-        /**
-         * Manipula o fim do evento de arrasto.
-         * @param {Event} e - O evento de arrasto.
-         */
         function handleDragEnd(e) {
             e.currentTarget.classList.remove('dragging');
-
-            // Remove o ghost element
             if (draggedGhost) {
                 document.body.removeChild(draggedGhost);
                 draggedGhost = null;
             }
-            
-            // Cancela o frame de animação se estiver ativo
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-                animationFrameId = null;
-            }
-            
-            // Limpa o intervalo de rolagem
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
             clearInterval(scrollInterval);
             scrollInterval = null;
         }
 
-        /**
-         * Manipula o evento dragover para slots e cartas.
-         * @param {Event} e - O evento de arrasto.
-         */
         function handleDragOver(e) {
             e.preventDefault();
-            const targetSlot = e.target.closest('[data-slot-index]');
-            const targetCard = e.target.closest('.card-base');
-
-            // Remove a classe 'drag-over' de todos os elementos para evitar múltiplos destaques
             document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-
-            if (targetSlot) {
-                targetSlot.classList.add('drag-over');
-            } else if (targetCard && targetCard.dataset.cardId) {
-                /*
-                 * Se o alvo for uma carta na coleção, destaca a carta.
-                 * Adicionado: Verifica se a carta arrastada é diferente da carta alvo
-                 * para evitar destacar a própria carta que está a ser arrastada.
-                 */
-                const draggedCardId = e.dataTransfer.getData('text/plain');
-                if (targetCard.dataset.cardId !== draggedCardId) {
-                    targetCard.classList.add('drag-over');
-                }
-            } else if (e.currentTarget.id === 'collection-drop-zone') {
-                // Se o arrasto estiver sobre a zona de drop da coleção
-                e.currentTarget.classList.add('drag-over');
-            }
+            const target = e.target.closest('[data-slot-index], .card-base, #collection-drop-zone');
+            if (target) target.classList.add('drag-over');
         }
 
-        /**
-         * Manipula o evento dragleave para slots e cartas.
-         * @param {Event} e - O evento de arrasto.
-         */
         function handleDragLeave(e) {
-            const targetSlot = e.target.closest('[data-slot-index]');
-            const targetCard = e.target.closest('.card-base');
-            if (targetSlot) {
-                targetSlot.classList.remove('drag-over');
-            } else if (targetCard) {
-                targetCard.classList.remove('drag-over');
-            } else if (e.currentTarget.id === 'collection-drop-zone') {
-                e.currentTarget.classList.remove('drag-over');
-            }
+            const target = e.target.closest('.drag-over');
+            if (target) target.classList.remove('drag-over');
         }
 
-        // Listener global para o movimento do mouse para o ghost element e rolagem automática
         document.addEventListener('dragover', (e) => {
-            e.preventDefault(); // Necessário para permitir o drop
-
+            e.preventDefault();
             if (draggedGhost) {
                 latestMouseX = e.clientX;
                 latestMouseY = e.clientY;
-
-                if (!animationFrameId) {
-                    animationFrameId = requestAnimationFrame(updateGhostPosition);
-                }
+                if (!animationFrameId) animationFrameId = requestAnimationFrame(updateGhostPosition);
             }
-
-            // Lógica de rolagem automática
-            const scrollZone = window.innerHeight * 0.15; // 15% do topo/base da tela
+            const scrollZone = window.innerHeight * 0.15;
             if (e.clientY < scrollZone) {
-                if (!scrollInterval) {
-                    scrollInterval = setInterval(() => window.scrollBy(0, -100), 50); // Rolagem para cima
-                }
+                if (!scrollInterval) scrollInterval = setInterval(() => window.scrollBy(0, -100), 50);
             } else if (e.clientY > window.innerHeight - scrollZone) {
-                if (!scrollInterval) {
-                    scrollInterval = setInterval(() => window.scrollBy(0, 100), 50); // Rolagem para baixo
-                }
+                if (!scrollInterval) scrollInterval = setInterval(() => window.scrollBy(0, 100), 50);
             } else {
                 clearInterval(scrollInterval);
                 scrollInterval = null;
             }
         });
 
-        /**
-         * Cria partículas de explosão no local do drop.
-         * @param {number} x - Coordenada X do centro da explosão.
-         * @param {number} y - Coordenada Y do centro da explosão.
-         * @param {string} color - A cor das partículas.
-         * @param {string} rank - O rank da carta para determinar a intensidade da explosão.
-         */
         function createExplosion(x, y, color, rank) {
             const particleCount = rank === 'S' ? 60 : rank === 'A' ? 40 : 25;
             const baseDistance = rank === 'S' ? 180 : rank === 'A' ? 130 : 90;
-
             for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                document.body.appendChild(particle);
-
-                const angle = Math.random() * Math.PI * 2; // Ângulo aleatório em radianos
-                const distance = Math.random() * baseDistance + 50; // Distância aleatória
-                const targetX = Math.cos(angle) * distance;
-                const targetY = Math.sin(angle) * distance;
-
-                const size = Math.random() * 8 + 5; // Tamanho aleatório entre 5px e 13px
-                const duration = Math.random() * 0.6 + 0.8; // Duração aleatória entre 0.8s e 1.4s
-
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.animationDuration = `${duration}s`;
-
-                particle.style.setProperty('--x', `${targetX}px`);
-                particle.style.setProperty('--y', `${targetY}px`);
-                particle.style.background = color;
-                particle.style.left = `${x}px`;
-                particle.style.top = `${y}px`;
-
-                // Remove a partícula após a animação
-                particle.addEventListener('animationend', () => {
-                    particle.remove();
+                const p = document.createElement('div');
+                p.className = 'particle';
+                document.body.appendChild(p);
+                const angle = Math.random() * Math.PI * 2, dist = Math.random() * baseDistance + 50;
+                Object.assign(p.style, {
+                    width: `${Math.random() * 8 + 5}px`, height: `${Math.random() * 8 + 5}px`,
+                    animationDuration: `${Math.random() * 0.6 + 0.8}s`, background: color,
+                    left: `${x}px`, top: `${y}px`
                 });
+                p.style.setProperty('--x', `${Math.cos(angle) * dist}px`);
+                p.style.setProperty('--y', `${Math.sin(angle) * dist}px`);
+                p.addEventListener('animationend', () => p.remove());
             }
         }
 
-        /**
-         * Manipula o evento de drop em um slot do deck.
-         * @param {Event} e - O evento de drop.
-         */
         async function handleDropOnDeck(e) {
             e.preventDefault();
-            const targetSlot = e.currentTarget;
-            targetSlot.classList.remove('drag-over'); // Remove o destaque
-
+            e.currentTarget.classList.remove('drag-over');
             const draggedCardId = e.dataTransfer.getData('text/plain');
-            const targetSlotIndex = parseInt(targetSlot.dataset.slotIndex);
-
-            if (!draggedCardId || targetSlotIndex === undefined) return;
+            const targetSlotIndex = parseInt(e.currentTarget.dataset.slotIndex);
+            if (!draggedCardId || isNaN(targetSlotIndex)) return;
 
             const cardData = localCardsDatabase[draggedCardId];
-            if (cardData) {
-                // Cria a explosão de partículas no local do drop
-                createExplosion(e.clientX, e.clientY, getRankColor(cardData.classe), cardData.classe.replace('+', ''));
-            }
+            if (cardData) createExplosion(e.clientX, e.clientY, getRankColor(cardData.classe), cardData.classe.replace('+', ''));
 
             const newDeck = [...activeDeckIds];
             const oldIndexInDeck = activeDeckIds.indexOf(draggedCardId);
-
-            // Se a carta já estava no deck, remove-a da posição antiga
-            if(oldIndexInDeck > -1){
-                newDeck[oldIndexInDeck] = null;
-            }
-            
-            // Pega a carta que já estava no slot de destino, se houver
-            const cardInTargetSlot = activeDeckIds[targetSlotIndex];
-            
-            // Verifica se a carta arrastada já está na coleção ou se é uma carta nova
-            // Se a carta arrastada não está na ownedCardIds e não é nula, adiciona-a.
-            if (draggedCardId && !ownedCardIds.includes(draggedCardId)) {
-                ownedCardIds.push(draggedCardId);
-            }
-
-            newDeck[targetSlotIndex] = draggedCardId; // Coloca a nova carta no slot
-
-            // Se havia uma carta no slot de destino e a carta arrastada veio do deck,
-            // move a carta do slot de destino para a posição antiga da carta arrastada
-            if(cardInTargetSlot && oldIndexInDeck > -1) {
-                newDeck[oldIndexInDeck] = cardInTargetSlot;
-            } else if (cardInTargetSlot && oldIndexInDeck === -1) {
-                // Se a carta veio da coleção e o slot de destino está ocupado,
-                // a carta do slot de destino é removida do deck e adicionada à coleção (se ainda não estiver lá)
-                if (!ownedCardIds.includes(cardInTargetSlot)) {
-                    ownedCardIds.push(cardInTargetSlot);
-                }
-            }
-
-            // Garante que o deck tem sempre 5 elementos, preenchendo com null se necessário
+            if (oldIndexInDeck > -1) newDeck[oldIndexInDeck] = null;
+            const cardInTargetSlot = newDeck[targetSlotIndex];
+            newDeck[targetSlotIndex] = draggedCardId;
+            if (cardInTargetSlot && oldIndexInDeck > -1) newDeck[oldIndexInDeck] = cardInTargetSlot;
             const finalDeck = Array.from({ length: 5 }, (_, i) => newDeck[i] || null);
-            await saveDeckToFirebase(finalDeck, targetSlotIndex); // Salva e renderiza com animação
+            await saveDeckToFirebase(finalDeck, targetSlotIndex);
         }
 
-
-        /**
-         * Manipula o evento de drop na zona de drop da coleção (para remover cartas do deck).
-         * @param {Event} e - O evento de drop.
-         */
         async function handleDropOnCollection(e) {
             e.preventDefault();
-            e.currentTarget.classList.remove('drag-over'); // Remove o destaque
-
+            e.currentTarget.classList.remove('drag-over');
             const draggedCardId = e.dataTransfer.getData('text/plain');
-
-            // Conta quantas cartas não são nulas no deck
-            const cardsInDeckCount = activeDeckIds.filter(id => id !== null).length;
-
-            // Impede que o deck fique completamente vazio (deve ter pelo menos 1 carta)
-            if (cardsInDeckCount <= 1 && activeDeckIds.includes(draggedCardId)) {
-                showCustomAlert("O deck não pode ficar vazio! Mantenha pelo menos uma carta.");
-                return;
-            }
-
-            // Se a carta arrastada estiver no deck, remove-a e adiciona à coleção (se ainda não estiver lá)
             if (activeDeckIds.includes(draggedCardId)) {
-                const newDeck = activeDeckIds.map(id => id === draggedCardId ? null : id);
-                if (!ownedCardIds.includes(draggedCardId)) {
-                    ownedCardIds.push(draggedCardId);
+                if (activeDeckIds.filter(id => id !== null).length <= 1) {
+                    showCustomAlert("O deck não pode ficar vazio! Mantenha pelo menos uma carta.");
+                    return;
                 }
+                const newDeck = activeDeckIds.map(id => id === draggedCardId ? null : id);
                 await saveDeckToFirebase(newDeck);
             }
         }
 
-        // Adiciona listeners para os filtros
+        // Listeners dos filtros e da zona de drop
         searchInput.addEventListener('input', applyFilters);
         montadoraFilter.addEventListener('change', applyFilters);
         classeFilter.addEventListener('change', applyFilters);
@@ -1469,74 +1172,49 @@
             tracaoFilter.value = '';
             applyFilters();
         });
-
-        // Adiciona listeners para a zona de drop da coleção
         collectionDropZone.addEventListener('dragover', handleDragOver);
         collectionDropZone.addEventListener('dragleave', handleDragLeave);
         collectionDropZone.addEventListener('drop', handleDropOnCollection);
 
-        // Listener para o estado de autenticação do Firebase
+        // Lógica principal de autenticação e carregamento de dados
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                currentUser = user; // Define o usuário atual
-                const userRef = ref(db, 'users/' + user.uid);
+                currentUser = user;
                 try {
-                    const snapshot = await get(userRef);
+                    const snapshot = await get(ref(db, 'users/' + user.uid));
                     if (snapshot.exists()) {
                         const userData = snapshot.val();
+                        
+                        // Cria o header dinamicamente
+                        createHeader(auth, userData, mainHeader, 'garagem');
 
-                        // Atualiza as informações do usuário na interface
-                        usernameDisplay.textContent = userData.username;
-                        reaisDisplay.textContent = `R$ ${userData.reais.toLocaleString('pt-BR')}`;
-                        ouroDisplay.textContent = `${userData.ouro} Ouro`;
-
-                        // Carrega as cartas possuídas e o deck ativo
                         ownedCardIds = userData.cartas || [];
                         activeDeckIds = userData.deck || Array(5).fill(null);
+                        if (activeDeckIds.length < 5) activeDeckIds.push(...Array(5 - activeDeckIds.length).fill(null));
 
-                        // Garante que o deck tem 5 slots
-                        if(activeDeckIds.length < 5){
-                            activeDeckIds.push(...Array(5 - activeDeckIds.length).fill(null));
-                        }
-
-                        // Se o deck não estiver definido ou estiver vazio (todos os slots nulos), inicializa com a primeira carta possuída
-                        // Isso garante que o deck nunca esteja completamente vazio se o usuário tiver cartas
                         if (activeDeckIds.every(id => id === null) && ownedCardIds.length > 0) {
                             const initialDeck = Array(5).fill(null);
                             initialDeck[0] = ownedCardIds[0];
-                            await saveDeckToFirebase(initialDeck); // Salva e renderiza
+                            await saveDeckToFirebase(initialDeck);
                         } else {
-                            renderDeck(); // Renderiza o deck existente
+                            renderDeck();
                         }
 
-                        populateFilters(); // Popula os filtros com base nas cartas possuídas
-                        applyFilters(); // Aplica os filtros e renderiza a coleção
+                        populateFilters();
+                        applyFilters();
 
-                        // Esconde o loader e mostra o conteúdo da aplicação
                         appContainer.classList.remove('hidden');
                         loader.classList.add('hidden');
-
                     } else {
-                        // Se o documento do usuário não for encontrado, força o logout
-                        console.error("Documento do usuário não encontrado. Forçando logout.");
+                        console.error("Documento do utilizador não encontrado. A forçar logout.");
                         await signOut(auth);
                     }
                 } catch (error) {
-                    console.error("Erro ao buscar dados do usuário:", error);
+                    console.error("Erro ao procurar dados do utilizador:", error);
                     await signOut(auth);
                 }
             } else {
-                // Se o usuário não está logado, redireciona para a página de login
                 window.location.href = 'index.html';
-            }
-        });
-
-        // Listener para o botão de logout
-        logoutButton.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error("Erro ao fazer logout:", error);
             }
         });
     </script>

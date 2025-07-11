@@ -13,7 +13,8 @@
         /* Estilos personalizados para o tema de carros */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: rgb(27, 27, 27);
+            background-color: #1a1a1a;
+            background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23333333" fill-opacity="0.4" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
         }
 
         .font-orbitron {
@@ -224,16 +225,15 @@
 
         // Observador de estado de autenticação.
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // Se o usuário estiver logado, redireciona para home.html
-                window.location.href = 'home.html';
-            } else {
-                // Se não estiver logado, oculta o loader e mostra o formulário de autenticação
+            // Este listener agora apenas mostra o formulário se o usuário estiver deslogado.
+            // O redirecionamento é tratado pelas funções de login/cadastro para evitar a corrida.
+            if (!user) {
                 loader.classList.add('hidden');
                 authContainer.classList.remove('hidden');
                 showLoginView();
             }
         });
+
         // Cadastro de novo usuário com Email/Senha
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
