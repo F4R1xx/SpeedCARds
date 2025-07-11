@@ -224,15 +224,16 @@
 
         // Observador de estado de autenticação.
         onAuthStateChanged(auth, (user) => {
-            // Este listener agora apenas mostra o formulário se o usuário estiver deslogado.
-            // O redirecionamento é tratado pelas funções de login/cadastro para evitar a corrida.
-            if (!user) {
+            if (user) {
+                // Se o usuário estiver logado, redireciona para home.html
+                window.location.href = 'home.html';
+            } else {
+                // Se não estiver logado, oculta o loader e mostra o formulário de autenticação
                 loader.classList.add('hidden');
                 authContainer.classList.remove('hidden');
                 showLoginView();
             }
         });
-
         // Cadastro de novo usuário com Email/Senha
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
