@@ -288,44 +288,50 @@
         });
 
         // Login com Google
-        googleLoginButton.addEventListener('click', async () => {
-            loader.classList.remove('hidden');
-            const provider = new GoogleAuthProvider();
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
+googleLoginButton.addEventListener('click', async () => {
+    loader.classList.remove('hidden');
+    const provider = new GoogleAuthProvider();
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
 
-                const userRef = ref(db, 'users/' + user.uid);
-                const userSnap = await get(userRef);
+        const userRef = ref(db, 'users/' + user.uid);
+        const userSnap = await get(userRef);
 
-                if (!userSnap.exists()) {
-                    // É um novo usuário, criar perfil no Realtime Database
-                    const username = user.email; // Usando o email como username
+        if (!userSnap.exists()) {
+            // É um novo usuário, criar perfil no Realtime Database
 
-                    const userData = {
-                        username: username,
-                        email: user.email,
-                        reais: 20000,
-                        ouro: 50,
-                        cartas: "",
-                        deck: "",
-                        amigos: ""
-                    };
+            // --- ALTERAÇÃO AQUI ---
+            // Trata o email para criar um username sem caracteres especiais.
+            // Ex: "williamfunk.11@gmail.com" se torna "williamfunk11"
+            const username = user.email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '');
+
+            const userData = {
+                username: username,
+                email: user.email,
+                reais: 20000,
+                ouro: 50,
+                cartas: "",
+                deck: "",
+                amigos: ""
+            };
     
-                    const updates = {};
-                    updates['/users/' + user.uid] = userData;
-                    updates['/usernames/' + username.replace(/\./g, ',')] = user.uid; // Sanitiza o email para usar como chave
-                    await update(ref(db), updates);
-                }
-                
-                window.location.href = 'home.html';
+            // ATENÇÃO: A lógica para a chave '/usernames/' também precisa ser consistente.
+            const updates = {};
+            updates['/users/' + user.uid] = userData;
+            // A chave em '/usernames/' agora usará o novo username limpo.
+            updates['/usernames/' + username] = user.uid; 
+            await update(ref(db), updates);
+        }
+        
+        window.location.href = 'home.html';
 
-            } catch (error) {
-                console.error("Erro no login com Google:", error);
-                showMessage("Não foi possível fazer login com o Google.");
-                loader.classList.add('hidden');
-            }
-        });
+    } catch (error) {
+        console.error("Erro no login com Google:", error);
+        showMessage("Não foi possível fazer login com o Google.");
+        loader.classList.add('hidden');
+    }
+});
 
         // Login de usuário existente com Email/Senha
         loginForm.addEventListener('submit', async (e) => {

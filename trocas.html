@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCards - Negociação de Troca</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --primary-red: #E01A4F;
+            --text-light: #f0f2f5;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7);
+            --success-color: #27ae60;
+            --danger-color: #c0392b;
+            --info-color-bg: rgba(52, 152, 219, 0.7); /* Azul para seleção */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+        }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .loader-container { background: var(--background-dark); }
+        .loader {
+            border-top-color: var(--primary-red);
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-red);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 8px var(--primary-red);
+        }
+        
+        /* --- ESTILOS DE CARTAS --- */
+        .card-base {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 3px solid #444;
+            background-color: #1a1a1a;
+            position: relative; 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
+        .card-base:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--primary-red), 0 0 15px rgba(255, 255, 255, 0.2) inset;
+            border-color: var(--primary-red);
+            z-index: 20;
+        }
+        .card-base.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(80%);
+        }
+        .card-base.disabled:hover {
+            transform: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            border-color: #444;
+        }
+        .disabled-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6); color: white; display: flex;
+            align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem; text-shadow: 0 0 5px black; z-index: 15;
+            text-align: center; padding: 1rem;
+            border-radius: 1rem 1rem 0 0;
+        }
+        .disabled-overlay.selected {
+            background: var(--info-color-bg);
+        }
+        .card-image-wrapper {
+            position: relative; width: 100%; height: 150px;
+            overflow: hidden; border-radius: 1rem 1rem 0 0;
+        }
+        .card-image {
+            width: 100%; height: 100%; object-fit: cover; object-position: center;
+            transition: transform 0.3s ease-in-out;
+        }
+        .card-base:hover .card-image { transform: scale(1.05); }
+        .card-info-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%), 
+                        linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 50%);
+            display: flex; flex-direction: column; justify-content: space-between; padding: 0.75rem;
+        }
+        .rank-badge-small {
+            position: absolute; top: 10px; left: 10px; width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 20px;
+            color: white; text-shadow: 0 0 10px rgba(0,0,0,0.9);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 0 10px rgba(0,0,0,0.7);
+            z-index: 10;
+        }
+        .card-text-shadow { text-shadow: 1px 1px 6px black, 0 0 12px black; }
+        .card-flag-shadow { box-shadow: 0 0 6px black; }
+        .rank-s.card-base { border-color: #FFD700; }
+        .rank-a.card-base { border-color: var(--primary-red); }
+        .rank-b.card-base { border-color: #8e44ad; }
+        .rank-c.card-base { border-color: #3498db; }
+        .rank-d.card-base { border-color: #2ecc71; }
+
+        /* --- NOVOS ESTILOS DE UI DE TROCA --- */
+        .trade-area {
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .trade-area.accepted {
+            border-color: var(--success-color);
+            box-shadow: 0 0 20px rgba(39, 174, 96, 0.5);
+        }
+        .trade-slots-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 0.75rem;
+            min-height: 120px;
+            padding: 0.75rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 0.5rem;
+        }
+        .trade-slot {
+            aspect-ratio: 8 / 5;
+            background: rgba(0,0,0,0.3);
+            border: 2px dashed var(--border-color);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #888;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .trade-slot .card-base {
+            width: 100%;
+            height: 100%;
+            cursor: default;
+        }
+        .trade-slot .card-base:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: #444;
+        }
+        .trade-slot .card-image-wrapper { height: 100%; border-radius: 0.5rem; }
+        .trade-slot .card-info-overlay { padding: 0.5rem; }
+        .trade-slot .rank-badge-small { width: 30px; height: 30px; font-size: 16px; }
+        .trade-slot h3 { font-size: 0.8rem; }
+        .trade-slot .card-text-shadow { text-shadow: 1px 1px 4px black; }
+
+        .status-bar {
+            padding: 0.75rem;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        .status-bar.negotiating { background-color: #444; color: #ccc; }
+        .status-bar.accepted { background-color: var(--success-color); color: white; }
+
+        .action-button {
+            width: 100%;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .btn-accept { background: linear-gradient(145deg, var(--success-color), #229954); }
+        .btn-cancel { background: linear-gradient(145deg, var(--danger-color), #a93226); }
+        .action-button:hover {
+            transform: translateY(-2px);
+        }
+        .btn-accept:hover { box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4); }
+        .btn-cancel:hover { box-shadow: 0 6px 20px rgba(192, 57, 43, 0.4); }
+        .action-button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+
+        /* Animações e Efeitos */
+        @keyframes card-enter {
+            from { transform: scale(0.5) rotate(-15deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .card-enter-animation {
+            animation: card-enter 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fly-out 1s forwards;
+        }
+        @keyframes fly-out {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loader-container fixed inset-0 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-600 h-28 w-28"></div>
+        <p class="mt-8 text-2xl font-orbitron text-red-400 animate-pulse">A entrar na negociação...</p>
+    </div>
+
+    <div id="custom-alert" class="fixed top-5 right-5 text-white py-3 px-6 rounded-lg shadow-lg z-50 opacity-0 transform translate-x-10 transition-all duration-300">
+        <p id="custom-alert-message" class="font-bold"></p>
+    </div>
+
+    <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
+        <header id="header-placeholder" class="sticky top-0 z-40 w-full"></header>
+
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <div class="glass-panel p-6">
+                <h1 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-6 text-center" style="text-shadow: var(--glow-effect);">MESA DE TROCA</h1>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- Minha Área -->
+                    <div id="my-trade-area" class="trade-area glass-panel p-4 rounded-lg">
+                        <h2 id="my-username-title" class="section-title">MINHA OFERTA</h2>
+                        <div id="my-offer-slots" class="trade-slots-container"></div>
+                        <div id="my-status-bar" class="status-bar negotiating">A negociar</div>
+                        <p class="text-sm text-gray-400 text-center mt-2">Custo: <span id="my-trade-cost" class="font-bold text-white">0</span> Reais</p>
+                    </div>
+                    <!-- Área do Amigo -->
+                    <div id="friend-trade-area" class="trade-area glass-panel p-4 rounded-lg">
+                        <h2 id="friend-username-title" class="section-title">OFERTA DE ...</h2>
+                        <div id="friend-offer-slots" class="trade-slots-container"></div>
+                        <div id="friend-status-bar" class="status-bar negotiating">A negociar</div>
+                        <p class="text-sm text-gray-400 text-center mt-2">Custo: <span id="friend-trade-cost" class="font-bold text-white">0</span> Reais</p>
+                    </div>
+                </div>
+
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <button id="accept-trade-btn" class="action-button btn-accept">Aceitar Troca</button>
+                    <button id="cancel-trade-btn" class="action-button btn-cancel">Cancelar Troca</button>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <h3 class="section-title">MINHAS CARTAS (SELECIONE PARA OFERECER)</h3>
+                        <div id="my-cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-2 bg-black/20 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get, set, onValue, serverTimestamp, update, remove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { createHeader } from './menu.js';
+        import { cards as allCardsData } from './cards.js';
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config)
+            : {
+                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs",
+                authDomain: "primeiroprojetoteste01.firebaseapp.com",
+                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com",
+                projectId: "primeiroprojetoteste01",
+                storageBucket: "primeiroprojetoteste01.appspot.com",
+                messagingSenderId: "530867320810",
+                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
+            };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // --- DOM Elements ---
+        const loader = document.getElementById('loader');
+        const appContainer = document.getElementById('app-container');
+        const headerPlaceholder = document.getElementById('header-placeholder');
+        const myOfferSlots = document.getElementById('my-offer-slots');
+        const friendOfferSlots = document.getElementById('friend-offer-slots');
+        const myCardsContainer = document.getElementById('my-cards-container');
+        const acceptTradeBtn = document.getElementById('accept-trade-btn');
+        const cancelTradeBtn = document.getElementById('cancel-trade-btn');
+        const myTradeCostSpan = document.getElementById('my-trade-cost');
+        const friendTradeCostSpan = document.getElementById('friend-trade-cost');
+        const myStatusBar = document.getElementById('my-status-bar');
+        const friendStatusBar = document.getElementById('friend-status-bar');
+        const myTradeArea = document.getElementById('my-trade-area');
+        const friendTradeArea = document.getElementById('friend-trade-area');
+        
+        // --- State ---
+        let currentUser = null;
+        let tradeId = null;
+        let tradeData = {};
+        let myUid = null;
+        let friendUid = null;
+        let myLocalData = {};
+        let friendLocalData = {};
+        let otherTradesCards = new Set();
+        let isProcessing = false;
+        let unsubscribeTrade;
+
+        const RARITY_COSTS = { 'S+': 10000, 'S': 7500, 'A': 5000, 'B': 2500, 'C': 1000, 'D': 500, 'E': 250 };
+        const getRankColor = (rank) => ({'S+':'#FFD700','S':'#FFD700','A':'#E01A4F','B':'#8e44ad','C':'#3498db','D':'#2ecc71','E':'#95a5a6'}[rank] || '#7F8C8D');
+
+        function showCustomAlert(message, isSuccess = false) {
+            const customAlert = document.getElementById('custom-alert');
+            const customAlertMessage = document.getElementById('custom-alert-message');
+            customAlertMessage.textContent = message;
+            customAlert.classList.toggle('bg-green-500', isSuccess);
+            customAlert.classList.toggle('bg-red-500', !isSuccess);
+            customAlert.classList.remove('opacity-0', 'translate-x-10');
+            setTimeout(() => customAlert.classList.add('opacity-0', 'translate-x-10'), 4000);
+        }
+
+        async function handleCardSelection(e) {
+            if (isProcessing || !tradeData) return;
+            const cardEl = e.currentTarget;
+            const { cardId } = cardEl.dataset;
+            
+            const myOffer = tradeData.players[myUid]?.offer || [];
+            const isSelected = myOffer.includes(cardId);
+            let newOffer = [...myOffer];
+
+            if (isSelected) {
+                newOffer = newOffer.filter(id => id !== cardId);
+            } else {
+                if (newOffer.length < 5) {
+                    newOffer.push(cardId);
+                } else {
+                    showCustomAlert(`Pode oferecer no máximo 5 cartas.`);
+                    return;
+                }
+            }
+            
+            const updates = {};
+            updates[`/trades/${tradeId}/players/${myUid}/offer`] = newOffer;
+            updates[`/trades/${tradeId}/players/${myUid}/status`] = 'negotiating';
+            updates[`/trades/${tradeId}/players/${friendUid}/status`] = 'negotiating';
+
+            try {
+                await update(ref(db), updates);
+            } catch (error) {
+                console.error("Error updating offer:", error);
+                showCustomAlert("Erro ao atualizar a oferta.");
+            }
+        }
+
+        function createCardElement(cardId, currentTradeData) {
+            const cardData = allCardsData[cardId];
+            if (!cardData) return null;
+
+            const cardElement = document.createElement('div');
+            cardElement.className = `card-base rank-${cardData.classe.toLowerCase().replace('+', '')}`;
+            cardElement.dataset.cardId = cardId;
+
+            const friendHasIt = friendLocalData.cartas?.includes(cardId);
+            const isDecked = myLocalData.deck?.includes(cardId);
+            const isOffered = (currentTradeData.players[myUid]?.offer || []).includes(cardId);
+            const isLockedInOtherTrade = otherTradesCards.has(cardId);
+
+            cardElement.innerHTML = `
+                <div class="card-image-wrapper">
+                    <img src="${cardData.imagem}" alt="${cardData.nome}" class="card-image">
+                    <div class="rank-badge-small" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
+                    <div class="card-info-overlay">
+                        <div class="flex justify-between items-start w-full">
+                            <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-5 mt-12" style="filter: drop-shadow(0 0 2px black);">
+                            <div class="text-right">
+                                <div class="font-bold text-base font-orbitron card-text-shadow">${cardData.ano}</div>
+                                <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1 card-flag-shadow">
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg font-orbitron leading-tight card-text-shadow">${cardData.nome}</h3>
+                    </div>
+                </div>
+                <div class="p-2 bg-[#181818] text-center text-xs">
+                    <p class="font-bold text-white">${cardData.montadora}</p>
+                </div>
+            `;
+
+            const imageWrapper = cardElement.querySelector('.card-image-wrapper');
+
+            if (isOffered) {
+                const overlay = document.createElement('div');
+                overlay.className = 'disabled-overlay selected';
+                overlay.textContent = 'SELECIONADO';
+                imageWrapper.appendChild(overlay);
+                cardElement.addEventListener('click', handleCardSelection);
+            } else if (friendHasIt || isDecked || isLockedInOtherTrade) {
+                cardElement.classList.add('disabled');
+                const overlay = document.createElement('div');
+                overlay.className = 'disabled-overlay';
+                let reason = '';
+                if(isDecked) reason = 'NO DECK';
+                else if(friendHasIt) reason = 'AMIGO JÁ POSSUI';
+                else if(isLockedInOtherTrade) reason = 'EM OUTRA TROCA';
+                overlay.textContent = reason;
+                imageWrapper.appendChild(overlay);
+            } else {
+                cardElement.addEventListener('click', handleCardSelection);
+            }
+            
+            return cardElement;
+        }
+        
+        function createOfferedCardElement(cardId) {
+            const cardData = allCardsData[cardId];
+            if (!cardData) return null;
+            const el = document.createElement('div');
+            el.className = 'trade-slot';
+            el.innerHTML = `
+                <div class="card-base rank-${cardData.classe.toLowerCase().replace('+', '')} !cursor-default !transform-none">
+                     <div class="card-image-wrapper !h-full !rounded-lg">
+                        <img src="${cardData.imagem}" alt="${cardData.nome}" class="card-image">
+                        <div class="rank-badge-small !w-8 !h-8 !text-base" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
+                        <div class="card-info-overlay !p-2 !justify-end">
+                            <h3 class="font-bold text-xs font-orbitron leading-tight card-text-shadow w-full text-center">${cardData.nome}</h3>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return el;
+        }
+
+        function updateUIFromTradeData(data) {
+            tradeData = data;
+            if (!myUid || !friendUid || !tradeData || !tradeData.players) return;
+
+            const myPlayerData = data.players[myUid];
+            const friendPlayerData = data.players[friendUid];
+
+            const myOffer = myPlayerData?.offer || [];
+            const friendOffer = friendPlayerData?.offer || [];
+            const myStatus = myPlayerData?.status;
+            const friendStatus = friendPlayerData?.status;
+
+            updateOfferSlots(myOfferSlots, myOffer);
+            updateOfferSlots(friendOfferSlots, friendOffer);
+
+            myTradeCostSpan.textContent = calculateCost(myOffer).toLocaleString('pt-BR');
+            friendTradeCostSpan.textContent = calculateCost(friendOffer).toLocaleString('pt-BR');
+
+            updateStatusArea(myStatusBar, myTradeArea, myStatus);
+            updateStatusArea(friendStatusBar, friendTradeArea, friendStatus);
+            
+            acceptTradeBtn.disabled = myStatus === 'accepted' || isProcessing;
+            acceptTradeBtn.textContent = myStatus === 'accepted' ? 'Aguardando Amigo' : 'Aceitar Troca';
+
+            renderMyCardList(data);
+
+            if (myStatus === 'accepted' && friendStatus === 'accepted') {
+                executeTrade();
+            }
+        }
+        
+        function updateStatusArea(statusBar, tradeArea, status) {
+            statusBar.classList.remove('negotiating', 'accepted');
+            tradeArea.classList.remove('accepted');
+            if (status === 'accepted') {
+                statusBar.classList.add('accepted');
+                tradeArea.classList.add('accepted');
+                statusBar.textContent = 'TROCA ACEITA';
+            } else {
+                statusBar.classList.add('negotiating');
+                statusBar.textContent = 'A NEGOCIAR';
+            }
+        }
+
+        function renderMyCardList(currentTradeData) {
+            myCardsContainer.innerHTML = '';
+            const sortCards = (a, b) => {
+                const order = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+                return order.indexOf(allCardsData[a].classe) - order.indexOf(allCardsData[b].classe);
+            };
+
+            (myLocalData.cartas || []).sort(sortCards).forEach(cardId => {
+                const el = createCardElement(cardId, currentTradeData);
+                if(el) myCardsContainer.appendChild(el);
+            });
+        }
+        
+        function calculateCost(cardArray = []) {
+            return cardArray.reduce((total, cardId) => total + (RARITY_COSTS[allCardsData[cardId]?.classe] || 0), 0);
+        }
+
+        function updateOfferSlots(slotsContainer, cardIds = []) {
+            slotsContainer.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const cardId = cardIds[i];
+                const slot = document.createElement('div');
+                if (cardId) {
+                    const cardElement = createOfferedCardElement(cardId);
+                    slot.appendChild(cardElement);
+                    slot.classList.add('card-enter-animation');
+                } else {
+                    slot.className = 'trade-slot';
+                    slot.innerHTML = `<i class="fas fa-plus text-gray-600"></i>`;
+                }
+                slotsContainer.appendChild(slot);
+            }
+        }
+
+        async function handleAccept() {
+            if (isProcessing || !tradeData) return;
+            
+            const myOffer = tradeData.players[myUid]?.offer || [];
+            const friendOffer = tradeData.players[friendUid]?.offer || [];
+
+            if (myOffer.length === 0 && friendOffer.length === 0) {
+                showCustomAlert("A troca está vazia. Adicione ou peça cartas.");
+                return;
+            }
+            
+            const myCost = calculateCost(myOffer);
+            if (myLocalData.reais < myCost) {
+                showCustomAlert(`Não tem Reais suficientes! Custo: ${myCost.toLocaleString('pt-BR')}`);
+                return;
+            }
+            
+            try {
+                await update(ref(db, `/trades/${tradeId}/players/${myUid}`), { status: 'accepted' });
+            } catch (error) {
+                console.error("Error accepting trade:", error);
+                showCustomAlert("Erro ao aceitar a troca.");
+            }
+        }
+
+        async function handleCancel() {
+            if (isProcessing) return;
+            isProcessing = true;
+            if (unsubscribeTrade) unsubscribeTrade();
+            try {
+                await remove(ref(db, `trades/${tradeId}`));
+            } catch (error) {
+                console.error("Error cancelling trade:", error);
+                showCustomAlert("Erro ao cancelar a troca.");
+                isProcessing = false;
+            }
+        }
+        
+        function createExplosion(x, y) {
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                document.body.appendChild(p);
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 150 + 50;
+                const size = Math.random() * 8 + 5;
+                const color = `hsl(${Math.random() * 60 + 20}, 100%, 70%)`;
+                
+                Object.assign(p.style, {
+                    width: `${size}px`, height: `${size}px`,
+                    animationDuration: `${Math.random() * 0.8 + 0.5}s`, background: color,
+                    left: `${x}px`, top: `${y}px`,
+                    boxShadow: `0 0 10px ${color}`
+                });
+                p.style.setProperty('--x', `${Math.cos(angle) * dist}px`);
+                p.style.setProperty('--y', `${Math.sin(angle) * dist}px`);
+                p.addEventListener('animationend', () => p.remove());
+            }
+        }
+
+        async function executeTrade() {
+            if (isProcessing) return;
+            isProcessing = true;
+            acceptTradeBtn.disabled = true;
+            acceptTradeBtn.textContent = 'A PROCESSAR...';
+            
+            createExplosion(window.innerWidth / 2, window.innerHeight / 2);
+
+            const myFinalDataSnap = await get(ref(db, `users/${myUid}`));
+            const friendFinalDataSnap = await get(ref(db, `users/${friendUid}`));
+            let myFinalData = myFinalDataSnap.val();
+            let friendFinalData = friendFinalDataSnap.val();
+            
+            const myOfferedCards = tradeData.players[myUid]?.offer || [];
+            const friendOfferedCards = tradeData.players[friendUid]?.offer || [];
+
+            if (myFinalData.reais < calculateCost(myOfferedCards) || friendFinalData.reais < calculateCost(friendOfferedCards)) {
+                showCustomAlert("Um dos jogadores não tem Reais suficientes para a troca!");
+                await remove(ref(db, `trades/${tradeId}`));
+                return;
+            }
+
+            myFinalData.reais -= calculateCost(myOfferedCards);
+            friendFinalData.reais -= calculateCost(friendOfferedCards);
+
+            myFinalData.cartas = (myFinalData.cartas || []).filter(c => !myOfferedCards.includes(c));
+            myFinalData.cartas.push(...friendOfferedCards);
+            friendFinalData.cartas = (friendFinalData.cartas || []).filter(c => !friendOfferedCards.includes(c));
+            friendFinalData.cartas.push(...myOfferedCards);
+            
+            const fixDeck = (userData, tradedCards) => {
+                let deck = userData.deck || [];
+                deck = deck.map(deckCard => tradedCards.includes(deckCard) ? null : deckCard);
+                if (deck.every(c => c === null) && userData.cartas.length > 0) {
+                    const randomCard = userData.cartas[Math.floor(Math.random() * userData.cartas.length)];
+                    deck[0] = randomCard;
+                }
+                return deck;
+            };
+
+            myFinalData.deck = fixDeck(myFinalData, myOfferedCards);
+            friendFinalData.deck = fixDeck(friendFinalData, friendOfferedCards);
+
+            const updates = {};
+            updates[`/users/${myUid}`] = myFinalData;
+            updates[`/users/${friendUid}`] = friendFinalData;
+            
+            try {
+                if (unsubscribeTrade) unsubscribeTrade();
+                await update(ref(db), updates);
+                await remove(ref(db, `trades/${tradeId}`));
+                setTimeout(() => {
+                    window.location.href = `amigos.html?status=success&message=${encodeURIComponent('Troca realizada com sucesso!')}`;
+                }, 1200);
+            } catch (error) {
+                console.error("CRITICAL: Error executing trade:", error);
+                showCustomAlert("Erro CRÍTICO ao finalizar a troca.");
+                isProcessing = false;
+            }
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                myUid = user.uid;
+                const urlParams = new URLSearchParams(window.location.search);
+                const p1 = urlParams.get('p1');
+                const p2 = urlParams.get('p2');
+
+                if (!p1 || !p2) { window.location.href = 'amigos.html'; return; }
+                
+                friendUid = myUid === p1 ? p2 : p1;
+                tradeId = [p1, p2].sort().join('_'); 
+                const tradeRef = ref(db, `trades/${tradeId}`);
+
+                try {
+                    const [myDataSnap, friendDataSnap, allTradesSnap] = await Promise.all([
+                        get(ref(db, `users/${myUid}`)),
+                        get(ref(db, `users/${friendUid}`)),
+                        get(ref(db, 'trades'))
+                    ]);
+
+                    if (!myDataSnap.exists() || !friendDataSnap.exists()) {
+                        window.location.href = 'amigos.html'; return;
+                    }
+                    myLocalData = myDataSnap.val();
+                    friendLocalData = friendDataSnap.val();
+                    
+                    const allTrades = allTradesSnap.val() || {};
+                    for (const id in allTrades) {
+                        if (id !== tradeId) {
+                            const trade = allTrades[id];
+                            trade.players[myUid]?.offer?.forEach(card => otherTradesCards.add(card));
+                        }
+                    }
+
+                    createHeader(auth, myLocalData, headerPlaceholder, 'amigos');
+                    document.getElementById('my-username-title').textContent = `${myLocalData.username} (VOCÊ)`;
+                    document.getElementById('friend-username-title').textContent = `OFERTA DE ${friendLocalData.username}`;
+                    
+                    const initialSnapshot = await get(tradeRef);
+                    if (!initialSnapshot.exists()) {
+                        await set(tradeRef, {
+                            players: {
+                                [myUid]: { offer: [], status: 'negotiating' },
+                                [friendUid]: { offer: [], status: 'negotiating' }
+                            },
+                            createdAt: serverTimestamp()
+                        });
+                    }
+                    
+                    unsubscribeTrade = onValue(tradeRef, (snapshot) => {
+                        if (snapshot.exists()) {
+                            updateUIFromTradeData(snapshot.val());
+                        } else {
+                            if (!isProcessing) {
+                                let finalStatus = 'cancelled';
+                                if (tradeData?.players?.[myUid]?.status === 'accepted' && tradeData?.players?.[friendUid]?.status === 'accepted') {
+                                    finalStatus = 'success';
+                                }
+                                const message = finalStatus === 'success' ? 'Troca realizada com sucesso!' : 'A troca foi cancelada.';
+                                window.location.href = `amigos.html?status=${finalStatus}&message=${encodeURIComponent(message)}`;
+                            }
+                        }
+                    });
+
+                    loader.classList.add('hidden');
+                    appContainer.classList.remove('hidden');
+                } catch (error) {
+                    console.error("Error initializing trade page:", error);
+                    showCustomAlert("Erro fatal ao carregar a página de troca.");
+                    loader.classList.add('hidden');
+                }
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        acceptTradeBtn.addEventListener('click', handleAccept);
+        cancelTradeBtn.addEventListener('click', handleCancel);
+
+    </script>
+</body>
+</html>

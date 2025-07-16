@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCards - Amigos</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --primary-red: #E01A4F;
+            --text-light: #f0f2f5;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --warning: #f1c40f;
+            --font-body: 'Inter', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7);
+        }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--background-dark);
+            background-image: radial-gradient(circle at top right, rgba(224, 26, 79, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(224, 26, 79, 0.1), transparent 40%);
+            color: var(--text-light);
+        }
+        .font-orbitron { font-family: var(--font-display); }
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .loader-container { background: var(--background-dark); }
+        .loader {
+            border-top-color: var(--primary-red);
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-red);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 8px var(--primary-red);
+        }
+
+        .friend-item, .search-result-item, .trade-item {
+            background: var(--background-light);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .friend-item:hover, .trade-item:hover {
+            background-color: #2a2a2a;
+            border-color: var(--primary-red);
+        }
+
+        .action-button {
+            padding: 0.5rem;
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 0.375rem;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .action-button:hover { transform: scale(1.1); }
+        .btn-join-trade {
+            background-color: var(--success);
+            width: auto;
+            padding: 0.5rem 1rem;
+        }
+        .btn-remove { background-color: var(--danger); }
+        .btn-add { 
+            background-color: var(--success); 
+            width: auto;
+            padding: 0.5rem 1rem;
+        }
+        .btn-challenge { background-color: var(--warning); color: #1A1A1A; }
+        .btn-trade { background-color: #8e44ad; }
+
+        .input-field {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(224, 26, 79, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loader-container fixed inset-0 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-600 h-28 w-28"></div>
+        <p class="mt-8 text-2xl font-orbitron text-red-400 animate-pulse">A carregar os seus contatos...</p>
+    </div>
+
+    <div id="custom-alert" class="fixed top-5 right-5 text-white py-3 px-6 rounded-lg shadow-lg z-50 opacity-0 transform translate-x-10 transition-all duration-300">
+        <p id="custom-alert-message" class="font-bold"></p>
+    </div>
+
+    <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
+        <header id="header-placeholder" class="sticky top-0 z-40 w-full"></header>
+
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="glass-panel p-4 sm:p-6 lg:p-8">
+                <h1 class="font-orbitron text-4xl md:text-5xl font-bold text-white mb-8 text-center" style="text-shadow: var(--glow-effect);">SOCIAL</h1>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h2 class="section-title">Meus Amigos</h2>
+                            <div id="friends-container" class="space-y-2 max-h-[60vh] overflow-y-auto pr-2"></div>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Encontrar Jogadores</h2>
+                            <div class="space-y-4">
+                                <input type="text" id="search-username-input" class="input-field" placeholder="Digite o nome do utilizador...">
+                                <div id="search-results-container" class="space-y-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-1">
+                        <h2 class="section-title">Troca Ativas</h2>
+                        <div id="active-trades-container" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get, update, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { createHeader } from './menu.js';
+        
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config)
+            : {
+                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs",
+                authDomain: "primeiroprojetoteste01.firebaseapp.com",
+                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com",
+                projectId: "primeiroprojetoteste01",
+                storageBucket: "primeiroprojetoteste01.appspot.com",
+                messagingSenderId: "530867320810",
+                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
+            };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        const loader = document.getElementById('loader');
+        const appContainer = document.getElementById('app-container');
+        const headerPlaceholder = document.getElementById('header-placeholder');
+        const friendsContainer = document.getElementById('friends-container');
+        const searchInput = document.getElementById('search-username-input');
+        const searchResultsContainer = document.getElementById('search-results-container');
+        const activeTradesContainer = document.getElementById('active-trades-container');
+        
+        let currentUser = null;
+        let currentUserData = {};
+        let searchTimeout;
+
+        function showCustomAlert(message, isSuccess = false) {
+            const customAlert = document.getElementById('custom-alert');
+            const customAlertMessage = document.getElementById('custom-alert-message');
+            customAlertMessage.textContent = message;
+            customAlert.classList.toggle('bg-green-500', isSuccess);
+            customAlert.classList.toggle('bg-red-500', !isSuccess);
+            customAlert.classList.remove('opacity-0', 'translate-x-10');
+            setTimeout(() => {
+                customAlert.classList.add('opacity-0', 'translate-x-10');
+            }, 4000);
+        }
+
+        async function renderFriendsList(friendIds) {
+            friendsContainer.innerHTML = '<p class="text-gray-500 text-sm p-4 text-center">Ainda não tem amigos.</p>';
+            if (!friendIds || friendIds.length === 0) return;
+
+            friendsContainer.innerHTML = '';
+            for (const friendId of friendIds) {
+                const friendSnap = await get(ref(db, `users/${friendId}/username`));
+                if(friendSnap.exists()) {
+                    const friendUsername = friendSnap.val();
+                    const item = document.createElement('div');
+                    item.className = 'friend-item';
+                    
+                    item.innerHTML = `
+                        <span class="font-bold">${friendUsername}</span>
+                        <div class="flex gap-2">
+                            <button class="action-button btn-challenge" title="Desafiar"><i class="fas fa-gamepad"></i></button>
+                            <a href="trocas.html?p1=${currentUser.uid}&p2=${friendId}" class="action-button btn-trade" title="Trocar"><i class="fas fa-exchange-alt"></i></a>
+                            <button class="action-button btn-remove" title="Remover Amigo"><i class="fas fa-user-minus"></i></button>
+                        </div>
+                    `;
+                    item.querySelector('.btn-challenge').addEventListener('click', () => showCustomAlert(`Funcionalidade de desafio com ${friendUsername} em breve!`));
+                    item.querySelector('.btn-remove').addEventListener('click', () => removeFriend(friendId));
+                    friendsContainer.appendChild(item);
+                }
+            }
+        }
+        
+        async function handleSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            searchResultsContainer.innerHTML = '';
+            if (searchTerm.length < 3) return;
+
+            const usernameSnap = await get(ref(db, 'usernames/' + searchTerm));
+            if (usernameSnap.exists()) {
+                const foundUid = usernameSnap.val();
+                if (foundUid === currentUser.uid) return;
+
+                const userSnap = await get(ref(db, `users/${foundUid}`));
+                const foundUserData = userSnap.val();
+                
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                item.innerHTML = `<span class="font-bold">${foundUserData.username}</span>`;
+                
+                const isFriend = currentUserData.amigos && currentUserData.amigos[foundUid];
+
+                if (isFriend) {
+                    item.innerHTML += `<span class="text-sm text-green-400">Amigo</span>`;
+                } else {
+                    const addButton = document.createElement('button');
+                    addButton.className = 'action-button btn-add';
+                    addButton.textContent = 'Adicionar';
+                    addButton.onclick = () => addFriend(foundUid);
+                    item.appendChild(addButton);
+                }
+                searchResultsContainer.appendChild(item);
+            } else {
+                searchResultsContainer.innerHTML = '<p class="text-gray-500 text-sm text-center">Nenhum jogador encontrado.</p>';
+            }
+        }
+        
+        async function addFriend(friendUid) {
+            const updates = {};
+            updates[`/users/${currentUser.uid}/amigos/${friendUid}`] = true;
+            updates[`/users/${friendUid}/amigos/${currentUser.uid}`] = true;
+            await update(ref(db), updates);
+            showCustomAlert("Amigo adicionado!", true);
+            handleSearch();
+        }
+
+        async function removeFriend(friendUid) {
+            const updates = {};
+            updates[`/users/${currentUser.uid}/amigos/${friendUid}`] = null;
+            updates[`/users/${friendUid}/amigos/${currentUser.uid}`] = null;
+            await update(ref(db), updates);
+            showCustomAlert("Amigo removido.");
+        }
+
+        function listenForActiveTrades(userId) {
+            const tradesRef = ref(db, 'trades');
+            onValue(tradesRef, async (snapshot) => {
+                const allTrades = snapshot.val() || {};
+                const myTrades = [];
+                for (const tradeId in allTrades) {
+                    const trade = allTrades[tradeId];
+                    if (trade.players && (trade.players[userId])) {
+                        myTrades.push({ id: tradeId, ...trade });
+                    }
+                }
+                await renderActiveTrades(myTrades);
+            });
+        }
+
+        async function renderActiveTrades(trades) {
+            activeTradesContainer.innerHTML = '';
+            if (trades.length === 0) {
+                activeTradesContainer.innerHTML = '<p class="text-gray-500 text-sm p-4 text-center">Nenhuma mesa de troca ativa.</p>';
+                return;
+            }
+
+            for (const trade of trades) {
+                const otherPlayerId = Object.keys(trade.players).find(id => id !== currentUser.uid);
+                if (!otherPlayerId) continue;
+
+                const otherPlayerSnap = await get(ref(db, `users/${otherPlayerId}/username`));
+                const otherPlayerUsername = otherPlayerSnap.exists() ? otherPlayerSnap.val() : 'Desconhecido';
+
+                const item = document.createElement('div');
+                item.className = 'trade-item';
+                item.innerHTML = `
+                    <div>
+                        <p class="font-bold">Negociação com:</p>
+                        <p class="text-red-400">${otherPlayerUsername}</p>
+                    </div>
+                    <a href="trocas.html?p1=${currentUser.uid}&p2=${otherPlayerId}" class="action-button btn-join-trade" title="Entrar na Mesa">
+                        Entrar
+                    </a>
+                `;
+                activeTradesContainer.appendChild(item);
+            }
+        }
+
+        function checkUrlForNotifications() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+            const message = urlParams.get('message');
+
+            if (message) {
+                showCustomAlert(decodeURIComponent(message), status === 'success');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userRef = ref(db, 'users/' + user.uid);
+
+                onValue(userRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        currentUserData = snapshot.val();
+                        createHeader(auth, currentUserData, headerPlaceholder, 'amigos');
+                        
+                        const friendIds = currentUserData.amigos ? Object.keys(currentUserData.amigos) : [];
+                        renderFriendsList(friendIds);
+                        listenForActiveTrades(user.uid);
+                        
+                        appContainer.classList.remove('hidden');
+                        loader.classList.add('hidden');
+                        
+                        checkUrlForNotifications();
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                });
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        searchInput.addEventListener('keyup', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(handleSearch, 500);
+        });
+    </script>
+</body>
+</html>
