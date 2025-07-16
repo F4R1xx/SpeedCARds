@@ -262,16 +262,13 @@
 
         // Observador de estado de autenticação.
         onAuthStateChanged(auth, (user) => {
-            // Verifica se o usuário JÁ ESTÁ logado ao carregar a página
-            if (user) {
-                // Se estiver logado, redireciona imediatamente para a home.
-                window.location.href = 'home.html';
-            } else {
-                // Se NÃO estiver logado, esconde o loader e mostra o formulário de login.
+            // Este bloco SÓ é executado se o 'user' NÃO existir.
+            if (!user) {
                 loader.classList.add('hidden');
                 authContainer.classList.remove('hidden');
                 showLoginView();
             }
+            // Falta uma instrução do que fazer se o 'user' EXISTIR.
         });
 
         // Cadastro de novo usuário com Email/Senha
