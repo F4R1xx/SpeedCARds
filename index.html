@@ -18,6 +18,10 @@
             background-color: #1a1a1a;
             background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23333333" fill-opacity="0.4" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
         }
+        
+        .logo{
+            width: 50%;
+        }
 
         .font-orbitron {
             font-family: 'Orbitron', sans-serif;
@@ -94,13 +98,13 @@
 
 <body class="flex items-center justify-center min-h-screen p-4">
 
-    <div id="loader" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div id="loader" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-24 w-24"></div>
     </div>
 
-    <div id="auth-container" class="w-full max-w-md hidden">
+    <div id="auth-container" class="w-full max-w-md">
         <div class="flex justify-center mb-8">
-            <img src="./assets/logo.png" alt="Logo Super Trunfo" class="rounded-lg">
+            <img src="./assets/logo.png" alt="Logo Super Trunfo" class="logo rounded-lg">
         </div>
 
         <div id="login-form-container" class="form-container p-8 rounded-lg">
@@ -199,35 +203,18 @@
     </div>
 
     <script type="module">
-        // Importações do Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        // Importa as instâncias prontas do seu novo arquivo central
+        import { auth, db } from './firebase.js';
+
+        // Importa apenas as FUNÇÕES que você vai usar nesta página
         import {
-            getAuth,
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
             onAuthStateChanged,
             GoogleAuthProvider,
             signInWithPopup
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
-
-        // Configuração do Firebase
-        const firebaseConfig = typeof __firebase_config !== 'undefined'
-            ? JSON.parse(__firebase_config)
-            : {
-                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs",
-                authDomain: "primeiroprojetoteste01.firebaseapp.com",
-                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com",
-                projectId: "primeiroprojetoteste01",
-                storageBucket: "primeiroprojetoteste01.appspot.com",
-                messagingSenderId: "530867320810",
-                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
-            };
-
-        // Inicialização do Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+        import { ref, get, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
         // Elementos da UI
         const loader = document.getElementById('loader');
@@ -257,18 +244,23 @@
 
         // --- LÓGICA DE AUTENTICAÇÃO ---
 
-        // Observador de estado de autenticação.
-        // --- LÓGICA DE AUTENTICAÇÃO ---
-
-        // Observador de estado de autenticação.
-        onAuthStateChanged(auth, (user) => {
-            // Este bloco SÓ é executado se o 'user' NÃO existir.
-            if (!user) {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Usuário está logado, verificar se ele tem um deck
+                const userRef = ref(db, 'users/' + user.uid);
+                const snapshot = await get(userRef);
+                if (snapshot.exists() && snapshot.val().deck) {
+                    // Se tem um deck, vai para a home
+                    window.location.href = 'home.html';
+                } else {
+                    // Se não tem um deck (novo usuário), vai para a seleção de deck
+                    window.location.href = 'deck_selection.html';
+                }
+            } else {
+                // Nenhum usuário logado, mostra a UI de autenticação
                 loader.classList.add('hidden');
                 authContainer.classList.remove('hidden');
-                showLoginView();
             }
-            // Falta uma instrução do que fazer se o 'user' EXISTIR.
         });
 
         // Cadastro de novo usuário com Email/Senha
@@ -284,6 +276,7 @@
             }
 
             loader.classList.remove('hidden');
+            authContainer.classList.add('hidden');
 
             const usernameRef = ref(db, 'usernames/' + username);
             const usernameSnap = await get(usernameRef);
@@ -291,6 +284,7 @@
             if (usernameSnap.exists()) {
                 showMessage("Este nome de usuário já está em uso. Tente outro.");
                 loader.classList.add('hidden');
+                authContainer.classList.remove('hidden');
                 return;
             }
 
@@ -312,8 +306,7 @@
                 updates['/users/' + user.uid] = userData;
                 updates['/usernames/' + username] = user.uid;
                 await update(ref(db), updates);
-
-                window.location.href = 'home.html';
+                // O onAuthStateChanged vai cuidar do redirecionamento
             } catch (error) {
                 let friendlyMessage = "Ocorreu um erro ao registrar.";
                 if (error.code === 'auth/email-already-in-use') friendlyMessage = "Este email já está em uso.";
@@ -321,12 +314,14 @@
                 else if (error.code === 'auth/invalid-email') friendlyMessage = "O formato do email é inválido.";
                 showMessage(friendlyMessage);
                 loader.classList.add('hidden');
+                authContainer.classList.remove('hidden');
             }
         });
 
         // Login com Google
         googleLoginButton.addEventListener('click', async () => {
             loader.classList.remove('hidden');
+            authContainer.classList.add('hidden');
             const provider = new GoogleAuthProvider();
             try {
                 const result = await signInWithPopup(auth, provider);
@@ -336,11 +331,6 @@
                 const userSnap = await get(userRef);
 
                 if (!userSnap.exists()) {
-                    // É um novo usuário, criar perfil no Realtime Database
-
-                    // --- ALTERAÇÃO AQUI ---
-                    // Trata o email para criar um username sem caracteres especiais.
-                    // Ex: "williamfunk.11@gmail.com" se torna "williamfunk11"
                     const username = user.email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '');
 
                     const userData = {
@@ -353,20 +343,17 @@
                         amigos: ""
                     };
 
-                    // ATENÇÃO: A lógica para a chave '/usernames/' também precisa ser consistente.
                     const updates = {};
                     updates['/users/' + user.uid] = userData;
-                    // A chave em '/usernames/' agora usará o novo username limpo.
                     updates['/usernames/' + username] = user.uid;
                     await update(ref(db), updates);
                 }
-
-                window.location.href = 'home.html';
-
+                // O onAuthStateChanged vai cuidar do redirecionamento
             } catch (error) {
                 console.error("Erro no login com Google:", error);
                 showMessage("Não foi possível fazer login com o Google.");
                 loader.classList.add('hidden');
+                authContainer.classList.remove('hidden');
             }
         });
 
@@ -377,12 +364,14 @@
             const password = document.getElementById('login-password').value;
 
             loader.classList.remove('hidden');
+            authContainer.classList.add('hidden');
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                window.location.href = 'home.html';
+                // O onAuthStateChanged vai cuidar do redirecionamento
             } catch (error) {
                 showMessage("Email ou senha inválidos. Tente novamente.");
                 loader.classList.add('hidden');
+                authContainer.classList.remove('hidden');
             }
         });
 

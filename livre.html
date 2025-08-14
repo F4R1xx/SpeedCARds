@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCards - Jogo Livre</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --primary-red: #E01A4F;
+            --text-light: #f0f2f5;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --font-body: 'Inter', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7);
+            --rank-s-color: #FFD700;
+            --rank-a-color: #E01A4F;
+            --rank-b-color: #8e44ad;
+            --rank-c-color: #3498db;
+            --rank-d-color: #2ecc71;
+            --rank-e-color: #95a5a6;
+        }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--background-dark);
+            background-image: 
+                radial-gradient(circle at top right, rgba(224, 26, 79, 0.1), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(52, 152, 219, 0.1), transparent 40%);
+            color: var(--text-light);
+        }
+        .font-orbitron { font-family: var(--font-display); }
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .loader-container { background: var(--background-dark); }
+        .loader {
+            border-top-color: var(--primary-red);
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .difficulty-card {
+            background: linear-gradient(145deg, #2a2a2a, var(--background-light));
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        .difficulty-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--difficulty-color, var(--primary-red));
+            box-shadow: 0 0 30px -5px var(--difficulty-color, var(--primary-red)), 0 15px 30px rgba(0,0,0,0.6);
+        }
+        
+        .difficulty-card-s { --difficulty-color: var(--rank-s-color); }
+        .difficulty-card-a { --difficulty-color: var(--rank-a-color); }
+        .difficulty-card-b { --difficulty-color: var(--rank-b-color); }
+        .difficulty-card-c { --difficulty-color: var(--rank-c-color); }
+        .difficulty-card-d { --difficulty-color: var(--rank-d-color); }
+        .difficulty-card-e { --difficulty-color: var(--rank-e-color); }
+
+        .card-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--difficulty-color);
+            text-shadow: 0 0 10px var(--difficulty-color), 0 0 5px rgba(0,0,0,0.7);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-reward {
+            margin-top: auto;
+        }
+
+        .card-reward-amount {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #2ecc71; /* Verde dinheiro */
+            text-shadow: 0 0 8px rgba(46, 204, 113, 0.6);
+        }
+
+        .card-footer {
+            background-color: rgba(0,0,0,0.4);
+            padding: 0.75rem;
+            font-family: var(--font-display);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--difficulty-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .title-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 1.5rem;
+            color: var(--difficulty-color);
+            filter: drop-shadow(0 0 8px var(--difficulty-color));
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loader-container fixed inset-0 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-600 h-28 w-28"></div>
+        <p class="mt-8 text-2xl font-orbitron text-red-400 animate-pulse">Verificando seu deck...</p>
+    </div>
+
+    <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
+        <header id="header-placeholder" class="sticky top-0 z-40 w-full"></header>
+
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex items-center justify-center">
+            <div class="glass-panel p-8 w-full max-w-6xl">
+                <h1 class="font-orbitron text-4xl md:text-5xl font-bold text-white mb-8 text-center" style="text-shadow: var(--glow-effect);">JOGO LIVRE</h1>
+                
+                <div id="difficulty-selection" class="hidden">
+                    <p class="text-center text-gray-300 mb-10">Seu deck está pronto para a corrida! Escolha a dificuldade do seu oponente:</p>
+                    <div id="difficulty-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Os cards de dificuldade serão inseridos aqui pelo JavaScript -->
+                    </div>
+                </div>
+
+                <div id="deck-incomplete-message" class="hidden text-center">
+                    <div class="w-24 h-24 mx-auto mb-6 text-yellow-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        </svg>
+                    </div>
+                    <p class="text-xl text-yellow-400 mb-4 font-semibold">Seu deck ativo não está completo!</p>
+                    <p class="text-gray-300 mb-8">Você precisa de 5 cartas no seu deck para iniciar uma corrida no modo Jogo Livre.</p>
+                    <a href="garagem.html" class="inline-block bg-primary-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors text-lg font-orbitron tracking-wider">
+                        IR PARA A GARAGEM
+                    </a>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './firebase.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { ref, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { createHeader } from './menu.js';
+
+        const loader = document.getElementById('loader');
+        const appContainer = document.getElementById('app-container');
+        const headerPlaceholder = document.getElementById('header-placeholder');
+        const difficultySelection = document.getElementById('difficulty-selection');
+        const deckIncompleteMessage = document.getElementById('deck-incomplete-message');
+        const difficultyGrid = document.getElementById('difficulty-grid');
+
+        const difficultyData = {
+            'E': { title: 'CLASSE E', description: 'Ideal para iniciantes e corridas casuais.', reward: 500, icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.181-3.183m-4.991-2.691V5.25a3.375 3.375 0 00-3.375-3.375H8.25a3.375 3.375 0 00-3.375 3.375v3.132" /></svg>` },
+            'D': { title: 'CLASSE D', description: 'Um bom ponto de partida para testar suas habilidades.', reward: 1000, icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.6-3.752H15m-3-7.036V5.637m0-2.583v2.583" /></svg>` },
+            'C': { title: 'CLASSE C', description: 'Adversários competentes com carros modificados.', reward: 1750, icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.472-2.472a3.375 3.375 0 00-4.773-4.773L6.75 15.75l-2.472 2.472a3.375 3.375 0 004.773 4.773L11.42 15.17z" /></svg>` },
+            'B': { title: 'CLASSE B', description: 'Uma corrida equilibrada contra competidores experientes.', reward: 2500, icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>` },
+            'A': { title: 'CLASSE A', description: 'Oponentes de elite com máquinas potentes.', reward: 3500, icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" /></svg>` },
+            'S': { title: 'CLASSE S', description: 'Desafio extremo contra os carros mais rápidos do jogo.', reward: 5000, icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9a9.75 9.75 0 100-13.5h9a9.75 9.75 0 000 13.5z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12.75 5.25v13.5" /></svg>` }
+        };
+
+        function renderDifficultyCards() {
+            difficultyGrid.innerHTML = '';
+            const difficultyOrder = ['E', 'D', 'C', 'B', 'A', 'S']; // Ordem do mais fácil para o mais difícil
+
+            difficultyOrder.forEach(key => {
+                const data = difficultyData[key];
+                const card = document.createElement('button');
+                card.dataset.difficulty = key;
+                card.className = `difficulty-card difficulty-card-${key.toLowerCase()}`;
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <h3 class="card-title">${data.title}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="title-icon">${data.icon}</div>
+                        <p class="card-description">${data.description}</p>
+                        <div class="card-reward">
+                            <span class="text-sm text-gray-400">Recompensa da Vitória</span>
+                            <p class="card-reward-amount">
+                                R$ ${data.reward.toLocaleString('pt-BR')}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span>JOGAR</span>
+                    </div>
+                `;
+                difficultyGrid.appendChild(card);
+            });
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userRef = ref(db, 'users/' + user.uid);
+                try {
+                    const snapshot = await get(userRef);
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+                        createHeader(auth, userData, headerPlaceholder, 'livre');
+
+                        const activeDeck = userData.deck || [];
+                        const cardCount = activeDeck.filter(cardId => cardId !== null).length;
+
+                        if (cardCount === 5) {
+                            renderDifficultyCards();
+                            difficultySelection.classList.remove('hidden');
+                            deckIncompleteMessage.classList.add('hidden');
+                        } else {
+                            deckIncompleteMessage.classList.remove('hidden');
+                            difficultySelection.classList.add('hidden');
+                        }
+
+                        appContainer.classList.remove('hidden');
+                        loader.classList.add('hidden');
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                } catch (error) {
+                    console.error("Erro ao buscar dados do usuário:", error);
+                    window.location.href = 'index.html';
+                }
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        difficultyGrid.addEventListener('click', (e) => {
+            const card = e.target.closest('.difficulty-card');
+            if (card) {
+                const difficulty = card.dataset.difficulty;
+                window.location.href = `jogolivre.html?dificuldade=${difficulty}`;
+            }
+        });
+    </script>
+</body>
+</html>

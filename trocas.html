@@ -268,27 +268,16 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getDatabase, ref, get, set, onValue, serverTimestamp, update, remove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        // Importa as instâncias prontas do seu novo arquivo central
+        import { auth, db } from './firebase.js';
+
+        // Importa apenas as FUNÇÕES que você vai usar nesta página
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { ref, get, set, onValue, serverTimestamp, update, remove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        
+        // Importa seus módulos locais
         import { createHeader } from './menu.js';
         import { cards as allCardsData } from './cards.js';
-
-        const firebaseConfig = typeof __firebase_config !== 'undefined' 
-            ? JSON.parse(__firebase_config)
-            : {
-                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs",
-                authDomain: "primeiroprojetoteste01.firebaseapp.com",
-                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com",
-                projectId: "primeiroprojetoteste01",
-                storageBucket: "primeiroprojetoteste01.appspot.com",
-                messagingSenderId: "530867320810",
-                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
-            };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
 
         // --- DOM Elements ---
         const loader = document.getElementById('loader');
@@ -439,7 +428,6 @@
         function updateUIFromTradeData(data) {
             if (hasFinalStateBeenHandled) return;
 
-            // --- BLOCO DE FINALIZAÇÃO: A prioridade é checar se a troca acabou.
             if (data.status === 'completed') {
                 hasFinalStateBeenHandled = true;
                 if (unsubscribeTrade) unsubscribeTrade();
@@ -456,16 +444,13 @@
                     bar.classList.add('accepted');
                 });
                 
-                // Lógica de exclusão e redirecionamento
                 const amITheTradeLeader = myUid < friendUid;
                 if (amITheTradeLeader) {
-                    // O líder espera, apaga e depois redireciona
                     setTimeout(async () => {
                         await remove(ref(db, `trades/${tradeId}`));
                         window.location.href = 'home.html';
                     }, 4000);
                 } else {
-                    // O seguidor apenas redireciona
                     setTimeout(() => window.location.href = 'home.html', 2000);
                 }
                 return;
@@ -484,22 +469,18 @@
                 acceptTradeBtn.textContent = 'CANCELADA';
                 cancelTradeBtn.textContent = 'CANCELADA';
                 
-                // Lógica de exclusão e redirecionamento
                 const amITheCanceller = data.cancelledBy === myUid;
                 if (amITheCanceller) {
-                    // Quem cancelou espera, apaga e redireciona
                     setTimeout(async () => {
                         await remove(ref(db, `trades/${tradeId}`));
                         window.location.href = 'home.html';
                     }, 4000);
                 } else {
-                    // O outro jogador apenas redireciona
                     setTimeout(() => window.location.href = 'home.html', 2500);
                 }
                 return;
             }
 
-            // --- BLOCO DE NEGOCIAÇÃO ---
             tradeData = data;
             if (!myUid || !friendUid || !tradeData.players) return;
 

@@ -653,26 +653,15 @@
 
     <script type="module" src="./cards.js"></script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getDatabase, ref, get, update, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
-        import { createHeader } from './menu.js'; // Importa o criador de menu
+        // Importa as instâncias prontas do seu novo arquivo central
+        import { auth, db } from './firebase.js';
 
-        const firebaseConfig = typeof __firebase_config !== 'undefined'
-            ? JSON.parse(__firebase_config)
-            : {
-                apiKey: "AIzaSyDcFoGnrDFSvK2wpcYQC2JoiQT18HPaEIs",
-                authDomain: "primeiroprojetoteste01.firebaseapp.com",
-                databaseURL: "https://primeiroprojetoteste01-default-rtdb.firebaseio.com",
-                projectId: "primeiroprojetoteste01",
-                storageBucket: "primeiroprojetoteste01.appspot.com",
-                messagingSenderId: "530867320810",
-                appId: "1:530867320810:web:65efd67ecdc9eb4639a493",
-            };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+        // Importa apenas as FUNÇÕES que você vai usar nesta página
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { ref, get, update, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        
+        // Importa seus módulos locais
+        import { createHeader } from './menu.js';
 
         const loader = document.getElementById('loader');
         const appContainer = document.getElementById('app-container');
@@ -701,15 +690,15 @@
         let isFirstLoad = true;
 
         const packsData = {
-            'E': { type: 'standard', image: './assets/pack_e.png', classTitle: 'PACOTE CLASSE E', description: 'Contém 4 cartas', reaisPrice: 35000, goldPrice: 50, probabilities: { 'S': 0.0005, 'A': 0.0015, 'B': 0.008, 'C': 0.04, 'D': 0.20, 'E': 0.75 } },
-            'D': { type: 'standard', image: './assets/pack_d.png', classTitle: 'PACOTE CLASSE D', description: 'Contém 4 cartas', reaisPrice: 60000, goldPrice: 60, probabilities: { 'S': 0.001, 'A': 0.004, 'B': 0.015, 'C': 0.08, 'D': 0.65, 'E': 0.25 } },
-            'C': { type: 'standard', image: './assets/pack_c.png', classTitle: 'PACOTE CLASSE C', description: 'Contém 4 cartas', reaisPrice: 100000, goldPrice: 70, probabilities: { 'S': 0.01, 'A': 0.04, 'B': 0.15, 'C': 0.60, 'D': 0.15, 'E': 0.05 } },
-            'B': { type: 'standard', image: './assets/pack_b.png', classTitle: 'PACOTE CLASSE B', description: 'Contém 4 cartas', reaisPrice: 150000, goldPrice: 140, probabilities: { 'S': 0.02, 'A': 0.18, 'B': 0.55, 'C': 0.20, 'D': 0.05 } },
-            'A': { type: 'standard', image: './assets/pack_a.png', classTitle: 'PACOTE CLASSE A', description: 'Contém 4 cartas', reaisPrice: 499000, goldPrice: 250, probabilities: { 'S': 0.03, 'A': 0.55, 'B': 0.32, 'C': 0.10 } },
-            'S': { type: 'standard', image: './assets/pack_s.png', classTitle: 'PACOTE CLASSE S', description: 'Contém 4 cartas', reaisPrice: null, goldPrice: 500, probabilities: { 'S': 0.10, 'A': 0.50, 'B': 0.28, 'C': 0.12 } },
-            'TOYOTA_PACK': { type: 'special', image: './assets/TOYOTA_PACK.png', classTitle: 'PACOTE TOYOTA', description: 'Contém 4 cartas Toyota', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.01, 'A': 0.10, 'B': 0.29, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { montadora: 'Toyota' } },
-            'OFFROAD_PACK': { type: 'special', image: './assets/OFFROAD_PACK.png', classTitle: 'PACOTE OFFROAD', description: 'Contém 4 cartas Offroad', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.01, 'A': 0.10, 'B': 0.29, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { pneus: 'Off-Road' } },
-            '4X4_PACK': { type: 'special', image: './assets/4X4_PACK.png', classTitle: 'PACOTE 4X4', description: 'Contém 4 cartas 4x4', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.01, 'A': 0.10, 'B': 0.29, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { tracao: '4x4' } }
+            'E': { type: 'standard', image: './assets/pack_e.png', classTitle: 'PACOTE CLASSE E', description: 'Contém 4 cartas', reaisPrice: 35000, goldPrice: 50, probabilities: { 'S': 0.0002, 'A': 0.0008, 'B': 0.009, 'C': 0.05, 'D': 0.24, 'E': 0.70 } },
+            'D': { type: 'standard', image: './assets/pack_d.png', classTitle: 'PACOTE CLASSE D', description: 'Contém 4 cartas', reaisPrice: 60000, goldPrice: 60, probabilities: { 'S': 0.0005, 'A': 0.0025, 'B': 0.02, 'C': 0.10, 'D': 0.657, 'E': 0.22 } },
+            'C': { type: 'standard', image: './assets/pack_c.png', classTitle: 'PACOTE CLASSE C', description: 'Contém 4 cartas', reaisPrice: 100000, goldPrice: 70, probabilities: { 'S': 0.005, 'A': 0.025, 'B': 0.17, 'C': 0.60, 'D': 0.15, 'E': 0.05 } },
+            'B': { type: 'standard', image: './assets/pack_b.png', classTitle: 'PACOTE CLASSE B', description: 'Contém 4 cartas', reaisPrice: 150000, goldPrice: 140, probabilities: { 'S': 0.01, 'A': 0.12, 'B': 0.60, 'C': 0.22, 'D': 0.05 } },
+            'A': { type: 'standard', image: './assets/pack_a.png', classTitle: 'PACOTE CLASSE A', description: 'Contém 4 cartas', reaisPrice: 499000, goldPrice: 250, probabilities: { 'S': 0.015, 'A': 0.485, 'B': 0.38, 'C': 0.12 } },
+            'S': { type: 'standard', image: './assets/pack_s.png', classTitle: 'PACOTE CLASSE S', description: 'Contém 4 cartas', reaisPrice: null, goldPrice: 500, probabilities: { 'S': 0.05, 'A': 0.50, 'B': 0.32, 'C': 0.13 } },
+            'TOYOTA_PACK': { type: 'special', image: './assets/TOYOTA_PACK.png', classTitle: 'PACOTE TOYOTA', description: 'Contém 4 cartas Toyota', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { montadora: 'Toyota' } },
+            'OFFROAD_PACK': { type: 'special', image: './assets/OFFROAD_PACK.png', classTitle: 'PACOTE OFFROAD', description: 'Contém 4 cartas Offroad', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { pneus: 'Off-Road' } },
+            '4X4_PACK': { type: 'special', image: './assets/4X4_PACK.png', classTitle: 'PACOTE 4X4', description: 'Contém 4 cartas 4x4', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { tracao: '4x4' } }
         };
 
         const duplicateConversionValue = { 'E': 1000, 'D': 2500, 'C': 5000, 'B': 15000, 'A': 50000, 'S': 300000 };
@@ -818,9 +807,8 @@
             return eligibleCardIds[Math.floor(Math.random() * eligibleCardIds.length)]; // Fallback
         }
 
-        // --- FUNÇÃO MODIFICADA ---
         function revealNextCard() {
-            if (individualCardsDisplay.querySelector('.flipping')) return; // Previne cliques durante a animação
+            if (individualCardsDisplay.querySelector('.flipping')) return; 
 
             if (currentCardIndex >= currentOpenedCards.length) {
                 showFinalSummary();
@@ -829,24 +817,20 @@
 
             const cardElement = individualCardsDisplay.children[currentCardIndex];
 
-            // Verifica se a carta atual já foi virada
             if (cardElement.classList.contains('flipped')) {
-                // Se sim, avança para a próxima carta ou para o resumo
                 if (currentCardIndex < currentOpenedCards.length - 1) {
-                    cardElement.style.opacity = 0; // Esconde a carta revelada
+                    cardElement.style.opacity = 0; 
                     currentCardIndex++;
                     const nextCardElement = individualCardsDisplay.children[currentCardIndex];
                     if (nextCardElement) {
                         nextCardElement.style.opacity = 1;
                         nextCardElement.style.transform = 'translate(-50%, -50%) scale(1)';
-                        revealInstructionText.textContent = 'Clique para revelar!'; // Reseta o texto para a nova carta
+                        revealInstructionText.textContent = 'Clique para revelar!'; 
                     }
                 } else {
-                    // Se era a última carta, mostra o resumo
                     showFinalSummary();
                 }
             } else {
-                // Se a carta não foi virada, vira agora
                 const cardData = window.cards[currentOpenedCards[currentCardIndex].id];
                 cardElement.classList.add('flipping');
                 createParticleBurst(getRankColor(cardData.classe));
@@ -855,7 +839,6 @@
                     cardElement.classList.remove('flipping');
                     cardElement.classList.add('flipped');
 
-                    // Muda o texto de instrução para guiar o usuário para a próxima ação
                     if (currentCardIndex < currentOpenedCards.length - 1) {
                         revealInstructionText.textContent = 'Clique para a próxima carta';
                     } else {
@@ -864,7 +847,6 @@
                 }, { once: true });
             }
         }
-        // --- FIM DA FUNÇÃO MODIFICADA ---
 
         function showFinalSummary() {
             individualRevealContainer.removeEventListener('click', revealNextCard);
@@ -943,7 +925,6 @@
                 individualCardsDisplay.children[0].style.transform = 'translate(-50%, -50%) scale(1)';
             }
 
-            // Garante que o texto de instrução seja resetado a cada abertura de pacote
             revealInstructionText.textContent = 'Clique para revelar!';
             individualRevealContainer.addEventListener('click', revealNextCard);
         }

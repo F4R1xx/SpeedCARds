@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedCards - Corrida</title>
+    <link rel="icon" href="./assets/icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --background-dark: #0A0A0A;
+            --background-light: #1A1A1A;
+            --primary-red: #E01A4F;
+            --text-light: #f0f2f5;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --font-body: 'Inter', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7);
+            --rank-s-color: #FFD700; --rank-a-color: #E01A4F; --rank-b-color: #8e44ad;
+            --rank-c-color: #3498db; --rank-d-color: #2ecc71; --rank-e-color: #95a5a6;
+        }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--background-dark);
+            background-image: radial-gradient(circle at top right, rgba(224, 26, 79, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(52, 152, 219, 0.1), transparent 40%);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+        .font-orbitron { font-family: var(--font-display); }
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+        .loader-container { background: var(--background-dark); }
+        .loader { border-top-color: var(--primary-red); animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Layout Principal */
+        #race-grid {
+            display: grid;
+            grid-template-rows: 1fr auto;
+            min-height: calc(100vh - 150px);
+        }
+        #tracks-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            padding: 1rem;
+        }
+        .track-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+        }
+        .track-info { text-align: center; margin-bottom: 0.5rem; }
+        .track-name { font-family: var(--font-display); font-weight: bold; font-size: 1.1rem; }
+        .track-condition { font-size: 0.8rem; color: #a0aec0; }
+        
+        .card-slot {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background-color: rgba(0,0,0,0.3);
+            border: 2px dashed var(--border-color);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .card-slot.drag-over {
+            border-color: var(--primary-red);
+            background-color: rgba(224, 26, 79, 0.2);
+            transform: scale(1.05);
+        }
+        
+        /* Card do Oponente (Visível) */
+        .opponent-card {
+            border: 2px solid;
+            border-radius: 0.75rem;
+            background: linear-gradient(165deg, #282828, #181818);
+        }
+        .opponent-card-stats {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #ccc;
+            padding: 0.5rem;
+        }
+        .opponent-card-stats .stat-value { color: white; font-weight: bold; }
+
+        /* Mão do Jogador */
+        #player-hand-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid var(--border-color);
+        }
+        .player-hand-card {
+            cursor: grab;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s;
+            border-radius: 0.75rem;
+            background: linear-gradient(165deg, #333, #222);
+            border: 2px solid #444;
+            display: flex;
+            flex-direction: column;
+        }
+        .player-hand-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px var(--border-color-hover, var(--primary-red));
+            border-color: var(--border-color-hover, var(--primary-red));
+        }
+        .player-hand-card.placed {
+            opacity: 0.3;
+            filter: grayscale(100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .hand-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: rgba(0,0,0,0.3);
+        }
+        .hand-card-name {
+            font-family: var(--font-display);
+            font-weight: bold;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .hand-card-rank {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.25rem;
+            color: white;
+            text-shadow: 0 0 5px black;
+        }
+        .hand-card-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+        .hand-card-stats {
+            padding: 0.75rem;
+            font-size: 0.7rem;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            color: #ccc;
+        }
+        .stat-grid > div { text-align: left; }
+        .stat-value { font-weight: bold; color: white; float: right; }
+
+        /* Efeitos de raridade */
+        .rank-s { --border-color-hover: var(--rank-s-color); border-color: var(--rank-s-color); box-shadow: 0 0 10px -2px var(--rank-s-color); }
+        .rank-a { --border-color-hover: var(--rank-a-color); border-color: var(--rank-a-color); box-shadow: 0 0 10px -2px var(--rank-a-color); }
+        .rank-b { --border-color-hover: var(--rank-b-color); border-color: var(--rank-b-color); box-shadow: 0 0 10px -2px var(--rank-b-color); }
+        .rank-c { --border-color-hover: var(--rank-c-color); border-color: var(--rank-c-color); }
+        .rank-d { --border-color-hover: var(--rank-d-color); border-color: var(--rank-d-color); }
+        .rank-e { --border-color-hover: var(--rank-e-color); border-color: var(--rank-e-color); }
+
+        /* Drag Ghost */
+        .card-ghost {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: none;
+            opacity: 0.8;
+            transform-origin: center center;
+        }
+
+        /* Estilos para cards pequenos (slots) */
+        .mini-card {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #444;
+        }
+        .mini-card-img { width: 100%; height: 100%; object-fit: cover; }
+        .mini-card-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 80%);
+            padding: 0.25rem;
+            display: flex;
+            align-items: flex-end;
+        }
+        .mini-card-name {
+            font-size: 0.6rem;
+            font-weight: bold;
+            line-height: 1;
+            text-shadow: 0 0 4px black;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Modal de Resultados */
+        .modal-overlay {
+            position: fixed; inset: 0; background-color: rgba(0,0,0,0.85);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; backdrop-filter: blur(8px);
+        }
+        .result-card {
+            width: 100%; display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; gap: 1rem; padding: 1rem;
+            background: var(--background-light); border-radius: 0.5rem;
+            border-left: 5px solid transparent; opacity: 0;
+            transform: translateX(-20px); animation: slide-in 0.5s forwards;
+        }
+        @keyframes slide-in { to { opacity: 1; transform: translateX(0); } }
+        .result-card.win { border-left-color: #2ecc71; }
+        .result-card.lose { border-left-color: #e74c3c; }
+        .result-card .mini-card { width: 150px; height: 94px; }
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loader-container fixed inset-0 flex flex-col items-center justify-center z-50">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-600 h-28 w-28"></div>
+        <p class="mt-8 text-2xl font-orbitron text-red-400 animate-pulse">Preparando a corrida...</p>
+    </div>
+
+    <div id="app-container" class="hidden w-full min-h-screen flex flex-col">
+        <header id="header-placeholder" class="sticky top-0 z-40 w-full"></header>
+
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <div id="race-grid" class="glass-panel">
+                <!-- Pistas e Slots -->
+                <div id="tracks-container"></div>
+
+                <!-- Mão do Jogador e Botão -->
+                <div>
+                    <div id="player-hand-container"></div>
+                    <div class="text-center p-4">
+                        <button id="start-race-btn" class="bg-gray-600 text-gray-400 font-bold py-3 px-12 rounded-lg transition-colors text-lg font-orbitron tracking-wider cursor-not-allowed" disabled>
+                            INICIAR CORRIDA
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal de Resultados -->
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="glass-panel p-8 w-full max-w-4xl max-h-[90vh] flex flex-col">
+            <h2 id="modal-title" class="font-orbitron text-4xl font-bold text-center mb-6">RESULTADOS</h2>
+            <div id="results-container" class="space-y-4 overflow-y-auto pr-4"></div>
+            <div class="text-center mt-8">
+                <button id="close-modal-btn" class="bg-primary-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors text-lg font-orbitron tracking-wider">
+                    VOLTAR
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module">
+        import { auth, db } from './firebase.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { ref, get, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { createHeader } from './menu.js';
+        import { cards as allCardsData } from './cards.js';
+
+        // --- DOM Elements ---
+        const loader = document.getElementById('loader');
+        const appContainer = document.getElementById('app-container');
+        const headerPlaceholder = document.getElementById('header-placeholder');
+        const tracksContainer = document.getElementById('tracks-container');
+        const playerHandContainer = document.getElementById('player-hand-container');
+        const startRaceBtn = document.getElementById('start-race-btn');
+        const resultsModal = document.getElementById('results-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const resultsContainer = document.getElementById('results-container');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        // --- Game State ---
+        let currentUser = null;
+        let userDeck = [];
+        let opponentDeck = [];
+        let tracks = [];
+        let playerPlacements = [null, null, null, null, null];
+        const RARITY_ORDER = ['E', 'D', 'C', 'B', 'A', 'S'];
+        let draggedGhost = null;
+
+        const trackTypes = [
+            { name: 'Arrancada', icon: 'fa-road', relevantStats: ['aceleracao', 'velocidade'] },
+            { name: 'Circuito', icon: 'fa-flag-checkered', relevantStats: ['direcao', 'velocidade'] },
+            { name: 'Cidade', icon: 'fa-city', relevantStats: ['aceleracao', 'direcao'] },
+            { name: 'Zigue-Zague', icon: 'fa-wave-square', relevantStats: ['direcao'] }
+        ];
+        const weatherTypes = [
+            { name: 'Sol', icon: 'fa-sun', tractionMultipliers: { 'Dianteira': 1.0, 'Traseira': 1.0, '4x4': 1.05 } },
+            { name: 'Chuva', icon: 'fa-cloud-showers-heavy', tractionMultipliers: { 'Dianteira': 1.05, 'Traseira': 0.85, '4x4': 1.15 } },
+            { name: 'Neve', icon: 'fa-snowflake', tractionMultipliers: { 'Dianteira': 0.9, 'Traseira': 0.7, '4x4': 1.25 } }
+        ];
+
+        // --- Initialization ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const urlParams = new URLSearchParams(window.location.search);
+                const difficulty = urlParams.get('dificuldade');
+
+                if (!difficulty || !RARITY_ORDER.includes(difficulty)) {
+                    window.location.href = 'livre.html';
+                    return;
+                }
+
+                try {
+                    const snapshot = await get(ref(db, `users/${user.uid}`));
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+                        createHeader(auth, userData, headerPlaceholder, 'jogolivre');
+                        userDeck = (userData.deck || []).filter(id => id);
+                        
+                        if (userDeck.length !== 5) {
+                            window.location.href = 'livre.html';
+                            return;
+                        }
+
+                        opponentDeck = generateOpponentDeck(difficulty);
+                        tracks = generateTracks();
+                        renderGameSetup();
+
+                        appContainer.classList.remove('hidden');
+                        loader.classList.add('hidden');
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar dados:", error);
+                    window.location.href = 'index.html';
+                }
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // --- Game Logic Functions ---
+        function generateOpponentDeck(difficulty) {
+            const difficultyIndex = RARITY_ORDER.indexOf(difficulty);
+            const cardsInDifficulty = Object.keys(allCardsData).filter(id => allCardsData[id].classe === difficulty);
+            
+            let opponentPool = [...cardsInDifficulty];
+            let finalDeck = [];
+
+            if (difficultyIndex < RARITY_ORDER.length - 1) {
+                const higherDifficulty = RARITY_ORDER[difficultyIndex + 1];
+                const cardsInHigherDifficulty = Object.keys(allCardsData).filter(id => allCardsData[id].classe === higherDifficulty);
+                if (cardsInHigherDifficulty.length > 0 && Math.random() < 0.4) {
+                    const trumpCard = cardsInHigherDifficulty[Math.floor(Math.random() * cardsInHigherDifficulty.length)];
+                    finalDeck.push(trumpCard);
+                }
+            }
+            
+            while(finalDeck.length < 5 && opponentPool.length > 0) {
+                const randomIndex = Math.floor(Math.random() * opponentPool.length);
+                finalDeck.push(opponentPool.splice(randomIndex, 1)[0]);
+            }
+            while(finalDeck.length < 5) {
+                finalDeck.push(cardsInDifficulty[Math.floor(Math.random() * cardsInDifficulty.length)]);
+            }
+            return finalDeck;
+        }
+
+        function generateTracks() {
+            let generatedTracks = [];
+            for (let i = 0; i < 5; i++) {
+                generatedTracks.push({
+                    trackType: trackTypes[Math.floor(Math.random() * trackTypes.length)],
+                    weather: weatherTypes[Math.floor(Math.random() * weatherTypes.length)]
+                });
+            }
+            return generatedTracks;
+        }
+
+        function calculatePerformanceScore(cardId, track) {
+            const card = allCardsData[cardId];
+            if (!card) return 0;
+
+            let score = 0;
+            score += (15 - card.aceleracao) * 10;
+            score += card.velocidade;
+            score += card.direcao * 1.5;
+
+            if (track.trackType.relevantStats.includes('aceleracao')) score += (15 - card.aceleracao) * 15;
+            if (track.trackType.relevantStats.includes('velocidade')) score += card.velocidade * 1.2;
+            if (track.trackType.relevantStats.includes('direcao')) score += card.direcao * 2;
+
+            score *= track.weather.tractionMultipliers[card.tracao] || 1;
+            
+            if (track.weather.name === 'Chuva' && card.pneus === 'Desempenho') score *= 1.1;
+            if (track.weather.name === 'Neve' && card.pneus === 'Off-Road') score *= 1.25;
+
+            return Math.round(score);
+        }
+
+        // --- UI Rendering Functions ---
+        function renderGameSetup() {
+            tracksContainer.innerHTML = tracks.map((track, index) => {
+                const opponentCard = allCardsData[opponentDeck[index]];
+                const rankClass = `rank-${opponentCard.classe.toLowerCase()}`;
+                return `
+                <div class="track-column">
+                    <div class="track-info">
+                        <div class="track-name">${track.trackType.name}</div>
+                        <div class="track-condition"><i class="fas ${track.weather.icon} mr-1"></i> ${track.weather.name}</div>
+                    </div>
+                    <div class="opponent-card-slot">
+                        <div class="opponent-card ${rankClass}">
+                            <div class="hand-card-header">
+                                <p class="hand-card-name">${opponentCard.nome}</p>
+                                <div class="hand-card-rank" style="background-color: var(--rank-${opponentCard.classe.toLowerCase()}-color)">${opponentCard.classe}</div>
+                            </div>
+                            <img src="${opponentCard.imagem}" class="hand-card-image" alt="${opponentCard.nome}">
+                            <div class="opponent-card-stats">
+                                <div><i class="fas fa-tachometer-alt fa-fw text-red-500"></i> <span class="stat-value">${opponentCard.velocidade}</span></div>
+                                <div><i class="fas fa-stopwatch fa-fw text-yellow-500"></i> <span class="stat-value">${opponentCard.aceleracao}s</span></div>
+                                <div><i class="fas fa-road-spoke fa-fw text-blue-500"></i> <span class="stat-value">${opponentCard.direcao}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-slot" data-slot-index="${index}"></div>
+                </div>
+            `}).join('');
+
+            playerHandContainer.innerHTML = userDeck.map(cardId => {
+                const card = allCardsData[cardId];
+                const rankClass = `rank-${card.classe.toLowerCase()}`;
+                return `
+                    <div class="player-hand-card ${rankClass}" draggable="true" data-card-id="${cardId}">
+                        <div class="hand-card-header">
+                            <p class="hand-card-name">${card.nome}</p>
+                            <div class="hand-card-rank" style="background-color: var(--rank-${card.classe.toLowerCase()}-color)">${card.classe}</div>
+                        </div>
+                        <img src="${card.imagem}" class="hand-card-image" alt="${card.nome}">
+                        <div class="hand-card-stats">
+                            <div class="stat-grid">
+                                <div><i class="fas fa-tachometer-alt fa-fw text-red-500"></i> Vel: <span class="stat-value">${card.velocidade}</span></div>
+                                <div><i class="fas fa-arrows-alt-v fa-fw text-purple-500"></i> Alt: <span class="stat-value">${card.altura}</span></div>
+                                <div><i class="fas fa-stopwatch fa-fw text-yellow-500"></i> Acel: <span class="stat-value">${card.aceleracao}s</span></div>
+                                <div><i class="fas fa-dot-circle fa-fw text-gray-400"></i> Pneu: <span class="stat-value">${card.pneus}</span></div>
+                                <div><i class="fas fa-road-spoke fa-fw text-blue-500"></i> Dir: <span class="stat-value">${card.direcao}</span></div>
+                                <div><i class="fas fa-cogs fa-fw text-green-500"></i> Tração: <span class="stat-value">${card.tracao}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            addDragAndDropListeners();
+        }
+
+        function addDragAndDropListeners() {
+            const draggables = document.querySelectorAll('.player-hand-card');
+            const slots = document.querySelectorAll('.card-slot');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    if (draggable.classList.contains('placed')) {
+                        e.preventDefault();
+                        return;
+                    }
+                    draggable.classList.add('dragging');
+                    
+                    draggedGhost = draggable.cloneNode(true);
+                    draggedGhost.classList.add('card-ghost');
+                    document.body.appendChild(draggedGhost);
+                    draggedGhost.style.width = `${draggable.offsetWidth}px`;
+                    draggedGhost.style.height = `${draggable.offsetHeight}px`;
+                    draggedGhost.style.transform = `translate(${e.clientX - draggable.offsetWidth / 2}px, ${e.clientY - draggable.offsetHeight / 2}px) scale(0.8) rotate(5deg)`;
+                    
+                    e.dataTransfer.setDragImage(new Image(), 0, 0);
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                    if (draggedGhost) {
+                        draggedGhost.remove();
+                        draggedGhost = null;
+                    }
+                });
+            });
+
+            document.addEventListener('dragover', e => {
+                e.preventDefault();
+                if (draggedGhost) {
+                    draggedGhost.style.transform = `translate(${e.clientX - draggedGhost.offsetWidth / 2}px, ${e.clientY - draggedGhost.offsetHeight / 2}px) scale(0.8) rotate(5deg)`;
+                }
+            });
+
+            slots.forEach(slot => {
+                slot.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    slot.classList.add('drag-over');
+                });
+                slot.addEventListener('dragleave', () => {
+                    slot.classList.remove('drag-over');
+                });
+                slot.addEventListener('drop', e => {
+                    e.preventDefault();
+                    slot.classList.remove('drag-over');
+                    const draggingCard = document.querySelector('.dragging');
+                    if (!draggingCard) return;
+
+                    const cardId = draggingCard.dataset.cardId;
+                    const slotIndex = parseInt(slot.dataset.slotIndex);
+                    
+                    const previousCardId = playerPlacements[slotIndex];
+                    if (previousCardId) {
+                        document.querySelector(`.player-hand-card[data-card-id="${previousCardId}"]`).classList.remove('placed');
+                    }
+
+                    const oldSlotIndex = playerPlacements.indexOf(cardId);
+                    if (oldSlotIndex > -1) {
+                        playerPlacements[oldSlotIndex] = null;
+                        document.querySelector(`[data-slot-index="${oldSlotIndex}"]`).innerHTML = '';
+                    }
+
+                    playerPlacements[slotIndex] = cardId;
+                    draggingCard.classList.add('placed');
+                    slot.innerHTML = `<div class="mini-card">${createMiniCardHTML(cardId)}</div>`;
+
+                    checkAllSlotsFilled();
+                });
+            });
+        }
+        
+        function checkAllSlotsFilled() {
+            const allFilled = playerPlacements.every(p => p !== null);
+            if (allFilled) {
+                startRaceBtn.disabled = false;
+                startRaceBtn.classList.remove('bg-gray-600', 'text-gray-400', 'cursor-not-allowed');
+                startRaceBtn.classList.add('bg-green-600', 'hover:bg-green-700', 'text-white');
+            }
+        }
+        
+        function showResults() {
+            resultsContainer.innerHTML = '';
+            resultsModal.classList.remove('hidden');
+            let playerScore = 0;
+            let opponentScore = 0;
+
+            tracks.forEach((track, i) => {
+                const playerCardId = playerPlacements[i];
+                const opponentCardId = opponentDeck[i];
+                const playerPerf = calculatePerformanceScore(playerCardId, track);
+                const opponentPerf = calculatePerformanceScore(opponentCardId, track);
+                const playerWins = playerPerf >= opponentPerf;
+
+                if (playerWins) playerScore++; else opponentScore++;
+
+                const resultCard = document.createElement('div');
+                resultCard.className = `result-card ${playerWins ? 'win' : 'lose'}`;
+                resultCard.style.animationDelay = `${i * 0.3}s`;
+
+                resultCard.innerHTML = `
+                    <div class="player-result text-right">
+                        <div class="mini-card inline-block">${createMiniCardHTML(playerCardId)}</div>
+                        <p class="font-bold text-lg">${playerPerf}</p>
+                    </div>
+                    <div class="vs-divider text-2xl">${playerWins ? '>' : '<'}</div>
+                    <div class="opponent-result text-left">
+                        <div class="mini-card inline-block">${createMiniCardHTML(opponentCardId)}</div>
+                        <p class="font-bold text-lg">${opponentPerf}</p>
+                    </div>
+                `;
+                resultsContainer.appendChild(resultCard);
+            });
+            
+            setTimeout(() => {
+                 if (playerScore > opponentScore) {
+                    modalTitle.textContent = "VITÓRIA!";
+                    modalTitle.classList.add('text-green-400');
+                    // Adicionar recompensa aqui
+                } else {
+                    modalTitle.textContent = "DERROTA";
+                    modalTitle.classList.add('text-red-500');
+                }
+            }, tracks.length * 300);
+        }
+        
+        function createMiniCardHTML(cardId){
+            const card = allCardsData[cardId];
+            const rankClass = `rank-${card.classe.toLowerCase()}`;
+            return `
+                <div class="mini-card ${rankClass}">
+                    <img src="${card.imagem}" class="mini-card-img" alt="${card.nome}">
+                    <div class="mini-card-overlay">
+                        <span class="mini-card-name">${card.nome}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Event Listeners ---
+        startRaceBtn.addEventListener('click', showResults);
+        closeModalBtn.addEventListener('click', () => {
+            window.location.href = 'livre.html'; // Recarrega a página para um novo desafio
+        });
+
+    </script>
+</body>
+</html>

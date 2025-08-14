@@ -27,7 +27,7 @@ export function createHeader(auth, userData, parentElement, currentPage = '') {
                     ${currentPage !== 'home' ? `
                     <a href="home.html" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-3 py-2 rounded-lg transition-colors" title="Voltar para Home">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                        <span class="hidden sm:inline text-sm">VOLTAR</span>
+                        <span class="hidden sm:inline text-sm">Home</span>
                     </a>` : ''}
 
                     <div class="bg-green-500/20 text-green-300 font-bold text-sm px-4 py-2 rounded-full">
