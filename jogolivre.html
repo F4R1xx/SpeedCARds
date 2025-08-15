@@ -91,13 +91,6 @@
             border-radius: 0.75rem;
             background: linear-gradient(165deg, #282828, #181818);
         }
-        .opponent-card-stats {
-            font-size: 0.7rem;
-            text-align: center;
-            color: #ccc;
-            padding: 0.5rem;
-        }
-        .opponent-card-stats .stat-value { color: white; font-weight: bold; }
 
         /* Mão do Jogador */
         #player-hand-container {
@@ -236,6 +229,11 @@
         .result-card.win { border-left-color: #2ecc71; }
         .result-card.lose { border-left-color: #e74c3c; }
         .result-card .mini-card { width: 150px; height: 94px; }
+        
+        /* AJUSTE: Cores dos ícones de clima */
+        .weather-sun { color: #fbc531; }
+        .weather-rain { color: #487eb0; }
+        .weather-snow { color: #dcdde1; }
     </style>
 </head>
 <body>
@@ -312,12 +310,14 @@
             { name: 'Arrancada', icon: 'fa-road', relevantStats: ['aceleracao', 'velocidade'] },
             { name: 'Circuito', icon: 'fa-flag-checkered', relevantStats: ['direcao', 'velocidade'] },
             { name: 'Cidade', icon: 'fa-city', relevantStats: ['aceleracao', 'direcao'] },
-            { name: 'Zigue-Zague', icon: 'fa-wave-square', relevantStats: ['direcao'] }
+            { name: 'Zigue-Zague', icon: 'fa-wave-square', relevantStats: ['direcao'] },
+            { name: 'Offroad', icon: 'fa-mountain', relevantStats: ['altura', 'tracao'] }
         ];
+        
         const weatherTypes = [
-            { name: 'Sol', icon: 'fa-sun', tractionMultipliers: { 'Dianteira': 1.0, 'Traseira': 1.0, '4x4': 1.05 } },
-            { name: 'Chuva', icon: 'fa-cloud-showers-heavy', tractionMultipliers: { 'Dianteira': 1.05, 'Traseira': 0.85, '4x4': 1.15 } },
-            { name: 'Neve', icon: 'fa-snowflake', tractionMultipliers: { 'Dianteira': 0.9, 'Traseira': 0.7, '4x4': 1.25 } }
+            { name: 'Sol', icon: 'fa-sun', iconClass: 'weather-sun', tractionMultipliers: { 'Dianteira': 1.0, 'Traseira': 1.0, '4x4': 1.05 } },
+            { name: 'Chuva', icon: 'fa-cloud-showers-heavy', iconClass: 'weather-rain', tractionMultipliers: { 'Dianteira': 1.05, 'Traseira': 0.85, '4x4': 1.15 } },
+            { name: 'Neve', icon: 'fa-snowflake', iconClass: 'weather-snow', tractionMultipliers: { 'Dianteira': 0.9, 'Traseira': 0.7, '4x4': 1.25 } }
         ];
 
         // --- Initialization ---
@@ -412,6 +412,13 @@
             if (track.trackType.relevantStats.includes('aceleracao')) score += (15 - card.aceleracao) * 15;
             if (track.trackType.relevantStats.includes('velocidade')) score += card.velocidade * 1.2;
             if (track.trackType.relevantStats.includes('direcao')) score += card.direcao * 2;
+            
+            if (track.trackType.name === 'Offroad') {
+                score += card.altura * 25;
+                if(card.tracao === '4x4') score *= 1.3;
+                if(card.pneus === 'Off-Road') score *= 1.2;
+            }
+
 
             score *= track.weather.tractionMultipliers[card.tracao] || 1;
             
@@ -429,8 +436,8 @@
                 return `
                 <div class="track-column">
                     <div class="track-info">
-                        <div class="track-name">${track.trackType.name}</div>
-                        <div class="track-condition"><i class="fas ${track.weather.icon} mr-1"></i> ${track.weather.name}</div>
+                        <div class="track-name"><i class="fas ${track.trackType.icon} mr-2"></i>${track.trackType.name}</div>
+                        <div class="track-condition"><i class="fas ${track.weather.icon} ${track.weather.iconClass} mr-1"></i> ${track.weather.name}</div>
                     </div>
                     <div class="opponent-card-slot">
                         <div class="opponent-card ${rankClass}">
@@ -439,10 +446,15 @@
                                 <div class="hand-card-rank" style="background-color: var(--rank-${opponentCard.classe.toLowerCase()}-color)">${opponentCard.classe}</div>
                             </div>
                             <img src="${opponentCard.imagem}" class="hand-card-image" alt="${opponentCard.nome}">
-                            <div class="opponent-card-stats">
-                                <div><i class="fas fa-tachometer-alt fa-fw text-red-500"></i> <span class="stat-value">${opponentCard.velocidade}</span></div>
-                                <div><i class="fas fa-stopwatch fa-fw text-yellow-500"></i> <span class="stat-value">${opponentCard.aceleracao}s</span></div>
-                                <div><i class="fas fa-road-spoke fa-fw text-blue-500"></i> <span class="stat-value">${opponentCard.direcao}</span></div>
+                            <div class="hand-card-stats">
+                                <div class="stat-grid">
+                                    <div><i class="fas fa-tachometer-alt fa-fw text-red-500"></i> Vel: <span class="stat-value">${opponentCard.velocidade}</span></div>
+                                    <div><i class="fas fa-arrows-alt-v fa-fw text-purple-500"></i> Alt: <span class="stat-value">${opponentCard.altura}</span></div>
+                                    <div><i class="fas fa-stopwatch fa-fw text-yellow-500"></i> Acel: <span class="stat-value">${opponentCard.aceleracao}s</span></div>
+                                    <div><i class="fas fa-dot-circle fa-fw text-gray-400"></i> Pneu: <span class="stat-value">${opponentCard.pneus}</span></div>
+                                    <div><i class="fas fa-bullseye fa-fw text-blue-500"></i> Dir: <span class="stat-value">${opponentCard.direcao}</span></div>
+                                    <div><i class="fas fa-cogs fa-fw text-green-500"></i> Tração: <span class="stat-value">${opponentCard.tracao}</span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -466,7 +478,7 @@
                                 <div><i class="fas fa-arrows-alt-v fa-fw text-purple-500"></i> Alt: <span class="stat-value">${card.altura}</span></div>
                                 <div><i class="fas fa-stopwatch fa-fw text-yellow-500"></i> Acel: <span class="stat-value">${card.aceleracao}s</span></div>
                                 <div><i class="fas fa-dot-circle fa-fw text-gray-400"></i> Pneu: <span class="stat-value">${card.pneus}</span></div>
-                                <div><i class="fas fa-road-spoke fa-fw text-blue-500"></i> Dir: <span class="stat-value">${card.direcao}</span></div>
+                                <div><i class="fas fa-bullseye fa-fw text-blue-500"></i> Dir: <span class="stat-value">${card.direcao}</span></div>
                                 <div><i class="fas fa-cogs fa-fw text-green-500"></i> Tração: <span class="stat-value">${card.tracao}</span></div>
                             </div>
                         </div>
@@ -512,6 +524,17 @@
                 e.preventDefault();
                 if (draggedGhost) {
                     draggedGhost.style.transform = `translate(${e.clientX - draggedGhost.offsetWidth / 2}px, ${e.clientY - draggedGhost.offsetHeight / 2}px) scale(0.8) rotate(5deg)`;
+                }
+
+                const y = e.clientY;
+                const windowHeight = window.innerHeight;
+                const scrollThreshold = 100;
+                const scrollSpeed = 15;
+
+                if (y < scrollThreshold) {
+                    window.scrollBy(0, -scrollSpeed);
+                } else if (y > windowHeight - scrollThreshold) {
+                    window.scrollBy(0, scrollSpeed);
                 }
             });
 
