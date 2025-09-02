@@ -154,8 +154,102 @@
             0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
             50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
         }
+        
+        /* Animação de Brilho Pulsante para Rank R (Raro) */
+        @keyframes pulsate-rare-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px 5px rgba(0, 255, 255, 0.8), /* Cyan */
+                            0 0 30px 10px rgba(255, 0, 255, 0.6), /* Magenta */
+                            0 0 10px 2px rgba(255, 255, 255, 0.9) inset;
+                border-color: rgba(0, 255, 255, 1);
+            }
+            50% {
+                box-shadow: 0 0 40px 10px rgba(0, 255, 255, 1),   /* Cyan */
+                            0 0 60px 20px rgba(255, 0, 255, 0.8), /* Magenta */
+                            0 0 20px 6px rgba(255, 255, 255, 1) inset;
+                border-color: rgba(255, 255, 255, 1);
+            }
+        }
+
+        /* Animação de Brilho Pulsante para Rank X (Secreto) */
+        @keyframes pulsate-secret-glow {
+            0%, 100% {
+                box-shadow: 0 0 30px 6px rgba(13, 17, 23, 1), /* Sombra base escura */
+                            0 0 15px 3px rgba(120, 0, 255, 0.7), /* Roxo espectral */
+                            0 0 8px 1px rgba(0, 255, 255, 0.8) inset; /* Brilho interno ciano */
+                border-color: rgba(100, 100, 120, 1);
+            }
+            50% {
+                box-shadow: 0 0 60px 12px rgba(13, 17, 23, 1),   /* Sombra base escura expandida */
+                            0 0 30px 8px rgba(120, 0, 255, 1), /* Roxo espectral intenso */
+                            0 0 18px 4px rgba(0, 255, 255, 1) inset; /* Brilho interno ciano intenso */
+                border-color: rgba(220, 220, 255, 1);
+            }
+        }
+
+        @keyframes void-texture {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
         /* Efeitos de Raridade */
+        .rank-x.card-base {
+            animation: pulsate-secret-glow 2.2s infinite ease-in-out;
+            border-color: #333;
+            background-color: #050505;
+            overflow: hidden;
+        }
+
+        .rank-x.card-base::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+            background-size: 20%;
+            animation: void-texture 20s infinite linear alternate;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .rank-x.card-base .collection-card-image-wrapper,
+        .rank-x.card-base .p-3 {
+            position: relative;
+            z-index: 1;
+            background-color: transparent; /* Garante que o fundo do card não cubra o efeito ::before */
+        }
+        
+        .rank-x.card-base .p-3 {
+             background-color: #181818 !important; /* Mantém o fundo da área de stats */
+        }
+
+
+        .rank-x.card-base::after {
+            --shine-gradient: linear-gradient(to right,
+                rgba(120, 0, 255, 0) 0%,
+                rgba(120, 0, 255, 0.8) 30%, /* Roxo */
+                rgba(0, 255, 255, 0.9) 50%,   /* Ciano */
+                rgba(255, 255, 255, 0.8) 70%, /* Branco/Prata */
+                rgba(120, 0, 255, 0) 100%);
+            --shine-duration: 1.8s;
+            --shine-opacity: 1;
+        }
+
+        .rank-r.card-base {
+            animation: pulsate-rare-glow 1.8s infinite ease-in-out;
+            border-color: #00FFFF; /* Cyan */
+        }
+        .rank-r.card-base::after {
+            --shine-gradient: linear-gradient(to right,
+                rgba(0, 255, 255, 0) 0%,
+                rgba(0, 255, 255, 1) 25%,
+                rgba(255, 0, 255, 1) 50%,
+                rgba(255, 255, 0, 1) 75%,
+                rgba(0, 255, 255, 0) 100%);
+            --shine-duration: 2.5s;
+            --shine-opacity: 1;
+        }
+
         .rank-s.card-base { animation: pulsate-glow 2s infinite ease-in-out; border-color: #FFD700; }
         .rank-s.card-base::after { --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%); --shine-duration: 3s; --shine-opacity: 0.9; }
         
@@ -232,6 +326,8 @@
 
         function getRankColor(rank) {
             const colors = {
+                'X': '#000000', // Cor Preta para a classe X
+                'R': '#00FFFF', // Cor Ciano para a classe R
                 'S+': '#FFD700', 'S': '#FFD700',
                 'A': '#E01A4F',
                 'B': '#8e44ad',
@@ -244,6 +340,11 @@
 
         function createCardElement(cardData, isOwned) {
             if (!cardData) return null;
+
+            // Carros da Classe X são ocultos a menos que o jogador os possua
+            if (cardData.classe === 'X' && !isOwned) {
+                return null;
+            }
 
             const cardElement = document.createElement('div');
             cardElement.className = 'card-base';
@@ -279,7 +380,7 @@
                 </div>
             `;
 
-            if (isOwned && ['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
+            if (isOwned && ['X', 'R', 'S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                 const overlay = document.createElement('div');
                 overlay.className = 'holographic-overlay';
                 cardElement.querySelector('.collection-card-image-wrapper').prepend(overlay);
@@ -316,7 +417,7 @@
                 id: cardId,
                 data: manufacturerCars[cardId]
             })).sort((a, b) => {
-                const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+                const rarityOrder = ['X', 'R', 'S+', 'S', 'A', 'B', 'C', 'D', 'E'];
                 return rarityOrder.indexOf(a.data.classe) - rarityOrder.indexOf(b.data.classe);
             });
 
@@ -369,3 +470,4 @@
     </script>
 </body>
 </html>
+
