@@ -137,6 +137,25 @@
                 box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset;
             }
         }
+        
+        @keyframes pulsate-glow-x {
+            0%, 100% {
+                box-shadow: 0 0 20px 5px rgba(0, 255, 255, 0.8), 0 0 10px 2px rgba(0, 255, 255, 0.7) inset;
+            }
+            50% {
+                box-shadow: 0 0 40px 10px rgba(0, 255, 255, 1), 0 0 18px 5px rgba(0, 255, 255, 0.9) inset;
+            }
+        }
+
+        .pack-card.pack-x {
+            animation: pulsate-glow-x 2s infinite ease-in-out;
+            border-color: #00FFFF;
+        }
+        
+        .pack-card.pack-r {
+            box-shadow: 0 0 15px 4px rgba(192, 192, 192, 0.6);
+            border-color: #C0C0C0;
+        }
 
         .pack-card.pack-s {
             animation: pulsate-glow 2s infinite ease-in-out;
@@ -213,6 +232,16 @@
             text-shadow: var(--text-shadow-strong);
         }
 
+        .pack-x .pack-class {
+            color: #00FFFF;
+            text-shadow: 0 0 12px rgba(0, 255, 255, 0.9);
+        }
+
+        .pack-r .pack-class {
+            color: #C0C0C0;
+            text-shadow: 0 0 10px rgba(192, 192, 192, 0.8);
+        }
+        
         .pack-s .pack-class {
             color: #FFD700;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
@@ -353,6 +382,50 @@
             z-index: 1;
         }
 
+        /* INÍCIO DOS EFEITOS IMPORTADOS DA GALERIA */
+        @keyframes shine {
+            0% { transform: translateX(-180%) skewX(-25deg); opacity: 0; }
+            20% { opacity: var(--shine-opacity, 0.4); }
+            80% { opacity: var(--shine-opacity, 0.4); }
+            100% { transform: translateX(180%) skewX(-25deg); opacity: 0; }
+        }
+
+        @keyframes pulsate-rare-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px 5px rgba(0, 255, 255, 0.8), /* Cyan */
+                            0 0 30px 10px rgba(255, 0, 255, 0.6), /* Magenta */
+                            0 0 10px 2px rgba(255, 255, 255, 0.9) inset;
+                border-color: rgba(0, 255, 255, 1);
+            }
+            50% {
+                box-shadow: 0 0 40px 10px rgba(0, 255, 255, 1),   /* Cyan */
+                            0 0 60px 20px rgba(255, 0, 255, 0.8), /* Magenta */
+                            0 0 20px 6px rgba(255, 255, 255, 1) inset;
+                border-color: rgba(255, 255, 255, 1);
+            }
+        }
+
+        @keyframes pulsate-secret-glow {
+            0%, 100% {
+                box-shadow: 0 0 30px 6px rgba(13, 17, 23, 1), 
+                            0 0 15px 3px rgba(120, 0, 255, 0.7), 
+                            0 0 8px 1px rgba(0, 255, 255, 0.8) inset; 
+                border-color: rgba(100, 100, 120, 1);
+            }
+            50% {
+                box-shadow: 0 0 60px 12px rgba(13, 17, 23, 1),   
+                            0 0 30px 8px rgba(120, 0, 255, 1), 
+                            0 0 18px 4px rgba(0, 255, 255, 1) inset; 
+                border-color: rgba(220, 220, 255, 1);
+            }
+        }
+
+        @keyframes void-texture {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        /* FIM DOS KEYFRAMES */
+
         @keyframes card-reveal {
             0% {
                 opacity: 0;
@@ -472,30 +545,76 @@
             box-shadow: 0 0 6px black;
         }
 
+        .opened-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            opacity: 0;
+            z-index: 2;
+            animation: shine var(--shine-duration, 8s) infinite linear;
+            background: var(--shine-gradient);
+            border-radius: 1rem;
+        }
+
+        /* ESTILOS DE CARTA ATUALIZADOS */
+        .opened-card.rank-x {
+            animation: pulsate-secret-glow 2.2s infinite ease-in-out;
+            border-color: #333;
+            background-color: #050505;
+        }
+        .opened-card.rank-x::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+            background-size: 20%;
+            animation: void-texture 20s infinite linear alternate;
+            opacity: 0.5;
+            z-index: 0;
+        }
+        .opened-card.rank-x .card-front > * {
+            position: relative;
+            z-index: 1;
+        }
+        .opened-card.rank-x::after {
+            --shine-gradient: linear-gradient(to right, rgba(120, 0, 255, 0) 0%, rgba(120, 0, 255, 0.8) 30%, rgba(0, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.8) 70%, rgba(120, 0, 255, 0) 100%);
+            --shine-duration: 1.8s;
+            --shine-opacity: 1;
+        }
+
+        .opened-card.rank-r {
+            animation: pulsate-rare-glow 1.8s infinite ease-in-out;
+            border-color: #00FFFF;
+        }
+        .opened-card.rank-r::after {
+            --shine-gradient: linear-gradient(to right, rgba(0, 255, 255, 0) 0%, rgba(0, 255, 255, 1) 25%, rgba(255, 0, 255, 1) 50%, rgba(255, 255, 0, 1) 75%, rgba(0, 255, 255, 0) 100%);
+            --shine-duration: 2.5s;
+            --shine-opacity: 1;
+        }
+
         .opened-card.rank-s {
             border-color: #FFD700;
             animation: pulsate-glow 2s infinite ease-in-out;
         }
+        .opened-card.rank-s::after { --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%); --shine-duration: 3s; --shine-opacity: 0.9; }
 
-        .opened-card.rank-a {
-            border-color: var(--primary-red);
-        }
-
-        .opened-card.rank-b {
-            border-color: #8e44ad;
-        }
-
-        .opened-card.rank-c {
-            border-color: #3498db;
-        }
-
-        .opened-card.rank-d {
-            border-color: #2ecc71;
-        }
-
-        .opened-card.rank-e {
-            border-color: #95a5a6;
-        }
+        .opened-card.rank-a { border-color: var(--primary-red); }
+        .opened-card.rank-a::after { --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%); --shine-duration: 4s; --shine-opacity: 0.8; }
+        
+        .opened-card.rank-b { border-color: #8e44ad; }
+        .opened-card.rank-b::after { --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%); --shine-duration: 5.5s; --shine-opacity: 0.7; }
+        
+        .opened-card.rank-c { border-color: #3498db; }
+        .opened-card.rank-c::after { --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%); --shine-duration: 7s; --shine-opacity: 0.6; }
+        
+        .opened-card.rank-d { border-color: #2ecc71; }
+        .opened-card.rank-d::after { --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%); --shine-duration: 8.5s; --shine-opacity: 0.5; }
+        
+        .opened-card.rank-e { border-color: #95a5a6; }
 
         .duplicate-badge {
             position: absolute;
@@ -566,33 +685,45 @@
             box-shadow: 0 0 10px var(--primary-red);
         }
 
+        /* NOVOS ESTILOS PARA O BOTÃO DE PROBABILIDADES */
         .probability-button {
-            background-color: var(--accent-gray);
-            color: var(--text-light);
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            color: var(--text-medium);
             padding: 0.5rem 1rem;
             border-radius: 8px;
             font-size: 0.8rem;
+            font-weight: 600;
             cursor: help;
             position: relative;
+            transition: all 0.2s ease;
         }
-
+        .probability-button:hover {
+             background-color: rgba(0,0,0,0.4);
+             border-color: var(--primary-red);
+             color: var(--text-light);
+        }
         .probability-tooltip {
             position: absolute;
             bottom: 100%;
             left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.9);
-            border: 1px solid var(--primary-red);
-            padding: 0.75rem;
+            transform: translateX(-50%) translateY(0);
+            background-color: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease;
-            z-index: 20;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 50;
+            border-radius: 0.5rem;
+            width: max-content;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-
         .probability-button:hover .probability-tooltip {
             opacity: 1;
             visibility: visible;
+            transform: translateX(-50%) translateY(-8px);
         }
     </style>
 </head>
@@ -600,7 +731,7 @@
 <body>
     <div id="loader" class="loader-container fixed inset-0 flex flex-col items-center justify-center z-50">
         <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-600 h-28 w-28"></div>
-        <p id="loader-text" class="mt-8 text-2xl font-orbitron text-red-400 animate-pulse">Carregando Loja...</p>
+        <p id="loader-text" class="mt-8 text-2xl font-orbitron text-red-400 animate-pulse">A carregar Loja...</p>
     </div>
 
     <div id="custom-alert"
@@ -633,7 +764,7 @@
             <div class="glass-panel p-4 sm:p-6 lg:p-8">
                 <h1 class="font-orbitron text-4xl md:text-5xl font-bold text-white mb-4 text-center"
                     style="text-shadow: var(--glow-effect);">LOJA DE PACOTES</h1>
-                <p class="text-text-medium text-center mb-10">Escolha um pacote e teste sua sorte para expandir sua
+                <p class="text-text-medium text-center mb-10">Escolha um pacote e teste a sua sorte para expandir a sua
                     coleção de carros!</p>
 
                 <section class="mb-12">
@@ -690,18 +821,19 @@
         let isFirstLoad = true;
 
         const packsData = {
-            'E': { type: 'standard', image: './assets/pack_e.png', classTitle: 'PACOTE CLASSE E', description: 'Contém 4 cartas', reaisPrice: 35000, goldPrice: 50, probabilities: { 'S': 0.0002, 'A': 0.0008, 'B': 0.009, 'C': 0.05, 'D': 0.24, 'E': 0.70 } },
-            'D': { type: 'standard', image: './assets/pack_d.png', classTitle: 'PACOTE CLASSE D', description: 'Contém 4 cartas', reaisPrice: 60000, goldPrice: 60, probabilities: { 'S': 0.0005, 'A': 0.0025, 'B': 0.02, 'C': 0.10, 'D': 0.657, 'E': 0.22 } },
-            'C': { type: 'standard', image: './assets/pack_c.png', classTitle: 'PACOTE CLASSE C', description: 'Contém 4 cartas', reaisPrice: 100000, goldPrice: 70, probabilities: { 'S': 0.005, 'A': 0.025, 'B': 0.17, 'C': 0.60, 'D': 0.15, 'E': 0.05 } },
-            'B': { type: 'standard', image: './assets/pack_b.png', classTitle: 'PACOTE CLASSE B', description: 'Contém 4 cartas', reaisPrice: 150000, goldPrice: 140, probabilities: { 'S': 0.01, 'A': 0.12, 'B': 0.60, 'C': 0.22, 'D': 0.05 } },
-            'A': { type: 'standard', image: './assets/pack_a.png', classTitle: 'PACOTE CLASSE A', description: 'Contém 4 cartas', reaisPrice: 499000, goldPrice: 250, probabilities: { 'S': 0.015, 'A': 0.485, 'B': 0.38, 'C': 0.12 } },
-            'S': { type: 'standard', image: './assets/pack_s.png', classTitle: 'PACOTE CLASSE S', description: 'Contém 4 cartas', reaisPrice: null, goldPrice: 500, probabilities: { 'S': 0.05, 'A': 0.50, 'B': 0.32, 'C': 0.13 } },
-            'TOYOTA_PACK': { type: 'special', image: './assets/TOYOTA_PACK.png', classTitle: 'PACOTE TOYOTA', description: 'Contém 4 cartas Toyota', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { montadora: 'Toyota' } },
-            'OFFROAD_PACK': { type: 'special', image: './assets/OFFROAD_PACK.png', classTitle: 'PACOTE OFFROAD', description: 'Contém 4 cartas Offroad', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { pneus: 'Off-Road' } },
-            '4X4_PACK': { type: 'special', image: './assets/4X4_PACK.png', classTitle: 'PACOTE 4X4', description: 'Contém 4 cartas 4x4', reaisPrice: null, goldPrice: 100, probabilities: { 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.40, 'D': 0.15, 'E': 0.05 }, filterCriteria: { tracao: '4x4' } }
+            'E': { type: 'standard', image: './assets/pack_e.png', classTitle: 'PACOTE CLASSE E', description: 'Contém 4 cartas', reaisPrice: 35000, goldPrice: 50, probabilities: { 'X': 0.00005, 'R': 0.0001, 'S': 0.0002, 'A': 0.0008, 'B': 0.009, 'C': 0.05, 'D': 0.24, 'E': 0.69985 } },
+            'D': { type: 'standard', image: './assets/pack_d.png', classTitle: 'PACOTE CLASSE D', description: 'Contém 4 cartas', reaisPrice: 60000, goldPrice: 60, probabilities: { 'X': 0.0001, 'R': 0.0004, 'S': 0.0005, 'A': 0.0025, 'B': 0.02, 'C': 0.10, 'D': 0.6565, 'E': 0.22 } },
+            'C': { type: 'standard', image: './assets/pack_c.png', classTitle: 'PACOTE CLASSE C', description: 'Contém 4 cartas', reaisPrice: 100000, goldPrice: 70, probabilities: { 'X': 0.001, 'R': 0.004, 'S': 0.005, 'A': 0.025, 'B': 0.17, 'C': 0.595, 'D': 0.15, 'E': 0.05 } },
+            'B': { type: 'standard', image: './assets/pack_b.png', classTitle: 'PACOTE CLASSE B', description: 'Contém 4 cartas', reaisPrice: 150000, goldPrice: 140, probabilities: { 'X': 0.002, 'R': 0.008, 'S': 0.01, 'A': 0.12, 'B': 0.59, 'C': 0.22, 'D': 0.05 } },
+            'A': { type: 'standard', image: './assets/pack_a.png', classTitle: 'PACOTE CLASSE A', description: 'Contém 4 cartas', reaisPrice: 499000, goldPrice: 250, probabilities: { 'X': 0.001, 'R': 0.001, 'S': 0.02, 'A': 0.478, 'B': 0.38, 'C': 0.12 } },
+            'S': { type: 'standard', image: './assets/pack_s.png', classTitle: 'PACOTE CLASSE S', description: 'Contém 4 cartas', reaisPrice: null, goldPrice: 500, probabilities: { 'X': 0.01, 'R': 0.03, 'S': 0.05, 'A': 0.46, 'B': 0.32, 'C': 0.13 } },
+            'TOYOTA_PACK': { type: 'special', image: './assets/TOYOTA_PACK.png', classTitle: 'PACOTE TOYOTA', description: 'Contém 4 cartas Toyota', reaisPrice: null, goldPrice: 100, probabilities: { 'X': 0.001, 'R': 0.004, 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.395, 'D': 0.15, 'E': 0.05 }, filterCriteria: { montadora: 'Toyota' } },
+            'OFFROAD_PACK': { type: 'special', image: './assets/OFFROAD_PACK.png', classTitle: 'PACOTE OFFROAD', description: 'Contém 4 cartas Offroad', reaisPrice: null, goldPrice: 100, probabilities: { 'X': 0.001, 'R': 0.004, 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.395, 'D': 0.15, 'E': 0.05 }, filterCriteria: { pneus: 'Off-Road' } },
+            '4X4_PACK': { type: 'special', image: './assets/4X4_PACK.png', classTitle: 'PACOTE 4X4', description: 'Contém 4 cartas 4x4', reaisPrice: null, goldPrice: 100, probabilities: { 'X': 0.001, 'R': 0.004, 'S': 0.005, 'A': 0.075, 'B': 0.32, 'C': 0.395, 'D': 0.15, 'E': 0.05 }, filterCriteria: { tracao: '4x4' } }
         };
 
-        const duplicateConversionValue = { 'E': 1000, 'D': 2500, 'C': 5000, 'B': 15000, 'A': 50000, 'S': 300000 };
+        const duplicateConversionValue = { 'E': 1000, 'D': 2500, 'C': 5000, 'B': 15000, 'A': 50000, 'S': 300000, 'R': 1000000, 'X': 5000000 };
+        
         let currentOpenedCards = [];
         let currentCardIndex = 0;
         let totalDuplicateReais = 0;
@@ -715,7 +847,10 @@
         }
 
         function getRankColor(rank) {
-            const colors = { 'S+': '#FFD700', 'S': '#FFD700', 'A': '#E01A4F', 'B': '#8e44ad', 'C': '#3498db', 'D': '#2ecc71', 'E': '#95a5a6' };
+            const colors = {
+                'X': '#000000', 'R': '#00FFFF', 'S+': '#FFD700', 'S': '#FFD700', 'A': '#E01A4F',
+                'B': '#8e44ad', 'C': '#3498db', 'D': '#2ecc71', 'E': '#95a5a6'
+            };
             return colors[rank] || '#7F8C8D';
         }
 
@@ -795,8 +930,11 @@
             }
             const random = Math.random();
             let cumulative = 0;
-            for (const rank in packInfo.probabilities) {
-                cumulative += packInfo.probabilities[rank];
+            // É importante que as probabilidades estejam em ordem para garantir a seleção correta
+            const sortedProbabilities = Object.entries(packInfo.probabilities);
+
+            for (const [rank, probability] of sortedProbabilities) {
+                cumulative += probability;
                 if (random < cumulative) {
                     const cardsOfRank = eligibleCardIds.filter(id => window.cards[id] && window.cards[id].classe === rank);
                     if (cardsOfRank.length > 0) {
@@ -869,7 +1007,7 @@
         }
 
         async function openPack(packClass, currency) {
-            if (!currentUser) return showCustomAlert("Você precisa estar logado.");
+            if (!currentUser) return showCustomAlert("Você precisa de estar autenticado.");
             const packInfo = packsData[packClass];
             const cost = currency === 'reais' ? packInfo.reaisPrice : packInfo.goldPrice;
             const balance = currency === 'reais' ? userReais : userOuro;
@@ -885,16 +1023,24 @@
             for (let i = 0; i < 4; i++) {
                 const cardId = getRandomCard(packClass);
                 if (!cardId) continue;
+                const cardClasse = window.cards[cardId]?.classe;
+                // Verificação para garantir que a classe existe no objeto de conversão
+                if (!cardClasse || duplicateConversionValue[cardClasse] === undefined) {
+                    console.error(`Classe "${cardClasse}" do cartão ${cardId} não encontrada em duplicateConversionValue.`);
+                    continue; 
+                }
                 const isDuplicate = ownedCardIds.includes(cardId) || newCards.has(cardId);
-                const duplicateValue = isDuplicate ? duplicateConversionValue[window.cards[cardId].classe] : 0;
+                const duplicateValue = isDuplicate ? duplicateConversionValue[cardClasse] : 0;
                 totalDuplicateReais += duplicateValue;
                 if (!isDuplicate) newCards.add(cardId);
                 currentOpenedCards.push({ id: cardId, isDuplicate, duplicateValue });
             }
-
+            
             currentOpenedCards.sort((a, b) => {
-                const rarityOrder = ['E', 'D', 'C', 'B', 'A', 'S', 'S+'];
-                return rarityOrder.indexOf(window.cards[a.id].classe) - rarityOrder.indexOf(window.cards[b.id].classe);
+                const rarityOrder = ['E', 'D', 'C', 'B', 'A', 'S', 'S+', 'R', 'X'];
+                const classA = window.cards[a.id]?.classe || '';
+                const classB = window.cards[b.id]?.classe || '';
+                return rarityOrder.indexOf(classA) - rarityOrder.indexOf(classB);
             });
 
             const userRef = ref(db, 'users/' + currentUser.uid);
@@ -942,17 +1088,49 @@
                     reaisButton = `<button class="buy-button reais" data-currency="reais"><i class="fas fa-money-bill-wave"></i> Comprar</button>`;
                 }
 
+                const rarityOrder = ['X', 'R', 'S', 'A', 'B', 'C', 'D', 'E'];
+                let probabilitiesHTML = '<h4 class="font-bold text-white mb-2 text-center font-orbitron">Probabilidades</h4><ul class="text-left text-sm w-40">';
+                rarityOrder.forEach(rank => {
+                    if (packInfo.probabilities[rank]) {
+                        const probability = packInfo.probabilities[rank] * 100;
+                        let displayProb;
+                        if (probability < 0.01) {
+                            displayProb = probability.toFixed(4);
+                        } else if (probability < 0.1) {
+                            displayProb = probability.toFixed(3);
+                        } else {
+                            displayProb = probability.toFixed(2);
+                        }
+                        const rankColor = getRankColor(rank);
+                        probabilitiesHTML += `<li class="flex justify-between items-center mb-1"><span class="font-bold" style="color:${rankColor}; text-shadow: 0 0 5px ${rankColor};">Classe ${rank}</span> <span class="text-gray-300">${displayProb}%</span></li>`;
+                    }
+                });
+                probabilitiesHTML += '</ul>';
+
                 packElement.innerHTML = `
-                    <img src="${packInfo.image}" alt="${packInfo.classTitle}" class="pack-image">
-                    <h2 class="pack-class">${packInfo.classTitle}</h2>
-                    <p class="text-text-medium text-sm mb-2">${packInfo.description}</p>
-                    ${packInfo.reaisPrice !== null ? `<p class="pack-price"><i class="fas fa-dollar-sign"></i> R$ ${packInfo.reaisPrice.toLocaleString('pt-BR')}</p>` : ''}
-                    <p class="pack-gold-price"><i class="fas fa-coins"></i> ${packInfo.goldPrice.toLocaleString('pt-BR')} Ouro</p>
-                    <div class="buy-button-group mt-4">
-                        ${reaisButton}
-                        <button class="buy-button gold" data-currency="gold"><i class="fas fa-coins"></i> Comprar</button>
+                    <div> <!-- Top group -->
+                        <img src="${packInfo.image}" alt="${packInfo.classTitle}" class="pack-image">
+                        <h2 class="pack-class">${packInfo.classTitle}</h2>
+                        <p class="text-text-medium text-sm mb-2">${packInfo.description}</p>
+                        ${packInfo.reaisPrice !== null ? `<p class="pack-price"><i class="fas fa-dollar-sign"></i> R$ ${packInfo.reaisPrice.toLocaleString('pt-BR')}</p>` : ''}
+                        <p class="pack-gold-price"><i class="fas fa-coins"></i> ${packInfo.goldPrice.toLocaleString('pt-BR')} Ouro</p>
+                    </div>
+                    <div class="mt-4"> <!-- Bottom group -->
+                        <div class="relative flex justify-center mb-2">
+                            <div class="probability-button">
+                                <i class="fas fa-percent"></i> Ver Chances
+                                <div class="probability-tooltip">
+                                    ${probabilitiesHTML}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buy-button-group">
+                            ${reaisButton}
+                            <button class="buy-button gold" data-currency="gold"><i class="fas fa-coins"></i> Comprar</button>
+                        </div>
                     </div>
                 `;
+
                 if (packInfo.type === 'standard') {
                     standardPacksContainer.appendChild(packElement);
                 } else {
@@ -1009,3 +1187,4 @@
 </body>
 
 </html>
+

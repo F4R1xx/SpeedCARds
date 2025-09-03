@@ -13,7 +13,7 @@
         /* Variáveis CSS para um tema coeso (mesmas da home.html) */
         :root {
             --primary-red: #E01A4F; /* Um vermelho mais profundo e vibrante */
-            --dark-bg: #242424;
+            --dark-bg: #0A0A0A;
             --medium-dark-bg: #1A1A1A;
             --light-text: #F0F0F0;
             --accent-gray: #333333;
@@ -26,6 +26,8 @@
         body {
             font-family: 'Roboto', sans-serif;
             background-color: var(--dark-bg);
+            background-image: radial-gradient(circle at top right, rgba(224, 26, 79, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(224, 26, 79, 0.1), transparent 40%);
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -188,7 +190,7 @@
             opacity: 1;
         }
 
-        /* --- ESTILOS DE EXIBIÇÃO DE CARTAS --- */
+        /* --- ESTILOS DE EXIBIÇÃO DE CARTAS ATUALIZADOS --- */
         .card-base {
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 1rem;
@@ -202,8 +204,6 @@
         }
         .card-base:hover {
             transform: scale(1.08) rotateZ(0.5deg);
-            box-shadow: 0 0 40px var(--primary-red), 0 0 20px rgba(255, 255, 255, 0.3) inset;
-            border-color: var(--primary-red);
             z-index: 20;
         }
         
@@ -298,18 +298,7 @@
         .card-flag-shadow {
              box-shadow: 0 0 6px black;
         }
-
-        .card-base > .relative::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVAAAAEBAQGBgYFBQUODg4JCQkICAgLCwsMDAwFBgYAAAAAAAAGBgYHBwcODg4LCwsTCgsuBgYoBgYAAAA2/J4AAAAAWnRSTlMA/v77/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v4CBgQFERETCSgAAAOJJREFUeNrtk9sWgyAMhOU///+dp6kUkQzSLSHD2kv7dGkRnZbz5/5P5r58f5L5/X5J5vP5pUzm8/lFJvP5/CJT+Xz+I/N5/SJTeHz+kXm8/jFzePwD83j8g82j8Q82j8c/MB6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6PPzCerz8wnq8/MJ6vPzCezz8wns8/MJ7PPzCejz8wno8/MJ6p8Pj/I/F4/pP55/JL5/H5J5vP5RSbz+Xwm8/n8k8zn8/9/8v8A/9s5kACbsKkAAAAASUVORK5CYII=') repeat;
-            background-size: 50px 50px;
-            opacity: 0.05;
-            pointer-events: none;
-            z-index: 1;
-        }
-
+        
         .holographic-overlay {
             position: absolute;
             top: 0; left: 0;
@@ -336,20 +325,82 @@
             80% { opacity: var(--shine-opacity, 0.4); }
             100% { transform: translateX(180%) skewX(-25deg); opacity: 0; }
         }
+        
+        @keyframes pulsate-glow {
+            0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
+            50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
+        }
+        @keyframes pulsate-rare-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px 5px rgba(0, 255, 255, 0.8), /* Cyan */
+                            0 0 30px 10px rgba(255, 0, 255, 0.6), /* Magenta */
+                            0 0 10px 2px rgba(255, 255, 255, 0.9) inset;
+                border-color: rgba(0, 255, 255, 1);
+            }
+            50% {
+                box-shadow: 0 0 40px 10px rgba(0, 255, 255, 1),   /* Cyan */
+                            0 0 60px 20px rgba(255, 0, 255, 0.8), /* Magenta */
+                            0 0 20px 6px rgba(255, 255, 255, 1) inset;
+                border-color: rgba(255, 255, 255, 1);
+            }
+        }
+        @keyframes pulsate-secret-glow {
+            0%, 100% {
+                box-shadow: 0 0 30px 6px rgba(13, 17, 23, 1), 
+                            0 0 15px 3px rgba(120, 0, 255, 0.7), 
+                            0 0 8px 1px rgba(0, 255, 255, 0.8) inset; 
+                border-color: rgba(100, 100, 120, 1);
+            }
+            50% {
+                box-shadow: 0 0 60px 12px rgba(13, 17, 23, 1),   
+                            0 0 30px 8px rgba(120, 0, 255, 1), 
+                            0 0 18px 4px rgba(0, 255, 255, 1) inset; 
+                border-color: rgba(220, 220, 255, 1);
+            }
+        }
+        @keyframes void-texture {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
         .card-base::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            opacity: 0;
-            z-index: 2;
+            top: 0; left: 0; width: 50%; height: 100%;
+            opacity: 0; z-index: 2;
             animation: shine var(--shine-duration, 8s) infinite linear;
             background: var(--shine-gradient);
+            border-radius: 1rem;
         }
-        
+
+        .rank-x.card-base { animation: pulsate-secret-glow 2.2s infinite ease-in-out; border-color: #333; background-color: #050505; }
+        .rank-x.card-base::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+            background-size: 20%; animation: void-texture 20s infinite linear alternate; opacity: 0.5; z-index: 0;
+        }
+        .rank-x.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(120, 0, 255, 0) 0%, rgba(120, 0, 255, 0.8) 30%, rgba(0, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.8) 70%, rgba(120, 0, 255, 0) 100%);
+            --shine-duration: 1.8s; --shine-opacity: 1;
+        }
+        .rank-r.card-base { animation: pulsate-rare-glow 1.8s infinite ease-in-out; border-color: #00FFFF; }
+        .rank-r.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(0, 255, 255, 0) 0%, rgba(0, 255, 255, 1) 25%, rgba(255, 0, 255, 1) 50%, rgba(255, 255, 0, 1) 75%, rgba(0, 255, 255, 0) 100%);
+            --shine-duration: 2.5s; --shine-opacity: 1;
+        }
+        .rank-s.card-base { animation: pulsate-glow 2s infinite ease-in-out; border-color: #FFD700; }
+        .rank-s.card-base::after { --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%); --shine-duration: 3s; --shine-opacity: 0.9; }
+        .rank-a.card-base { border-color: var(--primary-red); }
+        .rank-a.card-base:hover { box-shadow: 0 0 25px 6px var(--primary-red); }
+        .rank-a.card-base::after { --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%); --shine-duration: 4s; --shine-opacity: 0.8; }
+        .rank-b.card-base { border-color: #8e44ad; }
+        .rank-b.card-base:hover { box-shadow: 0 0 20px 4px #8e44ad; }
+        .rank-b.card-base::after { --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%); --shine-duration: 5.5s; --shine-opacity: 0.7; }
+        .rank-c.card-base { border-color: #3498db; }
+        .rank-c.card-base::after { --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%); --shine-duration: 7s; --shine-opacity: 0.6; }
+        .rank-d.card-base { border-color: #2ecc71; }
+        .rank-d.card-base::after { --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%); --shine-duration: 8.5s; --shine-opacity: 0.5; }
+
         .selected-indicator {
             position: absolute;
             top: 15px;
@@ -366,64 +417,6 @@
             text-transform: uppercase;
             letter-spacing: 0.75px;
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-        }
-
-        @keyframes pulsate-glow {
-            0%, 100% { box-shadow: 0 0 18px 4px rgba(255, 215, 0, 0.8), 0 0 8px 0px rgba(255, 215, 0, 0.7) inset; }
-            50% { box-shadow: 0 0 35px 8px rgba(255, 215, 0, 1), 0 0 15px 4px rgba(255, 215, 0, 0.9) inset; }
-        }
-        .rank-s.card-base, .rank-s .card-base, .rank-s .card-front {
-            animation: pulsate-glow 2s infinite ease-in-out;
-            border-color: #FFD700;
-        }
-        .rank-s.card-base::after, .rank-s .card-base::after, .rank-s .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(255, 215, 0, 0) 0%, rgba(255, 215, 0, 1) 50%, rgba(255, 215, 0, 0) 100%);
-            --shine-duration: 3s;
-            --shine-opacity: 0.9;
-        }
-
-        .rank-a.card-base, .rank-a .card-base, .rank-a .card-front {
-            box-shadow: 0 0 12px 3px rgba(224, 26, 79, 0.6);
-            border-color: var(--primary-red);
-        }
-        .rank-a.card-base:hover, .rank-a .card-base:hover, .rank-a .card-front:hover {
-            box-shadow: 0 0 25px 6px rgba(224, 26, 79, 0.9);
-        }
-        .rank-a.card-base::after, .rank-a .card-base::after, .rank-a .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(224, 26, 79, 0) 0%, rgba(224, 26, 79, 0.8) 50%, rgba(224, 26, 79, 0) 100%);
-            --shine-duration: 4s;
-            --shine-opacity: 0.8;
-        }
-
-        .rank-b.card-base, .rank-b .card-base, .rank-b .card-front {
-            box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.6);
-            border-color: #8e44ad;
-        }
-        .rank-b.card-base:hover, .rank-b .card-base:hover, .rank-b .card-front:hover {
-            box-shadow: 0 0 20px 4px rgba(142, 68, 173, 0.8);
-        }
-        .rank-b.card-base::after, .rank-b .card-base::after, .rank-b .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(142, 68, 173, 0) 0%, rgba(142, 68, 173, 0.7) 50%, rgba(142, 68, 173, 0) 100%);
-            --shine-duration: 5.5s;
-            --shine-opacity: 0.7;
-        }
-
-        .rank-c.card-base, .rank-c .card-base, .rank-c .card-front {
-             border-color: #3498db;
-        }
-        .rank-c.card-base::after, .rank-c .card-base::after, .rank-c .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(52, 152, 219, 0) 0%, rgba(52, 152, 219, 0.6) 50%, rgba(52, 152, 219, 0) 100%);
-            --shine-duration: 7s;
-            --shine-opacity: 0.6;
-        }
-        
-        .rank-d.card-base, .rank-d .card-base, .rank-d .card-front {
-             border-color: #2ecc71;
-        }
-        .rank-d.card-base::after, .rank-d .card-base::after, .rank-d .card-front::after {
-            --shine-gradient: linear-gradient(to right, rgba(46, 204, 113, 0) 0%, rgba(46, 204, 113, 0.5) 50%, rgba(46, 204, 113, 0) 100%);
-            --shine-duration: 8.5s;
-            --shine-opacity: 0.5;
         }
 
         [draggable="true"].dragging {
@@ -774,7 +767,7 @@
          */
         function getRankColor(rank) {
             const colors = {
-                'S+': '#FFD700', 'S': '#FFD700', 'A': '#E01A4F',
+                'X': '#000000', 'R': '#00FFFF', 'S+': '#FFD700', 'S': '#FFD700', 'A': '#E01A4F',
                 'B': '#8e44ad', 'C': '#3498db', 'D': '#2ecc71', 'E': '#95a5a6'
             };
             return colors[rank] || '#7F8C8D';
@@ -819,7 +812,7 @@
                 </div>
             `;
 
-            if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
+            if (['X', 'R', 'S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                 const overlay = document.createElement('div');
                 overlay.className = 'holographic-overlay';
                 cardElement.querySelector('.collection-card-image-wrapper').prepend(overlay);
@@ -851,12 +844,12 @@
             const cardData = cardId ? localCardsDatabase[cardId] : null;
 
             if (cardData) {
-                slotWrapper.className = `deck-card-container aspect-[16/10] rank-${cardData.classe.toLowerCase().replace('+', '')}`;
+                slotWrapper.className = `deck-card-container aspect-[16/10]`;
                 slotWrapper.setAttribute('draggable', true);
                 slotWrapper.dataset.cardId = cardId;
                 slotWrapper.innerHTML = `
                     <div class="deck-card-inner">
-                        <div class="card-front card-base">
+                        <div class="card-front card-base rank-${cardData.classe.toLowerCase().replace('+', '')}">
                             <div class="relative w-full h-full bg-cover bg-center" style="background-image: url('${cardData.imagem}')">
                                 <div class="rank-badge" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
                                 <div class="card-image-overlay">
@@ -886,7 +879,7 @@
                         </div>
                     </div>`;
 
-                if (['S+', 'S', 'A', 'B'].includes(cardData.classe)) {
+                if (['X', 'R', 'S+', 'S', 'A', 'B'].includes(cardData.classe)) {
                     const overlay = document.createElement('div');
                     overlay.className = 'holographic-overlay';
                     slotWrapper.querySelector('.card-front .relative').prepend(overlay);
@@ -961,7 +954,7 @@
             const selectedClasse = classeFilter.value;
             const selectedPais = paisFilter.value;
             const selectedTracao = tracaoFilter.value;
-            const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+            const rarityOrder = ['X','R','S+', 'S', 'A', 'B', 'C', 'D', 'E'];
 
             const sortedOwnedCardIds = [...ownedCardIds].sort((a, b) => {
                 const aInDeck = activeDeckIds.includes(a);
@@ -991,7 +984,7 @@
          */
         function populateFilters() {
             const ownedCardsData = ownedCardIds.map(id => localCardsDatabase[id]).filter(Boolean);
-            const rarityOrder = ['S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+            const rarityOrder = ['X', 'R', 'S+', 'S', 'A', 'B', 'C', 'D', 'E'];
             const populateSelect = (select, options) => {
                 select.innerHTML = '<option value="">Todos</option>';
                 options.forEach(opt => select.innerHTML += `<option value="${opt}">${opt}</option>`);

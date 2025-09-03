@@ -223,6 +223,21 @@
         }
 
         /* --- Estilos de Raridade --- */
+                .rank-x.card-base { animation: pulsate-secret-glow 2.2s infinite ease-in-out; border-color: #333; background-color: #050505; }
+        .rank-x.card-base::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+            background-size: 20%; animation: void-texture 20s infinite linear alternate; opacity: 0.5; z-index: 0;
+        }
+        .rank-x.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(120, 0, 255, 0) 0%, rgba(120, 0, 255, 0.8) 30%, rgba(0, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.8) 70%, rgba(120, 0, 255, 0) 100%);
+            --shine-duration: 1.8s; --shine-opacity: 1;
+        }
+        .rank-r.card-base { animation: pulsate-rare-glow 1.8s infinite ease-in-out; border-color: #00FFFF; }
+        .rank-r.card-base::after {
+            --shine-gradient: linear-gradient(to right, rgba(0, 255, 255, 0) 0%, rgba(0, 255, 255, 1) 25%, rgba(255, 0, 255, 1) 50%, rgba(255, 255, 0, 1) 75%, rgba(0, 255, 255, 0) 100%);
+            --shine-duration: 2.5s; --shine-opacity: 1;
+        }
         /* Classe S */
         .rank-s {
             animation: pulsate-glow 2s infinite ease-in-out;
@@ -377,12 +392,8 @@
 
         function getRankColor(rank) {
             const colors = {
-                'S+': '#FFD700', 'S': '#FFD700',
-                'A': '#E01A4F',
-                'B': '#8e44ad',
-                'C': '#3498db',
-                'D': '#2ecc71',
-                'E': '#95a5a6'
+                'X': '#000000', 'R': '#00FFFF', 'S+': '#FFD700', 'S': '#FFD700', 'A': '#E01A4F',
+                'B': '#8e44ad', 'C': '#3498db', 'D': '#2ecc71', 'E': '#95a5a6'
             };
             return colors[rank] || '#7F8C8D';
         }
