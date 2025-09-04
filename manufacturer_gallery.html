@@ -51,7 +51,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .filter-input, .filter-select {
+        .filter-input, .filter-select, .back-button {
             background-color: rgba(10, 10, 10, 0.8);
             border: 1px solid var(--border-color);
             border-radius: 0.5rem;
@@ -59,13 +59,13 @@
             color: var(--text-light);
             transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .filter-input:focus, .filter-select:focus {
+        .filter-input:focus, .filter-select:focus, .back-button:focus {
             outline: none;
             border-color: var(--primary-red);
             box-shadow: 0 0 10px rgba(224, 26, 79, 0.5);
         }
         .filter-label { font-weight: 500; color: #a0aec0; margin-bottom: 0.25rem; display: block; }
-        .filter-button {
+        .filter-button, .back-button {
             background: var(--primary-red);
             border: none;
             color: white;
@@ -74,12 +74,31 @@
             font-weight: 700;
             transition: background-color 0.3s;
             cursor: pointer;
+            text-decoration: none;
+            text-align: center;
         }
-        .filter-button:hover { background-color: var(--primary-red-dark); }
+        .filter-button:hover, .back-button:hover { background-color: var(--primary-red-dark); }
         
-        /* --- ESTILOS COMPLETOS DOS CARDS RESTAURADOS --- */
-        .card-base{transition:all .4s cubic-bezier(.25,.8,.25,1);border-radius:1rem;overflow:hidden;border:3px solid #444;background-color:#1a1a1a;position:relative;transform-style:preserve-3d;box-shadow:0 8px 20px rgba(0,0,0,.6)}.card-base:hover{transform:scale(1.08) rotateZ(.5deg);box-shadow:0 0 40px var(--primary-red),0 0 20px rgba(255,255,255,.3) inset;border-color:var(--primary-red);z-index:20}.rank-badge-small{position:absolute;top:12px;left:12px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:20px;color:#fff;text-shadow:0 0 10px rgba(0,0,0,.9);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);border:2px solid rgba(255,255,255,.4);box-shadow:0 0 10px rgba(0,0,0,.7);z-index:10}.collection-card-image-wrapper{position:relative;width:100%;height:200px;overflow:hidden;border-radius:1rem 1rem 0 0}.collection-card-image{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .3s ease-in-out}.card-base:hover .collection-card-image{transform:scale(1.05)}.collection-card-info-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to top,rgba(0,0,0,.9) 0,transparent 60%),linear-gradient(to bottom,rgba(0,0,0,.7) 0,transparent 50%);display:flex;flex-direction:column;justify-content:space-between;padding:1rem}.card-text-shadow{text-shadow:1px 1px 6px #000,0 0 12px #000}.card-flag-shadow{box-shadow:0 0 6px #000}.holographic-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.5) 0,rgba(255,255,255,0) 60%);opacity:0;transition:opacity .4s ease;z-index:3;pointer-events:none;border-radius:1rem}.card-base:hover .holographic-overlay{opacity:1}@keyframes shine{0%{transform:translateX(-180%) skewX(-25deg);opacity:0}20%{opacity:var(--shine-opacity,.4)}80%{opacity:var(--shine-opacity,.4)}100%{transform:translateX(180%) skewX(-25deg);opacity:0}}.card-base:after{content:'';position:absolute;top:0;left:0;width:50%;height:100%;opacity:0;z-index:2;animation:shine var(--shine-duration,8s) infinite linear;background:var(--shine-gradient)}@keyframes pulsate-glow{0%,100%{box-shadow:0 0 18px 4px rgba(255,215,0,.8),0 0 8px 0 rgba(255,215,0,.7) inset}50%{box-shadow:0 0 35px 8px #ffd700,0 0 15px 4px rgba(255,215,0,.9) inset}}@keyframes pulsate-rare-glow{0%,100%{box-shadow:0 0 20px 5px rgba(0,255,255,.8),0 0 30px 10px rgba(255,0,255,.6),0 0 10px 2px rgba(255,255,255,.9) inset;border-color:rgba(0,255,255,1)}50%{box-shadow:0 0 40px 10px #0ff,0 0 60px 20px rgba(255,0,255,.8),0 0 20px 6px #fff inset;border-color:rgba(255,255,255,1)}}@keyframes pulsate-secret-glow{0%,100%{box-shadow:0 0 30px 6px #0d1117,0 0 15px 3px rgba(120,0,255,.7),0 0 8px 1px rgba(0,255,255,.8) inset;border-color:rgba(100,100,120,1)}50%{box-shadow:0 0 60px 12px #0d1117,0 0 30px 8px rgba(120,0,255,1),0 0 18px 4px #0ff inset;border-color:rgba(220,220,255,1)}}@keyframes void-texture{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}.rank-x.card-base{animation:pulsate-secret-glow 2.2s infinite ease-in-out;border-color:#333;background-color:#050505;overflow:hidden}.rank-x.card-base:before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background-image:radial-gradient(circle at center,rgba(255,255,255,.1) 0,rgba(255,255,255,0) 60%);background-size:20%;animation:void-texture 20s infinite linear alternate;opacity:.5;z-index:0}.rank-x.card-base .collection-card-image-wrapper,.rank-x.card-base .p-3{position:relative;z-index:1;background-color:transparent}.rank-x.card-base .p-3{background-color:#181818!important}.rank-x.card-base:after{--shine-gradient:linear-gradient(to right,rgba(120,0,255,0) 0,rgba(120,0,255,.8) 30%,rgba(0,255,255,.9) 50%,rgba(255,255,255,.8) 70%,rgba(120,0,255,0) 100%);--shine-duration:1.8s;--shine-opacity:1}.rank-r.card-base{animation:pulsate-rare-glow 1.8s infinite ease-in-out;border-color:#0ff}.rank-r.card-base:after{--shine-gradient:linear-gradient(to right,rgba(0,255,255,0) 0,#0ff 25%,#f0f 50%,#ff0 75%,rgba(0,255,255,0) 100%);--shine-duration:2.5s;--shine-opacity:1}.rank-s.card-base{animation:pulsate-glow 2s infinite ease-in-out;border-color:#ffd700}.rank-s.card-base:after{--shine-gradient:linear-gradient(to right,rgba(255,215,0,0) 0,#ffd700 50%,rgba(255,215,0,0) 100%);--shine-duration:3s;--shine-opacity:.9}.rank-a.card-base{box-shadow:0 0 12px 3px var(--primary-red);border-color:var(--primary-red)}.rank-a.card-base:hover{box-shadow:0 0 25px 6px var(--primary-red)}.rank-a.card-base:after{--shine-gradient:linear-gradient(to right,rgba(224,26,79,0) 0,rgba(224,26,79,.8) 50%,rgba(224,26,79,0) 100%);--shine-duration:4s;--shine-opacity:.8}.rank-b.card-base{box-shadow:0 0 10px 2px #8e44ad;border-color:#8e44ad}.rank-b.card-base:hover{box-shadow:0 0 20px 4px #8e44ad}.rank-b.card-base:after{--shine-gradient:linear-gradient(to right,rgba(142,68,173,0) 0,rgba(142,68,173,.7) 50%,rgba(142,68,173,0) 100%);--shine-duration:5.5s;--shine-opacity:.7}.rank-c.card-base{border-color:#3498db}.rank-c.card-base:after{--shine-gradient:linear-gradient(to right,rgba(52,152,219,0) 0,rgba(52,152,219,.6) 50%,rgba(52,152,219,0) 100%);--shine-duration:7s;--shine-opacity:.6}.rank-d.card-base{border-color:#2ecc71}.rank-d.card-base:after{--shine-gradient:linear-gradient(to right,rgba(46,204,113,0) 0,rgba(46,204,113,.5) 50%,rgba(46,204,113,0) 100%);--shine-duration:8.5s;--shine-opacity:.5}
+        .card-base{transition:all .4s cubic-bezier(.25,.8,.25,1);border-radius:1rem;overflow:hidden;border:3px solid #444;background-color:#1a1a1a;position:relative;transform-style:preserve-3d;box-shadow:0 8px 20px rgba(0,0,0,.6)}
+        .card-base:hover{transform:scale(1.08) rotateZ(.5deg);box-shadow:0 0 40px var(--primary-red);border-color:var(--primary-red);z-index:20}
+        .rank-badge-small{position:absolute;top:12px;left:12px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:20px;color:#fff;text-shadow:0 0 10px rgba(0,0,0,.9);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);border:2px solid rgba(255,255,255,.4);box-shadow:0 0 10px rgba(0,0,0,.7);z-index:10}.collection-card-image-wrapper{position:relative;width:100%;height:200px;overflow:hidden;border-radius:1rem 1rem 0 0}.collection-card-image{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .3s ease-in-out}.card-base:hover .collection-card-image{transform:scale(1.05)}.collection-card-info-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to top,rgba(0,0,0,.9) 0,transparent 60%),linear-gradient(to bottom,rgba(0,0,0,.7) 0,transparent 50%);display:flex;flex-direction:column;justify-content:space-between;padding:1rem}.card-text-shadow{text-shadow:1px 1px 6px #000,0 0 12px #000}.card-flag-shadow{box-shadow:0 0 6px #000}
+        @keyframes shine{0%{transform:translateX(-180%) skewX(-25deg);opacity:0}20%{opacity:var(--shine-opacity,.4)}80%{opacity:var(--shine-opacity,.4)}100%{transform:translateX(180%) skewX(-25deg);opacity:0}}
+        .card-base:hover:after{content:'';position:absolute;top:0;left:0;width:50%;height:100%;opacity:0;z-index:2;animation:shine var(--shine-duration,8s) infinite linear;background:var(--shine-gradient)}@keyframes pulsate-glow{0%,100%{box-shadow:0 0 18px 4px rgba(255,215,0,.8),0 0 8px 0 rgba(255,215,0,.7) inset}50%{box-shadow:0 0 35px 8px #ffd700,0 0 15px 4px rgba(255,215,0,.9) inset}}@keyframes pulsate-rare-glow{0%,100%{box-shadow:0 0 20px 5px rgba(0,255,255,.8),0 0 30px 10px rgba(255,0,255,.6),0 0 10px 2px rgba(255,255,255,.9) inset;border-color:rgba(0,255,255,1)}50%{box-shadow:0 0 40px 10px #0ff,0 0 60px 20px rgba(255,0,255,.8),0 0 20px 6px #fff inset;border-color:rgba(255,255,255,1)}}@keyframes pulsate-secret-glow{0%,100%{box-shadow:0 0 30px 6px #0d1117,0 0 15px 3px rgba(120,0,255,.7),0 0 8px 1px rgba(0,255,255,.8) inset;border-color:rgba(100,100,120,1)}50%{box-shadow:0 0 60px 12px #0d1117,0 0 30px 8px rgba(120,0,255,1),0 0 18px 4px #0ff inset;border-color:rgba(220,220,255,1)}}@keyframes void-texture{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+        .rank-x.card-base{border-color:#333;background-color:#050505;overflow:hidden}.rank-x.card-base:hover{animation:pulsate-secret-glow 2.2s infinite ease-in-out}.rank-x.card-base:before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background-image:radial-gradient(circle at center,rgba(255,255,255,.1) 0,rgba(255,255,255,0) 60%);background-size:20%;animation:void-texture 20s infinite linear alternate;opacity:.5;z-index:0}.rank-x.card-base .collection-card-image-wrapper,.rank-x.card-base .p-3{position:relative;z-index:1;background-color:transparent}.rank-x.card-base .p-3{background-color:#181818!important}.rank-x.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(120,0,255,0) 0,rgba(120,0,255,.8) 30%,rgba(0,255,255,.9) 50%,rgba(255,255,255,.8) 70%,rgba(120,0,255,0) 100%);--shine-duration:1.8s;--shine-opacity:1}.rank-r.card-base{border-color:#0ff}.rank-r.card-base:hover{animation:pulsate-rare-glow 1.8s infinite ease-in-out}.rank-r.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(0,255,255,0) 0,#0ff 25%,#f0f 50%,#ff0 75%,rgba(0,255,255,0) 100%);--shine-duration:2.5s;--shine-opacity:1}.rank-s.card-base{border-color:#ffd700}.rank-s.card-base:hover{animation:pulsate-glow 2s infinite ease-in-out}.rank-s.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(255,215,0,0) 0,#ffd700 50%,rgba(255,215,0,0) 100%);--shine-duration:3s;--shine-opacity:.9}.rank-a.card-base{box-shadow:0 0 12px 3px var(--primary-red);border-color:var(--primary-red)}.rank-a.card-base:hover{box-shadow:0 0 25px 6px var(--primary-red)}.rank-a.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(224,26,79,0) 0,rgba(224,26,79,.8) 50%,rgba(224,26,79,0) 100%);--shine-duration:4s;--shine-opacity:.8}.rank-b.card-base{box-shadow:0 0 10px 2px #8e44ad;border-color:#8e44ad}.rank-b.card-base:hover{box-shadow:0 0 20px 4px #8e44ad}.rank-b.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(142,68,173,0) 0,rgba(142,68,173,.7) 50%,rgba(142,68,173,0) 100%);--shine-duration:5.5s;--shine-opacity:.7}.rank-c.card-base{border-color:#3498db}.rank-c.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(52,152,219,0) 0,rgba(52,152,219,.6) 50%,rgba(52,152,219,0) 100%);--shine-duration:7s;--shine-opacity:.6}.rank-d.card-base{border-color:#2ecc71}.rank-d.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(46,204,113,0) 0,rgba(46,204,113,.5) 50%,rgba(46,204,113,0) 100%);--shine-duration:8.5s;--shine-opacity:.5}
 
+        /* ESTILOS PARA O MODAL E ANIMAÇÃO CONSTANTE */
+        .modal-card-view.card-base:after { content:'';position:absolute;top:0;left:0;width:50%;height:100%;opacity:0;z-index:2;animation:shine var(--shine-duration,8s) infinite linear;background:var(--shine-gradient)}
+        .modal-card-view.rank-x { animation: pulsate-secret-glow 2.2s infinite ease-in-out; }
+        .modal-card-view.rank-r { animation: pulsate-rare-glow 1.8s infinite ease-in-out; }
+        .modal-card-view.rank-s { animation: pulsate-glow 2s infinite ease-in-out; }
+        /* Define as variáveis do brilho para o modal, sem precisar de hover */
+        .modal-card-view.rank-x.card-base:after{--shine-gradient:linear-gradient(to right,rgba(120,0,255,0) 0,rgba(120,0,255,.8) 30%,rgba(0,255,255,.9) 50%,rgba(255,255,255,.8) 70%,rgba(120,0,255,0) 100%);--shine-duration:1.8s;--shine-opacity:1}
+        .modal-card-view.rank-r.card-base:after{--shine-gradient:linear-gradient(to right,rgba(0,255,255,0) 0,#0ff 25%,#f0f 50%,#ff0 75%,rgba(0,255,255,0) 100%);--shine-duration:2.5s;--shine-opacity:1}
+        .modal-card-view.rank-s.card-base:after{--shine-gradient:linear-gradient(to right,rgba(255,215,0,0) 0,#ffd700 50%,rgba(255,215,0,0) 100%);--shine-duration:3s;--shine-opacity:.9}
+        .modal-card-view.rank-a.card-base:after{--shine-gradient:linear-gradient(to right,rgba(224,26,79,0) 0,rgba(224,26,79,.8) 50%,rgba(224,26,79,0) 100%);--shine-duration:4s;--shine-opacity:.8}
+        .modal-card-view.rank-b.card-base:after{--shine-gradient:linear-gradient(to right,rgba(142,68,173,0) 0,rgba(142,68,173,.7) 50%,rgba(142,68,173,0) 100%);--shine-duration:5.5s;--shine-opacity:.7}
+        .modal-card-view.rank-c.card-base:after{--shine-gradient:linear-gradient(to right,rgba(52,152,219,0) 0,rgba(52,152,219,.6) 50%,rgba(52,152,219,0) 100%);--shine-duration:7s;--shine-opacity:.6}
+        .modal-card-view.rank-d.card-base:after{--shine-gradient:linear-gradient(to right,rgba(46,204,113,0) 0,rgba(46,204,113,.5) 50%,rgba(46,204,113,0) 100%);--shine-duration:8.5s;--shine-opacity:.5}
     </style>
 </head>
 <body class="text-white">
@@ -93,7 +112,10 @@
         <header id="header-placeholder" class="sticky top-0 z-40 w-full"></header>
         <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="glass-panel p-4 sm:p-6 lg:p-8">
-                <h1 id="page-title" class="font-orbitron text-4xl md:text-5xl font-bold text-white mb-4 text-center lg:text-left" style="text-shadow: var(--glow-effect);"></h1>
+                <div class="flex flex-col lg:flex-row justify-between items-center mb-6 gap-4">
+                    <h1 id="page-title" class="font-orbitron text-4xl md:text-5xl font-bold text-white text-center lg:text-left" style="text-shadow: var(--glow-effect);"></h1>
+                    <a href="galeria.html" class="back-button">← Voltar para Marcas</a>
+                </div>
                 <p id="page-description" class="text-gray-400 text-center lg:text-left mb-8"></p>
                 
                 <div class="glass-panel p-4 mb-8">
@@ -141,6 +163,15 @@
         </main>
     </div>
 
+    <!-- Modal para visualização do card -->
+    <div id="card-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center z-50 p-4 cursor-pointer">
+        <div id="modal-content" class="relative w-full max-w-md cursor-default">
+            <!-- O card ampliado será injetado aqui pelo JavaScript -->
+        </div>
+        <button id="modal-close" class="absolute top-4 right-6 text-white text-5xl font-bold leading-none hover:text-red-500 transition-colors">&times;</button>
+    </div>
+
+
     <script type="module">
         import { auth, db } from './firebase.js';
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -167,7 +198,12 @@
         const classesContainer = document.getElementById('filter-classes');
         const resetBtn = document.getElementById('reset-filters');
         
-        let ownedCardIds = [];
+        // Elementos do Modal
+        const cardModal = document.getElementById('card-modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalClose = document.getElementById('modal-close');
+
+        let ownedCardIds = new Set();
         let carsToDisplay = [];
 
         function getRankColor(rank) {
@@ -179,12 +215,14 @@
             if (!cardData || (cardData.classe === 'X' && !isOwned)) return null;
             
             const cardElement = document.createElement('div');
-            cardElement.className = 'card-base';
-            cardElement.classList.add(`rank-${cardData.classe.toLowerCase().replace('+', '')}`);
+            cardElement.className = `card-base rank-${cardData.classe.toLowerCase().replace('+', '')} cursor-pointer`;
+            cardElement.dataset.id = cardData.id;
+
             if (!isOwned) {
                 cardElement.style.filter = 'grayscale(80%)';
                 cardElement.style.opacity = '0.6';
             }
+
             cardElement.innerHTML = `
                 <div class="collection-card-image-wrapper">
                     <img src="${cardData.imagem}" alt="${cardData.nome}" class="collection-card-image">
@@ -208,27 +246,20 @@
                     <div><span class="font-bold block">${cardData.pneus}</span><span class="text-xs text-gray-400">PNEUS</span></div>
                     <div><span class="font-bold block">${cardData.tracao}</span><span class="text-xs text-gray-400">TRAÇÃO</span></div>
                 </div>`;
-            
-            // LÓGICA DO EFEITO HOLOGRÁFICO RESTAURADA
-            if (isOwned && ['X', 'R', 'S+', 'S', 'A', 'B'].includes(cardData.classe)) {
-                const overlay = document.createElement('div');
-                overlay.className = 'holographic-overlay';
-                cardElement.querySelector('.collection-card-image-wrapper').prepend(overlay);
-
-                cardElement.addEventListener('mousemove', e => {
-                    const rect = cardElement.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    cardElement.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
-                    cardElement.style.setProperty('--my', `${(y / rect.height) * 100}%`);
-                });
-                cardElement.addEventListener('mouseleave', () => {
-                    cardElement.style.setProperty('--mx', `50%`);
-                    cardElement.style.setProperty('--my', `50%`);
-                });
-            }
-
             return cardElement;
+        }
+        
+        function showCardModal(cardData) {
+            const isOwned = ownedCardIds.has(cardData.id);
+            modalContent.innerHTML = '';
+            
+            const modalViewCard = createCardElement(cardData, isOwned);
+            modalViewCard.classList.remove('cursor-pointer');
+            modalViewCard.classList.add('modal-card-view'); // Ativa a animação constante de brilho
+            modalViewCard.style.transform = 'scale(2)';
+
+            modalContent.appendChild(modalViewCard);
+            cardModal.classList.remove('hidden');
         }
 
         function populateFilters(isAllCarsMode) {
@@ -277,6 +308,15 @@
             filteredCards.sort((a, b) => rarityOrder.indexOf(a.classe) - rarityOrder.indexOf(b.classe));
             renderCards(filteredCards);
         }
+        
+        function debounce(func, delay = 300) {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => { func.apply(this, args); }, delay);
+            };
+        }
+        const debouncedFilter = debounce(applyFiltersAndRender);
 
         function renderCards(cardsToRender) {
             carsContainer.innerHTML = '';
@@ -286,14 +326,16 @@
                 noResultsContainer.classList.remove('hidden');
             } else {
                 noResultsContainer.classList.add('hidden');
+                const fragment = document.createDocumentFragment();
                 cardsToRender.forEach(car => {
-                    const isOwned = ownedCardIds.includes(car.id);
+                    const isOwned = ownedCardIds.has(car.id);
                     const cardElement = createCardElement(car, isOwned);
-                    if(cardElement) carsContainer.appendChild(cardElement);
+                    if(cardElement) fragment.appendChild(cardElement);
                 });
+                carsContainer.appendChild(fragment);
             }
         }
-
+        
         function resetAllFilters() {
             manufacturerFilter.value = "";
             yearMinFilter.value = "";
@@ -312,18 +354,16 @@
                     if (snapshot.exists()) {
                         const userData = snapshot.val();
                         createHeader(auth, userData, headerPlaceholder, 'galeria');
-                        ownedCardIds = userData.cartas || [];
+                        ownedCardIds = new Set(userData.cartas || []);
 
                         const manufacturer = new URLSearchParams(window.location.search).get('manufacturer');
                         let isAllCarsMode = false;
 
                         if (manufacturer && manufacturers[manufacturer]) {
-                            // MODO: Galeria da Montadora
                             pageTitle.textContent = manufacturer.toUpperCase();
                             pageDescription.textContent = `Explore e filtre todos os carros da ${manufacturer}.`;
                             carsToDisplay = Object.entries(manufacturers[manufacturer]).map(([id, data]) => ({id, ...data}));
                         } else {
-                            // MODO: Todos os Carros
                             isAllCarsMode = true;
                             manufacturerFilterContainer.classList.remove('hidden');
                             pageTitle.textContent = "COLEÇÃO COMPLETA";
@@ -335,7 +375,7 @@
                         applyFiltersAndRender();
                         
                         [manufacturerFilter, tractionFilter, heightFilter, tiresFilter].forEach(el => el.addEventListener('change', applyFiltersAndRender));
-                        [yearMinFilter, yearMaxFilter].forEach(el => el.addEventListener('input', applyFiltersAndRender));
+                        [yearMinFilter, yearMaxFilter].forEach(el => el.addEventListener('input', debouncedFilter));
                         classesContainer.addEventListener('change', applyFiltersAndRender);
                         resetBtn.addEventListener('click', resetAllFilters);
                         
@@ -347,6 +387,26 @@
                     await signOut(auth);
                 }
             } else { window.location.href = 'index.html'; }
+        });
+        
+        // Event listener para abrir o modal
+        carsContainer.addEventListener('click', e => {
+            const cardElement = e.target.closest('.card-base[data-id]');
+            if (cardElement) {
+                const cardId = cardElement.dataset.id;
+                const cardData = carsToDisplay.find(c => c.id === cardId);
+                if (cardData) {
+                    showCardModal(cardData);
+                }
+            }
+        });
+
+        // Event listeners para fechar o modal
+        modalClose.addEventListener('click', () => cardModal.classList.add('hidden'));
+        cardModal.addEventListener('click', (e) => {
+            if (e.target === cardModal) { // Fecha apenas se clicar no fundo
+                cardModal.classList.add('hidden');
+            }
         });
     </script>
 </body>
