@@ -81,7 +81,7 @@
         
         .card-base{transition:all .4s cubic-bezier(.25,.8,.25,1);border-radius:1rem;overflow:hidden;border:3px solid #444;background-color:#1a1a1a;position:relative;transform-style:preserve-3d;box-shadow:0 8px 20px rgba(0,0,0,.6)}
         .card-base:hover{transform:scale(1.08) rotateZ(.5deg);box-shadow:0 0 40px var(--primary-red);border-color:var(--primary-red);z-index:20}
-        .rank-badge-small{position:absolute;top:12px;left:12px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:20px;color:#fff;text-shadow:0 0 10px rgba(0,0,0,.9);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);border:2px solid rgba(255,255,255,.4);box-shadow:0 0 10px rgba(0,0,0,.7);z-index:10}.collection-card-image-wrapper{position:relative;width:100%;height:200px;overflow:hidden;border-radius:1rem 1rem 0 0}.collection-card-image{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .3s ease-in-out}.card-base:hover .collection-card-image{transform:scale(1.05)}.collection-card-info-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to top,rgba(0,0,0,.9) 0,transparent 60%),linear-gradient(to bottom,rgba(0,0,0,.7) 0,transparent 50%);display:flex;flex-direction:column;justify-content:space-between;padding:1rem}.card-text-shadow{text-shadow:1px 1px 6px #000,0 0 12px #000}.card-flag-shadow{box-shadow:0 0 6px #000}
+        .rank-badge-small{position:absolute;top:12px;left:12px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:20px;color:#fff;text-shadow:0 0 10px rgba(0,0,0,.9);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);border:2px solid rgba(255,255,255,.4);box-shadow:0 0 10px rgba(0,0,0,.7);z-index:10}.collection-card-image-wrapper{position:relative;width:100%;overflow:hidden;border-radius:1rem 1rem 0 0}.collection-card-image{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .3s ease-in-out}.card-base:hover .collection-card-image{transform:scale(1.05)}.collection-card-info-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to top,rgba(0,0,0,.9) 0,transparent 60%),linear-gradient(to bottom,rgba(0,0,0,.7) 0,transparent 50%);display:flex;flex-direction:column;justify-content:space-between;padding:1rem}.card-text-shadow{text-shadow:1px 1px 6px #000,0 0 12px #000}.card-flag-shadow{box-shadow:0 0 6px #000}
         @keyframes shine{0%{transform:translateX(-180%) skewX(-25deg);opacity:0}20%{opacity:var(--shine-opacity,.4)}80%{opacity:var(--shine-opacity,.4)}100%{transform:translateX(180%) skewX(-25deg);opacity:0}}
         .card-base:hover:after{content:'';position:absolute;top:0;left:0;width:50%;height:100%;opacity:0;z-index:2;animation:shine var(--shine-duration,8s) infinite linear;background:var(--shine-gradient)}@keyframes pulsate-glow{0%,100%{box-shadow:0 0 18px 4px rgba(255,215,0,.8),0 0 8px 0 rgba(255,215,0,.7) inset}50%{box-shadow:0 0 35px 8px #ffd700,0 0 15px 4px rgba(255,215,0,.9) inset}}@keyframes pulsate-rare-glow{0%,100%{box-shadow:0 0 20px 5px rgba(0,255,255,.8),0 0 30px 10px rgba(255,0,255,.6),0 0 10px 2px rgba(255,255,255,.9) inset;border-color:rgba(0,255,255,1)}50%{box-shadow:0 0 40px 10px #0ff,0 0 60px 20px rgba(255,0,255,.8),0 0 20px 6px #fff inset;border-color:rgba(255,255,255,1)}}@keyframes pulsate-secret-glow{0%,100%{box-shadow:0 0 30px 6px #0d1117,0 0 15px 3px rgba(120,0,255,.7),0 0 8px 1px rgba(0,255,255,.8) inset;border-color:rgba(100,100,120,1)}50%{box-shadow:0 0 60px 12px #0d1117,0 0 30px 8px rgba(120,0,255,1),0 0 18px 4px #0ff inset;border-color:rgba(220,220,255,1)}}@keyframes void-texture{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
         .rank-x.card-base{border-color:#333;background-color:#050505;overflow:hidden}.rank-x.card-base:hover{animation:pulsate-secret-glow 2.2s infinite ease-in-out}.rank-x.card-base:before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background-image:radial-gradient(circle at center,rgba(255,255,255,.1) 0,rgba(255,255,255,0) 60%);background-size:20%;animation:void-texture 20s infinite linear alternate;opacity:.5;z-index:0}.rank-x.card-base .collection-card-image-wrapper,.rank-x.card-base .p-3{position:relative;z-index:1;background-color:transparent}.rank-x.card-base .p-3{background-color:#181818!important}.rank-x.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(120,0,255,0) 0,rgba(120,0,255,.8) 30%,rgba(0,255,255,.9) 50%,rgba(255,255,255,.8) 70%,rgba(120,0,255,0) 100%);--shine-duration:1.8s;--shine-opacity:1}.rank-r.card-base{border-color:#0ff}.rank-r.card-base:hover{animation:pulsate-rare-glow 1.8s infinite ease-in-out}.rank-r.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(0,255,255,0) 0,#0ff 25%,#f0f 50%,#ff0 75%,rgba(0,255,255,0) 100%);--shine-duration:2.5s;--shine-opacity:1}.rank-s.card-base{border-color:#ffd700}.rank-s.card-base:hover{animation:pulsate-glow 2s infinite ease-in-out}.rank-s.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(255,215,0,0) 0,#ffd700 50%,rgba(255,215,0,0) 100%);--shine-duration:3s;--shine-opacity:.9}.rank-a.card-base{box-shadow:0 0 12px 3px var(--primary-red);border-color:var(--primary-red)}.rank-a.card-base:hover{box-shadow:0 0 25px 6px var(--primary-red)}.rank-a.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(224,26,79,0) 0,rgba(224,26,79,.8) 50%,rgba(224,26,79,0) 100%);--shine-duration:4s;--shine-opacity:.8}.rank-b.card-base{box-shadow:0 0 10px 2px #8e44ad;border-color:#8e44ad}.rank-b.card-base:hover{box-shadow:0 0 20px 4px #8e44ad}.rank-b.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(142,68,173,0) 0,rgba(142,68,173,.7) 50%,rgba(142,68,173,0) 100%);--shine-duration:5.5s;--shine-opacity:.7}.rank-c.card-base{border-color:#3498db}.rank-c.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(52,152,219,0) 0,rgba(52,152,219,.6) 50%,rgba(52,152,219,0) 100%);--shine-duration:7s;--shine-opacity:.6}.rank-d.card-base{border-color:#2ecc71}.rank-d.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(46,204,113,0) 0,rgba(46,204,113,.5) 50%,rgba(46,204,113,0) 100%);--shine-duration:8.5s;--shine-opacity:.5}
@@ -113,18 +113,20 @@
         <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="glass-panel p-4 sm:p-6 lg:p-8">
                 <div class="flex flex-col lg:flex-row justify-between items-center mb-6 gap-4">
-                    <h1 id="page-title" class="font-orbitron text-4xl md:text-5xl font-bold text-white text-center lg:text-left" style="text-shadow: var(--glow-effect);"></h1>
-                    <a href="galeria.html" class="back-button">← Voltar para Marcas</a>
+                    <!-- RESPONSIVIDADE: Ajuste no tamanho da fonte para telas menores -->
+                    <h1 id="page-title" class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center lg:text-left" style="text-shadow: var(--glow-effect);"></h1>
+                    <a href="galeria.html" class="back-button flex-shrink-0">← Voltar para Marcas</a>
                 </div>
                 <p id="page-description" class="text-gray-400 text-center lg:text-left mb-8"></p>
                 
                 <div class="glass-panel p-4 mb-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4 items-end">
-                        <div id="manufacturer-filter-container" class="hidden">
+                    <!-- RESPONSIVIDADE: Grid de filtros mais adaptável a diferentes tamanhos de tela -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 items-end">
+                        <div id="manufacturer-filter-container" class="hidden xl:col-span-1">
                              <label for="filter-manufacturer" class="filter-label">Marca</label>
                              <select id="filter-manufacturer" class="filter-select w-full"><option value="">Todas</option></select>
                         </div>
-                        <div>
+                        <div class="md:col-span-1">
                             <label class="filter-label">Ano</label>
                             <div class="flex gap-2">
                                 <input type="number" id="filter-year-min" placeholder="Desde" class="filter-input w-full">
@@ -143,18 +145,21 @@
                             <label for="filter-tires" class="filter-label">Pneus</label>
                             <select id="filter-tires" class="filter-select w-full"><option value="">Todos</option></select>
                         </div>
-                        <div class="lg:col-span-1">
+                        <!-- RESPONSIVIDADE: Ajuste para as classes ocuparem mais espaço horizontalmente -->
+                        <div class="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-1">
                              <label class="filter-label">Classe</label>
-                             <div id="filter-classes" class="grid grid-cols-3 sm:grid-cols-4 gap-2 text-sm"></div>
+                             <!-- RESPONSIVIDADE: Mais colunas para os checkboxes em telas pequenas -->
+                             <div id="filter-classes" class="grid grid-cols-3 sm:grid-cols-5 gap-2 text-sm"></div>
                         </div>
-                        <div class="w-full">
+                        <div class="w-full sm:col-span-2 md:col-span-1 lg:col-span-2 xl:col-span-1">
                            <button id="reset-filters" class="filter-button w-full">Limpar</button>
                         </div>
                     </div>
                 </div>
 
                 <p id="results-count" class="text-center md:text-right mb-4 text-gray-400 font-semibold"></p>
-                <div id="cars-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+                <!-- RESPONSIVIDADE: Espaçamento do grid ajustado para telas menores -->
+                <div id="cars-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8"></div>
                  <div id="no-results" class="hidden text-center py-12">
                     <p class="text-2xl font-orbitron text-gray-500">Nenhum carro encontrado</p>
                     <p class="text-gray-600 mt-2">Tente ajustar os seus filtros.</p>
@@ -165,10 +170,12 @@
 
     <!-- Modal para visualização do card -->
     <div id="card-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center z-50 p-4 cursor-pointer">
-        <div id="modal-content" class="relative w-full max-w-md cursor-default">
+        <!-- RESPONSIVIDADE: Largura do conteúdo do modal ajustada para telas menores -->
+        <div id="modal-content" class="relative w-11/12 max-w-xs sm:max-w-sm cursor-default">
             <!-- O card ampliado será injetado aqui pelo JavaScript -->
         </div>
-        <button id="modal-close" class="absolute top-4 right-6 text-white text-5xl font-bold leading-none hover:text-red-500 transition-colors">&times;</button>
+        <!-- RESPONSIVIDADE: Botão de fechar maior e reposicionado para melhor usabilidade em touch -->
+        <button id="modal-close" class="absolute top-2 right-2 sm:top-4 sm:right-6 text-white text-6xl font-bold leading-none hover:text-red-500 transition-colors">&times;</button>
     </div>
 
 
@@ -198,7 +205,6 @@
         const classesContainer = document.getElementById('filter-classes');
         const resetBtn = document.getElementById('reset-filters');
         
-        // Elementos do Modal
         const cardModal = document.getElementById('card-modal');
         const modalContent = document.getElementById('modal-content');
         const modalClose = document.getElementById('modal-close');
@@ -255,8 +261,10 @@
             
             const modalViewCard = createCardElement(cardData, isOwned);
             modalViewCard.classList.remove('cursor-pointer');
-            modalViewCard.classList.add('modal-card-view'); // Ativa a animação constante de brilho
-            modalViewCard.style.transform = 'scale(2)';
+            modalViewCard.classList.add('modal-card-view');
+
+            // RESPONSIVIDADE: Removido o 'transform: scale(2)' que quebrava o layout em telas menores.
+            // O card agora se ajusta ao tamanho do container do modal, que é responsivo.
 
             modalContent.appendChild(modalViewCard);
             cardModal.classList.remove('hidden');
@@ -389,7 +397,6 @@
             } else { window.location.href = 'index.html'; }
         });
         
-        // Event listener para abrir o modal
         carsContainer.addEventListener('click', e => {
             const cardElement = e.target.closest('.card-base[data-id]');
             if (cardElement) {
@@ -401,14 +408,12 @@
             }
         });
 
-        // Event listeners para fechar o modal
         modalClose.addEventListener('click', () => cardModal.classList.add('hidden'));
         cardModal.addEventListener('click', (e) => {
-            if (e.target === cardModal) { // Fecha apenas se clicar no fundo
+            if (e.target === cardModal) {
                 cardModal.classList.add('hidden');
             }
         });
     </script>
 </body>
 </html>
-
