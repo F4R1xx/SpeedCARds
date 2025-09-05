@@ -2885,7 +2885,7 @@ const manufacturers = {
             velocidade: 192,
             aceleracao: 11.5,
             direcao: 70,
-            altura: '',
+            altura: 'Médio',
             pneus: 'Padrão',
             tracao: 'Dianteira'
         },
