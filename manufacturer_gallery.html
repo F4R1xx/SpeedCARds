@@ -120,13 +120,16 @@
                 <p id="page-description" class="text-gray-400 text-center lg:text-left mb-8"></p>
                 
                 <div class="glass-panel p-4 mb-8">
-                    <!-- RESPONSIVIDADE: Grid de filtros mais adaptável a diferentes tamanhos de tela -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 items-end">
-                        <div id="manufacturer-filter-container" class="hidden xl:col-span-1">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-9 gap-4 items-end">
+                        <div class="xl:col-span-2">
+                            <label for="filter-name" class="filter-label">Nome</label>
+                            <input type="text" id="filter-name" placeholder="Pesquisar..." class="filter-input w-full">
+                        </div>
+                        <div id="manufacturer-filter-container">
                              <label for="filter-manufacturer" class="filter-label">Marca</label>
                              <select id="filter-manufacturer" class="filter-select w-full"><option value="">Todas</option></select>
                         </div>
-                        <div class="md:col-span-1">
+                        <div>
                             <label class="filter-label">Ano</label>
                             <div class="flex gap-2">
                                 <input type="number" id="filter-year-min" placeholder="Desde" class="filter-input w-full">
@@ -145,13 +148,11 @@
                             <label for="filter-tires" class="filter-label">Pneus</label>
                             <select id="filter-tires" class="filter-select w-full"><option value="">Todos</option></select>
                         </div>
-                        <!-- RESPONSIVIDADE: Ajuste para as classes ocuparem mais espaço horizontalmente -->
-                        <div class="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-1">
+                        <div class="md:col-span-1 xl:col-span-1">
                              <label class="filter-label">Classe</label>
-                             <!-- RESPONSIVIDADE: Mais colunas para os checkboxes em telas pequenas -->
                              <div id="filter-classes" class="grid grid-cols-3 sm:grid-cols-5 gap-2 text-sm"></div>
                         </div>
-                        <div class="w-full sm:col-span-2 md:col-span-1 lg:col-span-2 xl:col-span-1">
+                        <div class="w-full">
                            <button id="reset-filters" class="filter-button w-full">Limpar</button>
                         </div>
                     </div>
@@ -195,6 +196,7 @@
         const noResultsContainer = document.getElementById('no-results');
         const resultsCountEl = document.getElementById('results-count');
 
+        const nameFilter = document.getElementById('filter-name');
         const manufacturerFilterContainer = document.getElementById('manufacturer-filter-container');
         const manufacturerFilter = document.getElementById('filter-manufacturer');
         const yearMinFilter = document.getElementById('filter-year-min');
@@ -277,8 +279,11 @@
             const classes = ['X','R','S+','S','A','B','C','D','E'];
             
             if (isAllCarsMode) {
+                manufacturerFilterContainer.classList.remove('hidden');
                 const manufacturersList = [...new Set(carsToDisplay.map(c => c.montadora))].sort();
                 manufacturersList.forEach(m => manufacturerFilter.innerHTML += `<option value="${m}">${m}</option>`);
+            } else {
+                 manufacturerFilterContainer.classList.add('hidden');
             }
 
             tractions.forEach(t => tractionFilter.innerHTML += `<option value="${t}">${t}</option>`);
@@ -294,6 +299,7 @@
         }
 
         function applyFiltersAndRender() {
+            const name = nameFilter.value.toLowerCase();
             const manufacturer = manufacturerFilter.value;
             const yearMin = parseInt(yearMinFilter.value) || 0;
             const yearMax = parseInt(yearMaxFilter.value) || 9999;
@@ -303,6 +309,7 @@
             const selectedClasses = [...classesContainer.querySelectorAll('input:checked')].map(el => el.value);
 
             const filteredCards = carsToDisplay.filter(car => 
+                (name ? car.nome.toLowerCase().includes(name) : true) &&
                 (manufacturer ? car.montadora === manufacturer : true) &&
                 (car.ano >= yearMin) &&
                 (car.ano <= yearMax) &&
@@ -345,6 +352,7 @@
         }
         
         function resetAllFilters() {
+            nameFilter.value = "";
             manufacturerFilter.value = "";
             yearMinFilter.value = "";
             yearMaxFilter.value = "";
@@ -373,7 +381,6 @@
                             carsToDisplay = Object.entries(manufacturers[manufacturer]).map(([id, data]) => ({id, ...data}));
                         } else {
                             isAllCarsMode = true;
-                            manufacturerFilterContainer.classList.remove('hidden');
                             pageTitle.textContent = "COLEÇÃO COMPLETA";
                             pageDescription.textContent = `Filtre e explore todos os carros do jogo.`;
                             carsToDisplay = Object.entries(cards).map(([id, data]) => ({id, ...data}));
@@ -383,7 +390,7 @@
                         applyFiltersAndRender();
                         
                         [manufacturerFilter, tractionFilter, heightFilter, tiresFilter].forEach(el => el.addEventListener('change', applyFiltersAndRender));
-                        [yearMinFilter, yearMaxFilter].forEach(el => el.addEventListener('input', debouncedFilter));
+                        [nameFilter, yearMinFilter, yearMaxFilter].forEach(el => el.addEventListener('input', debouncedFilter));
                         classesContainer.addEventListener('change', applyFiltersAndRender);
                         resetBtn.addEventListener('click', resetAllFilters);
                         

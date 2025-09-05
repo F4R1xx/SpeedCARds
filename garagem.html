@@ -585,16 +585,16 @@
 
             <section class="mb-8 glass-panel p-6">
                 <h3 class="font-orbitron text-2xl font-bold text-white mb-6" style="text-shadow: var(--text-shadow-strong);">FILTRAR CARTAS</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4 items-end">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-9 gap-4 items-end">
                     <div class="xl:col-span-2">
-                        <label for="search-nome" class="filter-label">Pesquisar por Nome</label>
-                        <input type="text" id="search-nome" placeholder="Digite o nome do carro..." class="filter-input w-full">
+                        <label for="search-nome" class="filter-label">Nome</label>
+                        <input type="text" id="search-nome" placeholder="Pesquisar..." class="filter-input w-full">
                     </div>
                     <div>
-                        <label for="filter-montadora" class="filter-label">Montadora</label>
+                        <label for="filter-montadora" class="filter-label">Marca</label>
                         <select id="filter-montadora" class="filter-select w-full"></select>
                     </div>
-                     <div>
+                    <div>
                         <label class="filter-label">Ano</label>
                         <div class="flex gap-2">
                             <input type="number" id="filter-year-min" placeholder="Desde" class="filter-input w-full">
@@ -605,7 +605,15 @@
                         <label for="filter-tracao" class="filter-label">Tração</label>
                         <select id="filter-tracao" class="filter-select w-full"></select>
                     </div>
-                    <div class="lg:col-span-1 xl:col-span-2">
+                    <div>
+                        <label for="filter-altura" class="filter-label">Altura</label>
+                        <select id="filter-altura" class="filter-select w-full"></select>
+                    </div>
+                    <div>
+                        <label for="filter-pneus" class="filter-label">Pneus</label>
+                        <select id="filter-pneus" class="filter-select w-full"></select>
+                    </div>
+                    <div class="md:col-span-1 xl:col-span-1">
                          <label class="filter-label">Classe</label>
                          <div id="filter-classes" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 text-sm"></div>
                     </div>
@@ -648,6 +656,8 @@
         const yearMaxFilter = document.getElementById('filter-year-max');
         const classesContainer = document.getElementById('filter-classes');
         const tracaoFilter = document.getElementById('filter-tracao');
+        const alturaFilter = document.getElementById('filter-altura');
+        const pneusFilter = document.getElementById('filter-pneus');
         const clearFiltersButton = document.getElementById('clear-filters-button');
         const mainHeader = document.getElementById('main-header'); // Referência para o novo header
 
@@ -864,6 +874,8 @@
             const yearMin = parseInt(yearMinFilter.value) || 0;
             const yearMax = parseInt(yearMaxFilter.value) || 9999;
             const selectedTracao = tracaoFilter.value;
+            const selectedAltura = alturaFilter.value;
+            const selectedPneus = pneusFilter.value;
             const selectedClasses = [...classesContainer.querySelectorAll('input:checked')].map(el => el.value);
             const rarityOrder = ['X','R','S+', 'S', 'A', 'B', 'C', 'D', 'E'];
 
@@ -884,8 +896,10 @@
                 return card.nome.toLowerCase().includes(searchTerm) &&
                        (!selectedMontadora || card.montadora === selectedMontadora) &&
                        (card.ano >= yearMin && card.ano <= yearMax) &&
-                       (selectedClasses.length > 0 ? selectedClasses.includes(card.classe) : true) &&
-                       (!selectedTracao || card.tracao === selectedTracao);
+                       (!selectedTracao || card.tracao === selectedTracao) &&
+                       (!selectedAltura || card.altura === selectedAltura) &&
+                       (!selectedPneus || card.pneus === selectedPneus) &&
+                       (selectedClasses.length > 0 ? selectedClasses.includes(card.classe) : true);
             });
             renderCollection(filtered);
         }
@@ -897,13 +911,16 @@
             const ownedCardsData = ownedCardIds.map(id => localCardsDatabase[id]).filter(Boolean);
             const classes = ['X', 'R', 'S+', 'S', 'A', 'B', 'C', 'D', 'E'];
             
-            const populateSelect = (select, options) => {
-                select.innerHTML = '<option value="">Todas</option>';
+            const populateSelect = (select, options, placeholder) => {
+                select.innerHTML = `<option value="">${placeholder}</option>`;
                 options.forEach(opt => select.innerHTML += `<option value="${opt}">${opt}</option>`);
             };
-            populateSelect(montadoraFilter, [...new Set(ownedCardsData.map(c => c.montadora))].sort());
-            populateSelect(tracaoFilter, [...new Set(ownedCardsData.map(c => c.tracao))].sort());
-            
+
+            populateSelect(montadoraFilter, [...new Set(ownedCardsData.map(c => c.montadora))].sort(), 'Todas');
+            populateSelect(tracaoFilter, [...new Set(ownedCardsData.map(c => c.tracao))].sort(), 'Todas');
+            populateSelect(alturaFilter, [...new Set(ownedCardsData.map(c => c.altura))].sort(), 'Todas');
+            populateSelect(pneusFilter, [...new Set(ownedCardsData.map(c => c.pneus))].sort(), 'Todos');
+
             classesContainer.innerHTML = '';
             classes.forEach(c => {
                 classesContainer.innerHTML += `
@@ -1064,6 +1081,8 @@
         searchInput.addEventListener('input', debouncedFilter);
         montadoraFilter.addEventListener('change', applyFilters);
         tracaoFilter.addEventListener('change', applyFilters);
+        alturaFilter.addEventListener('change', applyFilters);
+        pneusFilter.addEventListener('change', applyFilters);
         [yearMinFilter, yearMaxFilter].forEach(el => el.addEventListener('input', debouncedFilter));
         classesContainer.addEventListener('change', applyFilters);
 
@@ -1071,6 +1090,8 @@
             searchInput.value = '';
             montadoraFilter.value = '';
             tracaoFilter.value = '';
+            alturaFilter.value = '';
+            pneusFilter.value = '';
             yearMinFilter.value = '';
             yearMaxFilter.value = '';
             classesContainer.querySelectorAll('input').forEach(el => el.checked = true);
@@ -1124,4 +1145,3 @@
     </script>
 </body>
 </html>
-
