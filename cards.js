@@ -3249,7 +3249,7 @@ const manufacturers = {
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Boxster S',
             montadora: 'Porsche',
-            classe: "A",
+            classe: "B",
             ano: 1999,
             pais: 'Alemanha',
             velocidade: 260,
