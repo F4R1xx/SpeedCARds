@@ -2974,7 +2974,7 @@ const manufacturers = {
         Porsche_918_Spyder: {
             imagem: './Imgs_Carros/Porsche/Porsche918Spyder.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: '918 Spyder',
             montadora: 'Porsche',
             classe: "S",
@@ -2990,7 +2990,7 @@ const manufacturers = {
         Carrera_GT: {
             imagem: './Imgs_Carros/Porsche/PorscheCarreraGT.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Carrera GT',
             montadora: 'Porsche',
             classe: "S",
@@ -3006,7 +3006,7 @@ const manufacturers = {
         Panamera_Turbo_S_E_Hybrid: {
             imagem: './Imgs_Carros/Porsche/PorschePanameraTurboSEHybrid.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Panamera Turbo S E-Hybrid',
             montadora: 'Porsche',
             classe: "S",
@@ -3022,7 +3022,7 @@ const manufacturers = {
         Porsche_718_Cayman_GT4_RS: {
             imagem: './Imgs_Carros/Porsche/Porsche718CaymanGT4RS.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: '718 Cayman GT4 RS',
             montadora: 'Porsche',
             classe: "S",
@@ -3038,7 +3038,7 @@ const manufacturers = {
         Porsche_911_GT3: {
             imagem: './Imgs_Carros/Porsche/Porsche911GT3.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: '911 GT3',
             montadora: 'Porsche',
             classe: "S",
@@ -3054,7 +3054,7 @@ const manufacturers = {
         Porsche_911_Carrera_4_GTS: {
             imagem: './Imgs_Carros/Porsche/Porsche911Carrera4GTS.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: '911 Carrera 4 GTS',
             montadora: 'Porsche',
             classe: "S",
@@ -3070,7 +3070,7 @@ const manufacturers = {
         Porsche_911_Carrera: {
             imagem: './Imgs_Carros/Porsche/Porsche911Carrera4GTS.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: '911 Carrera 4 GTS',
             montadora: 'Porsche',
             classe: "S",
@@ -3086,7 +3086,7 @@ const manufacturers = {
         Panamera_Turbo: {
             imagem: './Imgs_Carros/Porsche/PorschePanameraTurbo.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Panamera Turbo',
             montadora: 'Porsche',
             classe: "S",
@@ -3102,7 +3102,7 @@ const manufacturers = {
         Cayman_GT4: {
             imagem: './Imgs_Carros/Porsche/PorscheCaymanGT4.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Cayman GT4',
             montadora: 'Porsche',
             classe: "S",
@@ -3118,7 +3118,7 @@ const manufacturers = {
         Panamera: {
             imagem: './Imgs_Carros/Porsche/PorschePanamera4S.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Panamera 4S',
             montadora: 'Porsche',
             classe: "A",
@@ -3134,7 +3134,7 @@ const manufacturers = {
         Porsche_718_Boxster_S: {
             imagem: './Imgs_Carros/Porsche/Porsche718BoxsterS.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: '718 Boxster S',
             montadora: 'Porsche',
             classe: "A",
@@ -3150,7 +3150,7 @@ const manufacturers = {
         Cayman_R: {
             imagem: './Imgs_Carros/Porsche/PorscheCaymanR.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Cayman R',
             montadora: 'Porsche',
             classe: "A",
@@ -3166,7 +3166,7 @@ const manufacturers = {
         Porsche_911_Carrera: {
             imagem: './Imgs_Carros/Porsche/Porsche911Carrera4S.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: '911 Carrera 4S',
             montadora: 'Porsche',
             classe: "A",
@@ -3182,7 +3182,7 @@ const manufacturers = {
         Macan_GTS: {
             imagem: './Imgs_Carros/Porsche/PorscheMacanGTS.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Macan GTS',
             montadora: 'Porsche',
             classe: "A",
@@ -3198,7 +3198,7 @@ const manufacturers = {
         Boxster: {
             imagem: './Imgs_Carros/Porsche/PorscheBoxster.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Boxster',
             montadora: 'Porsche',
             classe: "A",
@@ -3214,7 +3214,7 @@ const manufacturers = {
         Cayenne_GTS: {
             imagem: './Imgs_Carros/Porsche/PorscheCayenneGTS.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Cayenne GTS',
             montadora: 'Porsche',
             classe: "A",
@@ -3230,7 +3230,7 @@ const manufacturers = {
         Cayenne_S_E_Hybrid: {
             imagem: './Imgs_Carros/Porsche/PorscheCayenneSEHybrid.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Cayenne S E-Hybrid',
             montadora: 'Porsche',
             classe: "A",
@@ -3246,7 +3246,7 @@ const manufacturers = {
         Boxster_S: {
             imagem: './Imgs_Carros/Porsche/PorscheBoxsterS.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Boxster S',
             montadora: 'Porsche',
             classe: "A",
@@ -3262,7 +3262,7 @@ const manufacturers = {
         Macan_Turbo: {
             imagem: './Imgs_Carros/Porsche/PorscheMacanTurbo.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Macan Turbo',
             montadora: 'Porsche',
             classe: "B",
@@ -3278,7 +3278,7 @@ const manufacturers = {
         Porsche_911_Carrera_RS: {
             imagem: './Imgs_Carros/Porsche/Porsche911CarreraRS30.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: '911 Carrera RS 3.0',
             montadora: 'Porsche',
             classe: "B",
@@ -3294,7 +3294,7 @@ const manufacturers = {
         Taycan_GTS: {
             imagem: './Imgs_Carros/Porsche/PorscheTaycanGTS.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Taycan GTS',
             montadora: 'Porsche',
             classe: "B",
@@ -3310,7 +3310,7 @@ const manufacturers = {
         Taycan: {
             imagem: './Imgs_Carros/Porsche/PorscheTaycan4Plus.png',
             logo: './assets/Porsche-Logo.png',
-            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
             nome: 'Taycan 4 Plus',
             montadora: 'Porsche',
             classe: "B",
