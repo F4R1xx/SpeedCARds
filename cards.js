@@ -3331,7 +3331,7 @@ const manufacturers = {
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
             nome: 'ID.R',
             montadora: 'Volkswagen',
-            classe: "S",
+            classe: "R",
             ano: 2018,
             pais: 'Alemanha',
             velocidade: 270,
