@@ -4751,6 +4751,122 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: 'Traseira'
         }
+    },
+    "Denza": {
+        Z: {
+            imagem: './Imgs_Carros/Denza/DenzaZ.png',
+            logo: './assets/Denza-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=China',
+            nome: 'Z',
+            montadora: 'Denza',
+            classe: "S",
+            ano: 2026,
+            pais: 'China',
+            velocidade: 310,
+            aceleracao: 2.5,
+            direcao: 90,
+            altura: 'Baixo',
+            pneus: 'Desempenho',
+            tracao: '4x4'
+        },
+        Z9_GT: {
+            imagem: './Imgs_Carros/Denza/DenzaZ9GT.png',
+            logo: './assets/Denza-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=China',
+            nome: 'Z9 GT',
+            montadora: 'Denza',
+            classe: "A",
+            ano: 2026,
+            pais: 'China',
+            velocidade: 240,
+            aceleracao: 3,
+            direcao: 83,
+            altura: 'Baixo',
+            pneus: 'Desempenho',
+            tracao: '4x4'
+        },
+        Bao: {
+            imagem: './Imgs_Carros/Denza/DenzaBao5.png',
+            logo: './assets/Denza-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=China',
+            nome: 'Bao 5',
+            montadora: 'Denza',
+            classe: "B",
+            ano: 2026,
+            pais: 'China',
+            velocidade: 180,
+            aceleracao: 4.8,
+            direcao: 75,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+        N9: {
+            imagem: './Imgs_Carros/Denza/DenzaN9.png',
+            logo: './assets/Denza-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=China',
+            nome: 'N9',
+            montadora: 'Denza',
+            classe: "B",
+            ano: 2026,
+            pais: 'China',
+            velocidade: 180,
+            aceleracao: 3.9,
+            direcao: 76,
+            altura: 'Alto',
+            pneus: 'Padrão',
+            tracao: '4x4'
+        },
+        D9: {
+            imagem: './Imgs_Carros/Denza/DenzaD9.png',
+            logo: './assets/Denza-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=China',
+            nome: 'D9',
+            montadora: 'Denza',
+            classe: "C",
+            ano: 2026,
+            pais: 'China',
+            velocidade: 150,
+            aceleracao: 6.9,
+            direcao: 65,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: '4x4'
+        }
+    }, 
+    "Geely": {
+        EX5: {
+            imagem: './Imgs_Carros/Geely/GeelyEX5.png',
+            logo: './assets/Geely-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=China',
+            nome: 'EX5',
+            montadora: 'Geely',
+            classe: "D",
+            ano: 2026,
+            pais: 'China',
+            velocidade: 180,
+            aceleracao: 6.9,
+            direcao: 71,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        EX2: {
+            imagem: './Imgs_Carros/Geely/GeelyEX2.png',
+            logo: './assets/Geely-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=China',
+            nome: 'EX2',
+            montadora: 'Geely',
+            classe: "E",
+            ano: 2026,
+            pais: 'China',
+            velocidade: 130,
+            aceleracao: 10.2,
+            direcao: 69,
+            altura: 'Médio',
+            pneus: 'Padrão',
+            tracao: 'Traseira'
+        }
     }
 };
 
