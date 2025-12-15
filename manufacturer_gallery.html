@@ -19,14 +19,15 @@
             --border-color: rgba(255, 255, 255, 0.1);
             --font-body: 'Inter', sans-serif;
             --font-display: 'Orbitron', sans-serif;
-            --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7);
+            --glow-effect: 0 0 20px rgba(224, 26, 79, 0.5);
         }
 
         body {
             font-family: var(--font-body);
             background-color: var(--background-dark);
-            background-image: radial-gradient(circle at top right, rgba(224, 26, 79, 0.1), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(224, 26, 79, 0.1), transparent 40%);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(224, 26, 79, 0.05), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.05), transparent 40%);
             color: var(--text-light);
             overflow-x: hidden;
         }
@@ -34,12 +35,12 @@
         .font-orbitron { font-family: var(--font-display); }
 
         .glass-panel {
-            background: rgba(26, 26, 26, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
         }
 
         .loader-container { background: var(--background-dark); }
@@ -50,21 +51,166 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- NOVOS ESTILOS DE FILTRO --- */
         
-        .filter-input, .filter-select, .back-button {
-            background-color: rgba(10, 10, 10, 0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            color: var(--text-light);
-            transition: border-color 0.3s, box-shadow 0.3s;
+        /* 1. Barra de Busca Principal */
+        .search-container {
+            position: relative;
+            margin-bottom: 2rem;
         }
-        .filter-input:focus, .filter-select:focus, .back-button:focus {
+        .search-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1rem 1rem 1rem 3.5rem;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
             outline: none;
             border-color: var(--primary-red);
-            box-shadow: 0 0 10px rgba(224, 26, 79, 0.5);
+            box-shadow: 0 0 20px rgba(224, 26, 79, 0.2);
+            background: rgba(0, 0, 0, 0.6);
         }
-        .filter-label { font-weight: 500; color: #a0aec0; margin-bottom: 0.25rem; display: block; }
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2rem;
+            pointer-events: none;
+            transition: color 0.3s;
+        }
+        .search-input:focus + .search-icon { color: var(--primary-red); }
+
+        /* 2. Régua de Classes (Chips Hexagonais) */
+        .class-filter-container {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            scrollbar-width: none; /* Firefox */
+        }
+        .class-filter-container::-webkit-scrollbar { display: none; } /* Chrome */
+
+        .class-chip {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%); /* Efeito Tech */
+        }
+        
+        .class-chip:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .class-chip.active {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 15px rgba(224, 26, 79, 0.5);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* 3. Segmented Control para Tração */
+        .traction-control {
+            display: flex;
+            background: rgba(0,0,0,0.3);
+            border-radius: 0.75rem;
+            padding: 0.25rem;
+            border: 1px solid var(--border-color);
+        }
+        .traction-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            color: #888;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .traction-btn:hover { color: white; }
+        .traction-btn.active {
+            background: var(--border-color);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* 4. Mini Cards para Filtros Secundários */
+        .filter-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1rem;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .filter-label-mini {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 700;
+        }
+
+        /* Selects Customizados */
+        .custom-select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            appearance: none;
+            padding-right: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.25rem;
+            transition: border-color 0.3s;
+        }
+        .custom-select:focus { outline: none; border-color: var(--primary-red); }
+        .custom-select option { background-color: #1a1a1a; }
+        
+        .year-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .year-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            text-align: center;
+            padding: 0.25rem;
+        }
+        .year-input:focus { outline: none; border-bottom-color: var(--primary-red); }
+
+
         .filter-button, .back-button {
             background: var(--primary-red);
             border: none;
@@ -72,12 +218,17 @@
             padding: 0.6rem 1.2rem;
             border-radius: 0.5rem;
             font-weight: 700;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
             text-decoration: none;
             text-align: center;
         }
-        .filter-button:hover, .back-button:hover { background-color: var(--primary-red-dark); }
+        .filter-button:hover, .back-button:hover { 
+            background-color: var(--primary-red-dark); 
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(224, 26, 79, 0.4);
+        }
+
         
         .card-base{transition:all .4s cubic-bezier(.25,.8,.25,1);border-radius:1rem;overflow:hidden;border:3px solid #444;background-color:#1a1a1a;position:relative;transform-style:preserve-3d;box-shadow:0 8px 20px rgba(0,0,0,.6)}
         .card-base:hover{transform:scale(1.08) rotateZ(.5deg);box-shadow:0 0 40px var(--primary-red);border-color:var(--primary-red);z-index:20}
@@ -86,12 +237,10 @@
         .card-base:hover:after{content:'';position:absolute;top:0;left:0;width:50%;height:100%;opacity:0;z-index:2;animation:shine var(--shine-duration,8s) infinite linear;background:var(--shine-gradient)}@keyframes pulsate-glow{0%,100%{box-shadow:0 0 18px 4px rgba(255,215,0,.8),0 0 8px 0 rgba(255,215,0,.7) inset}50%{box-shadow:0 0 35px 8px #ffd700,0 0 15px 4px rgba(255,215,0,.9) inset}}@keyframes pulsate-rare-glow{0%,100%{box-shadow:0 0 20px 5px rgba(0,255,255,.8),0 0 30px 10px rgba(255,0,255,.6),0 0 10px 2px rgba(255,255,255,.9) inset;border-color:rgba(0,255,255,1)}50%{box-shadow:0 0 40px 10px #0ff,0 0 60px 20px rgba(255,0,255,.8),0 0 20px 6px #fff inset;border-color:rgba(255,255,255,1)}}@keyframes pulsate-secret-glow{0%,100%{box-shadow:0 0 30px 6px #0d1117,0 0 15px 3px rgba(120,0,255,.7),0 0 8px 1px rgba(0,255,255,.8) inset;border-color:rgba(100,100,120,1)}50%{box-shadow:0 0 60px 12px #0d1117,0 0 30px 8px rgba(120,0,255,1),0 0 18px 4px #0ff inset;border-color:rgba(220,220,255,1)}}@keyframes void-texture{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
         .rank-x.card-base{border-color:#333;background-color:#050505;overflow:hidden}.rank-x.card-base:hover{animation:pulsate-secret-glow 2.2s infinite ease-in-out}.rank-x.card-base:before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background-image:radial-gradient(circle at center,rgba(255,255,255,.1) 0,rgba(255,255,255,0) 60%);background-size:20%;animation:void-texture 20s infinite linear alternate;opacity:.5;z-index:0}.rank-x.card-base .collection-card-image-wrapper,.rank-x.card-base .p-3{position:relative;z-index:1;background-color:transparent}.rank-x.card-base .p-3{background-color:#181818!important}.rank-x.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(120,0,255,0) 0,rgba(120,0,255,.8) 30%,rgba(0,255,255,.9) 50%,rgba(255,255,255,.8) 70%,rgba(120,0,255,0) 100%);--shine-duration:1.8s;--shine-opacity:1}.rank-r.card-base{border-color:#0ff}.rank-r.card-base:hover{animation:pulsate-rare-glow 1.8s infinite ease-in-out}.rank-r.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(0,255,255,0) 0,#0ff 25%,#f0f 50%,#ff0 75%,rgba(0,255,255,0) 100%);--shine-duration:2.5s;--shine-opacity:1}.rank-s.card-base{border-color:#ffd700}.rank-s.card-base:hover{animation:pulsate-glow 2s infinite ease-in-out}.rank-s.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(255,215,0,0) 0,#ffd700 50%,rgba(255,215,0,0) 100%);--shine-duration:3s;--shine-opacity:.9}.rank-a.card-base{box-shadow:0 0 12px 3px var(--primary-red);border-color:var(--primary-red)}.rank-a.card-base:hover{box-shadow:0 0 25px 6px var(--primary-red)}.rank-a.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(224,26,79,0) 0,rgba(224,26,79,.8) 50%,rgba(224,26,79,0) 100%);--shine-duration:4s;--shine-opacity:.8}.rank-b.card-base{box-shadow:0 0 10px 2px #8e44ad;border-color:#8e44ad}.rank-b.card-base:hover{box-shadow:0 0 20px 4px #8e44ad}.rank-b.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(142,68,173,0) 0,rgba(142,68,173,.7) 50%,rgba(142,68,173,0) 100%);--shine-duration:5.5s;--shine-opacity:.7}.rank-c.card-base{border-color:#3498db}.rank-c.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(52,152,219,0) 0,rgba(52,152,219,.6) 50%,rgba(52,152,219,0) 100%);--shine-duration:7s;--shine-opacity:.6}.rank-d.card-base{border-color:#2ecc71}.rank-d.card-base:hover:after{--shine-gradient:linear-gradient(to right,rgba(46,204,113,0) 0,rgba(46,204,113,.5) 50%,rgba(46,204,113,0) 100%);--shine-duration:8.5s;--shine-opacity:.5}
 
-        /* ESTILOS PARA O MODAL E ANIMAÇÃO CONSTANTE */
         .modal-card-view.card-base:after { content:'';position:absolute;top:0;left:0;width:50%;height:100%;opacity:0;z-index:2;animation:shine var(--shine-duration,8s) infinite linear;background:var(--shine-gradient)}
         .modal-card-view.rank-x { animation: pulsate-secret-glow 2.2s infinite ease-in-out; }
         .modal-card-view.rank-r { animation: pulsate-rare-glow 1.8s infinite ease-in-out; }
         .modal-card-view.rank-s { animation: pulsate-glow 2s infinite ease-in-out; }
-        /* Define as variáveis do brilho para o modal, sem precisar de hover */
         .modal-card-view.rank-x.card-base:after{--shine-gradient:linear-gradient(to right,rgba(120,0,255,0) 0,rgba(120,0,255,.8) 30%,rgba(0,255,255,.9) 50%,rgba(255,255,255,.8) 70%,rgba(120,0,255,0) 100%);--shine-duration:1.8s;--shine-opacity:1}
         .modal-card-view.rank-r.card-base:after{--shine-gradient:linear-gradient(to right,rgba(0,255,255,0) 0,#0ff 25%,#f0f 50%,#ff0 75%,rgba(0,255,255,0) 100%);--shine-duration:2.5s;--shine-opacity:1}
         .modal-card-view.rank-s.card-base:after{--shine-gradient:linear-gradient(to right,rgba(255,215,0,0) 0,#ffd700 50%,rgba(255,215,0,0) 100%);--shine-duration:3s;--shine-opacity:.9}
@@ -113,57 +262,111 @@
         <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="glass-panel p-4 sm:p-6 lg:p-8">
                 <div class="flex flex-col lg:flex-row justify-between items-center mb-6 gap-4">
-                    <!-- RESPONSIVIDADE: Ajuste no tamanho da fonte para telas menores -->
                     <h1 id="page-title" class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center lg:text-left" style="text-shadow: var(--glow-effect);"></h1>
                     <a href="galeria.html" class="back-button flex-shrink-0">← Voltar para Marcas</a>
                 </div>
                 <p id="page-description" class="text-gray-400 text-center lg:text-left mb-8"></p>
                 
-                <div class="glass-panel p-4 mb-8">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-9 gap-4 items-end">
-                        <div class="xl:col-span-2">
-                            <label for="filter-name" class="filter-label">Nome</label>
-                            <input type="text" id="filter-name" placeholder="Pesquisar..." class="filter-input w-full">
+                <!-- PAINEL DE FILTROS TOTALMENTE REDESENHADO -->
+                <div class="glass-panel p-6 mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
+
+                    <!-- 1. Barra de Busca Hero -->
+                    <div class="search-container">
+                        <input type="text" id="filter-name" placeholder="Buscar máquina por nome..." class="search-input font-orbitron">
+                        <span class="search-icon">🔍</span>
+                    </div>
+
+                    <!-- 2. Filtro de Classe Visual (Chips) -->
+                    <div class="mb-6">
+                        <label class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2 block">Filtrar por Classe</label>
+                        <div id="class-chips-container" class="class-filter-container">
+                            <!-- Injetado via JS -->
                         </div>
-                        <div id="manufacturer-filter-container">
-                             <label for="filter-manufacturer" class="filter-label">Marca</label>
-                             <select id="filter-manufacturer" class="filter-select w-full"><option value="">Todas</option></select>
-                        </div>
-                        <div>
-                            <label class="filter-label">Ano</label>
-                            <div class="flex gap-2">
-                                <input type="number" id="filter-year-min" placeholder="Desde" class="filter-input w-full">
-                                <input type="number" id="filter-year-max" placeholder="Até" class="filter-input w-full">
+                    </div>
+
+                    <!-- 3. Grid de Filtros Técnicos -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        
+                        <!-- Tração (Segmented Control) -->
+                        <div class="filter-card">
+                            <span class="filter-label-mini">Tração</span>
+                            <div class="traction-control" id="traction-control">
+                                <div class="traction-btn active" data-value="">Todas</div>
+                                <div class="traction-btn" data-value="Traseira">Traseira</div>
+                                <div class="traction-btn" data-value="Dianteira">Dianteira</div>
+                                <div class="traction-btn" data-value="4x4">4x4</div>
                             </div>
                         </div>
-                        <div>
-                            <label for="filter-traction" class="filter-label">Tração</label>
-                            <select id="filter-traction" class="filter-select w-full"><option value="">Todas</option></select>
+
+                        <!-- Ano (Inputs Minimalistas) -->
+                        <div class="filter-card">
+                            <span class="filter-label-mini">Ano</span>
+                            <div class="year-inputs">
+                                <input type="number" id="filter-year-min" placeholder="1960" class="year-input font-orbitron">
+                                <span class="text-gray-500">-</span>
+                                <input type="number" id="filter-year-max" placeholder="2025" class="year-input font-orbitron">
+                            </div>
                         </div>
-                        <div>
-                            <label for="filter-height" class="filter-label">Altura</label>
-                            <select id="filter-height" class="filter-select w-full"><option value="">Todas</option></select>
+
+                        <!-- País (Dropdown Clean) -->
+                        <div class="filter-card">
+                            <span class="filter-label-mini">Origem</span>
+                            <div class="select-wrapper">
+                                <select id="filter-country" class="custom-select">
+                                    <option value="">Todos os Países</option>
+                                    <!-- Options via JS -->
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <label for="filter-tires" class="filter-label">Pneus</label>
-                            <select id="filter-tires" class="filter-select w-full"><option value="">Todos</option></select>
+
+                        <!-- Marca (Dropdown Condicional Clean) -->
+                        <div class="filter-card" id="manufacturer-filter-container">
+                            <span class="filter-label-mini">Fabricante</span>
+                            <div class="select-wrapper">
+                                <select id="filter-manufacturer" class="custom-select">
+                                    <option value="">Todas</option>
+                                    <!-- Options via JS -->
+                                </select>
+                            </div>
                         </div>
-                        <div class="md:col-span-1 xl:col-span-1">
-                             <label class="filter-label">Classe</label>
-                             <div id="filter-classes" class="grid grid-cols-3 sm:grid-cols-5 gap-2 text-sm"></div>
+                        
+                         <!-- Filtros Extras (Ocultos por padrão ou em linha menor se desejar, aqui vou colocar mais 2 dropdowns) -->
+                        <div class="filter-card">
+                            <span class="filter-label-mini">Pneus</span>
+                            <div class="select-wrapper">
+                                <select id="filter-tires" class="custom-select">
+                                    <option value="">Qualquer</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="w-full">
-                           <button id="reset-filters" class="filter-button w-full">Limpar</button>
+
+                         <div class="filter-card">
+                            <span class="filter-label-mini">Altura</span>
+                            <div class="select-wrapper">
+                                <select id="filter-height" class="custom-select">
+                                    <option value="">Qualquer</option>
+                                </select>
+                            </div>
                         </div>
+
+                         <!-- Botão Reset -->
+                         <div class="lg:col-span-2 flex items-stretch">
+                            <button id="reset-filters" class="w-full bg-gray-800 hover:bg-red-900/50 text-gray-300 hover:text-white border border-gray-700 rounded-xl transition-all duration-300 font-orbitron text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                                <span>↺</span> Resetar Filtros
+                            </button>
+                         </div>
                     </div>
                 </div>
 
-                <p id="results-count" class="text-center md:text-right mb-4 text-gray-400 font-semibold"></p>
-                <!-- RESPONSIVIDADE: Espaçamento do grid ajustado para telas menores -->
+                <div class="flex justify-between items-end mb-4 px-2">
+                     <p id="results-count" class="text-gray-400 font-semibold text-sm font-orbitron tracking-wide">BUSCANDO CARROS...</p>
+                </div>
+
                 <div id="cars-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8"></div>
                  <div id="no-results" class="hidden text-center py-12">
                     <p class="text-2xl font-orbitron text-gray-500">Nenhum carro encontrado</p>
-                    <p class="text-gray-600 mt-2">Tente ajustar os seus filtros.</p>
+                    <p class="text-gray-600 mt-2">Tente ajustar os seus filtros para encontrar o que procura.</p>
                 </div>
             </div>
         </main>
@@ -171,11 +374,7 @@
 
     <!-- Modal para visualização do card -->
     <div id="card-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center z-50 p-4 cursor-pointer">
-        <!-- RESPONSIVIDADE: Largura do conteúdo do modal ajustada para telas menores -->
-        <div id="modal-content" class="relative w-11/12 max-w-xs sm:max-w-sm cursor-default">
-            <!-- O card ampliado será injetado aqui pelo JavaScript -->
-        </div>
-        <!-- RESPONSIVIDADE: Botão de fechar maior e reposicionado para melhor usabilidade em touch -->
+        <div id="modal-content" class="relative w-11/12 max-w-xs sm:max-w-sm cursor-default"></div>
         <button id="modal-close" class="absolute top-2 right-2 sm:top-4 sm:right-6 text-white text-6xl font-bold leading-none hover:text-red-500 transition-colors">&times;</button>
     </div>
 
@@ -184,8 +383,11 @@
         import { auth, db } from './firebase.js';
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { ref, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
-        import { cards, manufacturers } from './cards.js'; 
+        import * as CardData from './cards.js';
         import { createHeader } from './menu.js'; 
+
+        const cards = CardData.cards || {};
+        const manufacturers = CardData.manufacturers || {};
 
         const loader = document.getElementById('loader');
         const appContainer = document.getElementById('app-container');
@@ -196,15 +398,17 @@
         const noResultsContainer = document.getElementById('no-results');
         const resultsCountEl = document.getElementById('results-count');
 
+        // Filter Elements
         const nameFilter = document.getElementById('filter-name');
         const manufacturerFilterContainer = document.getElementById('manufacturer-filter-container');
         const manufacturerFilter = document.getElementById('filter-manufacturer');
+        const countryFilter = document.getElementById('filter-country'); 
         const yearMinFilter = document.getElementById('filter-year-min');
         const yearMaxFilter = document.getElementById('filter-year-max');
-        const tractionFilter = document.getElementById('filter-traction');
         const heightFilter = document.getElementById('filter-height');
         const tiresFilter = document.getElementById('filter-tires');
-        const classesContainer = document.getElementById('filter-classes');
+        const classChipsContainer = document.getElementById('class-chips-container'); // Container dos chips
+        const tractionBtns = document.querySelectorAll('.traction-btn'); // Botões de tração
         const resetBtn = document.getElementById('reset-filters');
         
         const cardModal = document.getElementById('card-modal');
@@ -213,17 +417,21 @@
 
         let ownedCardIds = new Set();
         let carsToDisplay = [];
+        let selectedClass = ""; // Estado local para classe
+        let selectedTraction = ""; // Estado local para tração
 
         function getRankColor(rank) {
+            if (!rank) return '#7F8C8D';
             const colors = {'X':'#000000','R':'#00FFFF','S+':'#FFD700','S':'#FFD700','A':'#E01A4F','B':'#8e44ad','C':'#3498db','D':'#2ecc71','E':'#95a5a6'};
             return colors[rank] || '#7F8C8D';
         }
 
         function createCardElement(cardData, isOwned) {
-            if (!cardData || (cardData.classe === 'X' && !isOwned)) return null;
+            if (!cardData || !cardData.classe || (cardData.classe === 'X' && !isOwned)) return null;
             
             const cardElement = document.createElement('div');
-            cardElement.className = `card-base rank-${cardData.classe.toLowerCase().replace('+', '')} cursor-pointer`;
+            const classStr = cardData.classe ? cardData.classe.toLowerCase().replace('+', '') : 'e';
+            cardElement.className = `card-base rank-${classStr} cursor-pointer`;
             cardElement.dataset.id = cardData.id;
 
             if (!isOwned) {
@@ -233,26 +441,26 @@
 
             cardElement.innerHTML = `
                 <div class="collection-card-image-wrapper">
-                    <img src="${cardData.imagem}" alt="${cardData.nome}" class="collection-card-image">
+                    <img src="${cardData.imagem || ''}" alt="${cardData.nome || 'Carro'}" class="collection-card-image" onerror="this.src='./assets/placeholder.png'">
                     <div class="rank-badge-small" style="background-color: ${getRankColor(cardData.classe)};">${cardData.classe.replace('+', '⁺')}</div>
                     <div class="collection-card-info-overlay">
                         <div class="flex justify-between items-start w-full">
-                            <img src="${cardData.logo}" alt="${cardData.montadora}" class="h-5 mt-12" style="filter: drop-shadow(0 0 2px black);">
+                            <img src="${cardData.logo || ''}" alt="${cardData.montadora || ''}" class="h-5 mt-12" style="filter: drop-shadow(0 0 2px black);" onerror="this.style.display='none'">
                             <div class="text-right">
-                                <div class="font-bold text-base font-orbitron card-text-shadow">${cardData.ano}</div>
-                                <img src="${cardData.bandeira}" alt="${cardData.pais}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1 card-flag-shadow">
+                                <div class="font-bold text-base font-orbitron card-text-shadow">${cardData.ano || ''}</div>
+                                <img src="${cardData.bandeira || ''}" alt="${cardData.pais || ''}" class="h-5 w-8 object-cover rounded-sm ml-auto mt-1 card-flag-shadow" onerror="this.style.display='none'">
                             </div>
                         </div>
-                        <h3 class="font-bold text-lg md:text-xl font-orbitron leading-tight card-text-shadow">${cardData.nome}</h3>
+                        <h3 class="font-bold text-lg md:text-xl font-orbitron leading-tight card-text-shadow">${cardData.nome || 'Desconhecido'}</h3>
                     </div>
                 </div>
                 <div class="p-3 bg-[#181818] grid grid-cols-3 gap-2 text-center text-sm">
-                    <div><span class="font-bold block">${cardData.velocidade}</span><span class="text-xs text-gray-400">VEL. MÁX.</span></div>
-                    <div><span class="font-bold block">${cardData.aceleracao}s</span><span class="text-xs text-gray-400">0-100</span></div>
-                    <div><span class="font-bold block">${cardData.direcao}</span><span class="text-xs text-gray-400">DIREÇÃO</span></div>
-                    <div><span class="font-bold block">${cardData.altura}</span><span class="text-xs text-gray-400">ALTURA</span></div>
-                    <div><span class="font-bold block">${cardData.pneus}</span><span class="text-xs text-gray-400">PNEUS</span></div>
-                    <div><span class="font-bold block">${cardData.tracao}</span><span class="text-xs text-gray-400">TRAÇÃO</span></div>
+                    <div><span class="font-bold block">${cardData.velocidade || '-'}</span><span class="text-xs text-gray-400">VEL. MÁX.</span></div>
+                    <div><span class="font-bold block">${cardData.aceleracao || '-'}s</span><span class="text-xs text-gray-400">0-100</span></div>
+                    <div><span class="font-bold block">${cardData.direcao || '-'}</span><span class="text-xs text-gray-400">DIREÇÃO</span></div>
+                    <div><span class="font-bold block">${cardData.altura || '-'}</span><span class="text-xs text-gray-400">ALTURA</span></div>
+                    <div><span class="font-bold block">${cardData.pneus || '-'}</span><span class="text-xs text-gray-400">PNEUS</span></div>
+                    <div><span class="font-bold block">${cardData.tracao || '-'}</span><span class="text-xs text-gray-400">TRAÇÃO</span></div>
                 </div>`;
             return cardElement;
         }
@@ -260,68 +468,114 @@
         function showCardModal(cardData) {
             const isOwned = ownedCardIds.has(cardData.id);
             modalContent.innerHTML = '';
-            
             const modalViewCard = createCardElement(cardData, isOwned);
-            modalViewCard.classList.remove('cursor-pointer');
-            modalViewCard.classList.add('modal-card-view');
-
-            // RESPONSIVIDADE: Removido o 'transform: scale(2)' que quebrava o layout em telas menores.
-            // O card agora se ajusta ao tamanho do container do modal, que é responsivo.
-
-            modalContent.appendChild(modalViewCard);
-            cardModal.classList.remove('hidden');
+            if (modalViewCard) {
+                modalViewCard.classList.remove('cursor-pointer');
+                modalViewCard.classList.add('modal-card-view');
+                modalContent.appendChild(modalViewCard);
+                cardModal.classList.remove('hidden');
+            }
         }
 
         function populateFilters(isAllCarsMode) {
-            const tractions = [...new Set(carsToDisplay.map(c => c.tracao))].sort();
-            const heights = [...new Set(carsToDisplay.map(c => c.altura))].sort();
-            const tires = [...new Set(carsToDisplay.map(c => c.pneus))].sort();
-            const classes = ['X','R','S+','S','A','B','C','D','E'];
-            
-            if (isAllCarsMode) {
-                manufacturerFilterContainer.classList.remove('hidden');
-                const manufacturersList = [...new Set(carsToDisplay.map(c => c.montadora))].sort();
-                manufacturersList.forEach(m => manufacturerFilter.innerHTML += `<option value="${m}">${m}</option>`);
-            } else {
-                 manufacturerFilterContainer.classList.add('hidden');
-            }
+            try {
+                const heights = [...new Set(carsToDisplay.map(c => c.altura).filter(Boolean))].sort();
+                const tires = [...new Set(carsToDisplay.map(c => c.pneus).filter(Boolean))].sort();
+                const countries = [...new Set(carsToDisplay.map(c => c.pais).filter(Boolean))].sort(); 
+                const classes = ['X','R','S','A','B','C','D','E'];
+                
+                // Manufacturers
+                if (isAllCarsMode) {
+                    manufacturerFilterContainer.classList.remove('hidden');
+                    const manufacturersList = [...new Set(carsToDisplay.map(c => c.montadora).filter(Boolean))].sort();
+                    manufacturerFilter.innerHTML = '<option value="">Todas</option>';
+                    manufacturersList.forEach(m => manufacturerFilter.innerHTML += `<option value="${m}">${m}</option>`);
+                } else {
+                     manufacturerFilterContainer.classList.add('hidden');
+                }
 
-            tractions.forEach(t => tractionFilter.innerHTML += `<option value="${t}">${t}</option>`);
-            heights.forEach(h => heightFilter.innerHTML += `<option value="${h}">${h}</option>`);
-            tires.forEach(p => tiresFilter.innerHTML += `<option value="${p}">${p}</option>`);
-            classes.forEach(c => {
-                classesContainer.innerHTML += `
-                    <div class="flex items-center">
-                        <input type="checkbox" id="class-${c}" value="${c}" class="filter-checkbox accent-red-500 w-4 h-4" checked>
-                        <label for="class-${c}" class="ml-2">${c}</label>
-                    </div>`;
-            });
+                // Countries
+                countryFilter.innerHTML = '<option value="">Todos</option>';
+                countries.forEach(c => countryFilter.innerHTML += `<option value="${c}">${c}</option>`);
+
+                // Heights & Tires
+                heightFilter.innerHTML = '<option value="">Qualquer</option>';
+                heights.forEach(h => heightFilter.innerHTML += `<option value="${h}">${h}</option>`);
+                
+                tiresFilter.innerHTML = '<option value="">Qualquer</option>';
+                tires.forEach(p => tiresFilter.innerHTML += `<option value="${p}">${p}</option>`);
+                
+                // NOVA RENDERIZAÇÃO DE CLASSES (CHIPS)
+                classChipsContainer.innerHTML = '';
+                const allChip = document.createElement('div');
+                allChip.className = 'class-chip active';
+                allChip.textContent = 'ALL';
+                allChip.dataset.value = '';
+                allChip.onclick = () => handleClassClick('', allChip);
+                classChipsContainer.appendChild(allChip);
+
+                classes.forEach(c => {
+                    const chip = document.createElement('div');
+                    chip.className = 'class-chip';
+                    chip.textContent = c;
+                    chip.dataset.value = c;
+                    chip.style.borderColor = getRankColor(c); // Corzinha na borda
+                    chip.onclick = () => handleClassClick(c, chip);
+                    classChipsContainer.appendChild(chip);
+                });
+
+            } catch (e) {
+                console.error("Erro ao popular filtros:", e);
+            }
+        }
+
+        function handleClassClick(value, element) {
+            selectedClass = value;
+            // Visual Update
+            document.querySelectorAll('.class-chip').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            applyFiltersAndRender();
+        }
+
+        function handleTractionClick(e) {
+            const btn = e.target;
+            selectedTraction = btn.dataset.value;
+            // Visual Update
+            tractionBtns.forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            applyFiltersAndRender();
         }
 
         function applyFiltersAndRender() {
-            const name = nameFilter.value.toLowerCase();
-            const manufacturer = manufacturerFilter.value;
-            const yearMin = parseInt(yearMinFilter.value) || 0;
-            const yearMax = parseInt(yearMaxFilter.value) || 9999;
-            const traction = tractionFilter.value;
-            const height = heightFilter.value;
-            const tires = tiresFilter.value;
-            const selectedClasses = [...classesContainer.querySelectorAll('input:checked')].map(el => el.value);
+            try {
+                const name = nameFilter.value.toLowerCase();
+                const manufacturer = manufacturerFilter.value;
+                const country = countryFilter.value; 
+                const yearMin = parseInt(yearMinFilter.value) || 0;
+                const yearMax = parseInt(yearMaxFilter.value) || 9999;
+                // traction vem de selectedTraction
+                const height = heightFilter.value;
+                const tires = tiresFilter.value;
+                // class vem de selectedClass
+                
+                const filteredCards = carsToDisplay.filter(car => 
+                    (name ? (car.nome && car.nome.toLowerCase().includes(name)) : true) &&
+                    (manufacturer ? car.montadora === manufacturer : true) &&
+                    (country ? car.pais === country : true) && 
+                    (car.ano >= yearMin) &&
+                    (car.ano <= yearMax) &&
+                    (selectedTraction ? car.tracao === selectedTraction : true) &&
+                    (height ? car.altura === height : true) &&
+                    (tires ? car.pneus === tires : true) &&
+                    (selectedClass ? car.classe === selectedClass : true)
+                );
 
-            const filteredCards = carsToDisplay.filter(car => 
-                (name ? car.nome.toLowerCase().includes(name) : true) &&
-                (manufacturer ? car.montadora === manufacturer : true) &&
-                (car.ano >= yearMin) &&
-                (car.ano <= yearMax) &&
-                (traction ? car.tracao === traction : true) &&
-                (height ? car.altura === height : true) &&
-                (tires ? car.pneus === tires : true) &&
-                (selectedClasses.length > 0 ? selectedClasses.includes(car.classe) : true)
-            );
-
-            const rarityOrder = ['X', 'R', 'S+', 'S', 'A', 'B', 'C', 'D', 'E'];
-            filteredCards.sort((a, b) => rarityOrder.indexOf(a.classe) - rarityOrder.indexOf(b.classe));
-            renderCards(filteredCards);
+                const rarityOrder = ['X', 'R', 'S+', 'S', 'A', 'B', 'C', 'D', 'E'];
+                filteredCards.sort((a, b) => rarityOrder.indexOf(a.classe) - rarityOrder.indexOf(b.classe));
+                renderCards(filteredCards);
+            } catch (e) {
+                console.error("Erro ao aplicar filtros:", e);
+            }
         }
         
         function debounce(func, delay = 300) {
@@ -343,9 +597,13 @@
                 noResultsContainer.classList.add('hidden');
                 const fragment = document.createDocumentFragment();
                 cardsToRender.forEach(car => {
-                    const isOwned = ownedCardIds.has(car.id);
-                    const cardElement = createCardElement(car, isOwned);
-                    if(cardElement) fragment.appendChild(cardElement);
+                    try {
+                        const isOwned = ownedCardIds.has(car.id);
+                        const cardElement = createCardElement(car, isOwned);
+                        if(cardElement) fragment.appendChild(cardElement);
+                    } catch (err) {
+                        console.error("Erro ao renderizar cartão:", car, err);
+                    }
                 });
                 carsContainer.appendChild(fragment);
             }
@@ -354,12 +612,22 @@
         function resetAllFilters() {
             nameFilter.value = "";
             manufacturerFilter.value = "";
+            countryFilter.value = "";
             yearMinFilter.value = "";
             yearMaxFilter.value = "";
-            tractionFilter.value = "";
             heightFilter.value = "";
             tiresFilter.value = "";
-            classesContainer.querySelectorAll('input').forEach(el => el.checked = true);
+            
+            // Reset Class
+            selectedClass = "";
+            document.querySelectorAll('.class-chip').forEach(el => el.classList.remove('active'));
+            document.querySelector('.class-chip[data-value=""]').classList.add('active'); // Re-ativa o ALL
+
+            // Reset Traction
+            selectedTraction = "";
+            tractionBtns.forEach(el => el.classList.remove('active'));
+            document.querySelector('.traction-btn[data-value=""]').classList.add('active');
+
             applyFiltersAndRender();
         }
 
@@ -372,34 +640,53 @@
                         createHeader(auth, userData, headerPlaceholder, 'galeria');
                         ownedCardIds = new Set(userData.cartas || []);
 
-                        const manufacturer = new URLSearchParams(window.location.search).get('manufacturer');
+                        const params = new URLSearchParams(window.location.search);
+                        const manufacturer = params.get('manufacturer');
                         let isAllCarsMode = false;
 
-                        if (manufacturer && manufacturers[manufacturer]) {
+                        if (manufacturer && manufacturers && manufacturers[manufacturer]) {
                             pageTitle.textContent = manufacturer.toUpperCase();
-                            pageDescription.textContent = `Explore e filtre todos os carros da ${manufacturer}.`;
+                            pageDescription.textContent = `Explore a engenharia e o design da ${manufacturer}.`;
                             carsToDisplay = Object.entries(manufacturers[manufacturer]).map(([id, data]) => ({id, ...data}));
                         } else {
                             isAllCarsMode = true;
-                            pageTitle.textContent = "COLEÇÃO COMPLETA";
-                            pageDescription.textContent = `Filtre e explore todos os carros do jogo.`;
-                            carsToDisplay = Object.entries(cards).map(([id, data]) => ({id, ...data}));
+                            pageTitle.textContent = "GARAGEM GLOBAL";
+                            pageDescription.textContent = `Explore a coleção completa de todas as máquinas do mundo.`;
+                            
+                            if (cards && Object.keys(cards).length > 0) {
+                                carsToDisplay = Object.entries(cards).map(([id, data]) => ({id, ...data}));
+                            } else {
+                                carsToDisplay = [];
+                            }
                         }
                         
                         populateFilters(isAllCarsMode);
                         applyFiltersAndRender();
                         
-                        [manufacturerFilter, tractionFilter, heightFilter, tiresFilter].forEach(el => el.addEventListener('change', applyFiltersAndRender));
-                        [nameFilter, yearMinFilter, yearMaxFilter].forEach(el => el.addEventListener('input', debouncedFilter));
-                        classesContainer.addEventListener('change', applyFiltersAndRender);
-                        resetBtn.addEventListener('click', resetAllFilters);
+                        // Event Listeners
+                        [manufacturerFilter, countryFilter, heightFilter, tiresFilter].forEach(el => {
+                            if(el) el.addEventListener('change', applyFiltersAndRender)
+                        });
+                        
+                        [nameFilter, yearMinFilter, yearMaxFilter].forEach(el => {
+                            if(el) el.addEventListener('input', debouncedFilter)
+                        });
+                        
+                        tractionBtns.forEach(btn => btn.addEventListener('click', handleTractionClick)); // Listeners para tração
+
+                        if(resetBtn) resetBtn.addEventListener('click', resetAllFilters);
                         
                         appContainer.classList.remove('hidden');
                         loader.classList.add('hidden');
-                    } else { await signOut(auth); }
+                    } else { 
+                        createHeader(auth, {}, headerPlaceholder, 'galeria'); 
+                        appContainer.classList.remove('hidden');
+                        loader.classList.add('hidden');
+                    }
                 } catch (error) {
-                    console.error("Erro ao buscar dados:", error);
-                    await signOut(auth);
+                    console.error("Erro crítico:", error);
+                    loader.classList.add('hidden');
+                    appContainer.classList.remove('hidden');
                 }
             } else { window.location.href = 'index.html'; }
         });

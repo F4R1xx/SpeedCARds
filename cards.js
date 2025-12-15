@@ -3434,7 +3434,7 @@ const manufacturers = {
             aceleracao: 5.6,
             direcao: 89,
             altura: 'Baixo',
-            pneus: 'Desempeho',
+            pneus: 'Desempenho',
             tracao: 'Dianteira'
         },
         Arteon_R: {
