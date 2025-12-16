@@ -267,95 +267,120 @@
                 </div>
                 <p id="page-description" class="text-gray-400 text-center lg:text-left mb-8"></p>
                 
-                <!-- PAINEL DE FILTROS TOTALMENTE REDESENHADO -->
-                <div class="glass-panel p-6 mb-8 relative overflow-hidden">
+                <!-- PAINEL DE FILTROS TOTALMENTE REDESENHADO (COLLAPSIBLE) -->
+                <div class="glass-panel mb-8 relative overflow-hidden transition-all duration-300">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
 
-                    <!-- 1. Barra de Busca Hero -->
-                    <div class="search-container">
-                        <input type="text" id="filter-name" placeholder="Buscar máquina por nome..." class="search-input font-orbitron">
-                        <span class="search-icon">🔍</span>
-                    </div>
-
-                    <!-- 2. Filtro de Classe Visual (Chips) -->
-                    <div class="mb-6">
-                        <label class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2 block">Filtrar por Classe</label>
-                        <div id="class-chips-container" class="class-filter-container">
-                            <!-- Injetado via JS -->
+                    <!-- Header do Acordeão (Sempre visível) -->
+                    <div id="filter-header" class="p-4 sm:p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition-colors group select-none">
+                        <div class="flex items-center gap-3">
+                             <div class="p-2 bg-red-500/20 rounded-lg text-red-500 group-hover:text-red-400 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                                </svg>
+                             </div>
+                             <div>
+                                <h2 class="font-orbitron text-lg sm:text-xl font-bold text-white group-hover:text-red-400 transition-colors">FILTROS & PESQUISA</h2>
+                                <p class="text-xs text-gray-400 font-sans group-hover:text-gray-300">Clique para expandir a busca avançada</p>
+                             </div>
+                        </div>
+                        <div id="filter-arrow" class="transform transition-transform duration-300 text-gray-400 group-hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
                         </div>
                     </div>
 
-                    <!-- 3. Grid de Filtros Técnicos -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        
-                        <!-- Tração (Segmented Control) -->
-                        <div class="filter-card">
-                            <span class="filter-label-mini">Tração</span>
-                            <div class="traction-control" id="traction-control">
-                                <div class="traction-btn active" data-value="">Todas</div>
-                                <div class="traction-btn" data-value="Traseira">Traseira</div>
-                                <div class="traction-btn" data-value="Dianteira">Dianteira</div>
-                                <div class="traction-btn" data-value="4x4">4x4</div>
+                    <!-- Conteúdo Expansível (Escondido por padrão) -->
+                    <div id="filter-body" class="hidden border-t border-white/5">
+                        <div class="p-6">
+                            <!-- 1. Barra de Busca Hero -->
+                            <div class="search-container">
+                                <input type="text" id="filter-name" placeholder="Buscar máquina por nome..." class="search-input font-orbitron">
+                                <span class="search-icon">🔍</span>
                             </div>
-                        </div>
 
-                        <!-- Ano (Inputs Minimalistas) -->
-                        <div class="filter-card">
-                            <span class="filter-label-mini">Ano</span>
-                            <div class="year-inputs">
-                                <input type="number" id="filter-year-min" placeholder="1960" class="year-input font-orbitron">
-                                <span class="text-gray-500">-</span>
-                                <input type="number" id="filter-year-max" placeholder="2025" class="year-input font-orbitron">
+                            <!-- 2. Filtro de Classe Visual (Chips) -->
+                            <div class="mb-6">
+                                <label class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2 block">Filtrar por Classe</label>
+                                <div id="class-chips-container" class="class-filter-container">
+                                    <!-- Injetado via JS -->
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- País (Dropdown Clean) -->
-                        <div class="filter-card">
-                            <span class="filter-label-mini">Origem</span>
-                            <div class="select-wrapper">
-                                <select id="filter-country" class="custom-select">
-                                    <option value="">Todos os Países</option>
-                                    <!-- Options via JS -->
-                                </select>
-                            </div>
-                        </div>
+                            <!-- 3. Grid de Filtros Técnicos -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                
+                                <!-- Tração (Segmented Control) -->
+                                <div class="filter-card">
+                                    <span class="filter-label-mini">Tração</span>
+                                    <div class="traction-control" id="traction-control">
+                                        <div class="traction-btn active" data-value="">Todas</div>
+                                        <div class="traction-btn" data-value="Traseira">Traseira</div>
+                                        <div class="traction-btn" data-value="Dianteira">Dianteira</div>
+                                        <div class="traction-btn" data-value="4x4">4x4</div>
+                                    </div>
+                                </div>
 
-                        <!-- Marca (Dropdown Condicional Clean) -->
-                        <div class="filter-card" id="manufacturer-filter-container">
-                            <span class="filter-label-mini">Fabricante</span>
-                            <div class="select-wrapper">
-                                <select id="filter-manufacturer" class="custom-select">
-                                    <option value="">Todas</option>
-                                    <!-- Options via JS -->
-                                </select>
-                            </div>
-                        </div>
-                        
-                         <!-- Filtros Extras (Ocultos por padrão ou em linha menor se desejar, aqui vou colocar mais 2 dropdowns) -->
-                        <div class="filter-card">
-                            <span class="filter-label-mini">Pneus</span>
-                            <div class="select-wrapper">
-                                <select id="filter-tires" class="custom-select">
-                                    <option value="">Qualquer</option>
-                                </select>
-                            </div>
-                        </div>
+                                <!-- Ano (Inputs Minimalistas) -->
+                                <div class="filter-card">
+                                    <span class="filter-label-mini">Ano</span>
+                                    <div class="year-inputs">
+                                        <input type="number" id="filter-year-min" placeholder="1960" class="year-input font-orbitron">
+                                        <span class="text-gray-500">-</span>
+                                        <input type="number" id="filter-year-max" placeholder="2025" class="year-input font-orbitron">
+                                    </div>
+                                </div>
 
-                         <div class="filter-card">
-                            <span class="filter-label-mini">Altura</span>
-                            <div class="select-wrapper">
-                                <select id="filter-height" class="custom-select">
-                                    <option value="">Qualquer</option>
-                                </select>
+                                <!-- País (Dropdown Clean) -->
+                                <div class="filter-card">
+                                    <span class="filter-label-mini">Origem</span>
+                                    <div class="select-wrapper">
+                                        <select id="filter-country" class="custom-select">
+                                            <option value="">Todos os Países</option>
+                                            <!-- Options via JS -->
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Marca (Dropdown Condicional Clean) -->
+                                <div class="filter-card" id="manufacturer-filter-container">
+                                    <span class="filter-label-mini">Fabricante</span>
+                                    <div class="select-wrapper">
+                                        <select id="filter-manufacturer" class="custom-select">
+                                            <option value="">Todas</option>
+                                            <!-- Options via JS -->
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Filtros Extras -->
+                                <div class="filter-card">
+                                    <span class="filter-label-mini">Pneus</span>
+                                    <div class="select-wrapper">
+                                        <select id="filter-tires" class="custom-select">
+                                            <option value="">Qualquer</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                 <div class="filter-card">
+                                    <span class="filter-label-mini">Altura</span>
+                                    <div class="select-wrapper">
+                                        <select id="filter-height" class="custom-select">
+                                            <option value="">Qualquer</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                 <!-- Botão Reset -->
+                                 <div class="lg:col-span-2 flex items-stretch">
+                                    <button id="reset-filters" class="w-full bg-gray-800 hover:bg-red-900/50 text-gray-300 hover:text-white border border-gray-700 rounded-xl transition-all duration-300 font-orbitron text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                                        <span>↺</span> Resetar Filtros
+                                    </button>
+                                 </div>
                             </div>
                         </div>
-
-                         <!-- Botão Reset -->
-                         <div class="lg:col-span-2 flex items-stretch">
-                            <button id="reset-filters" class="w-full bg-gray-800 hover:bg-red-900/50 text-gray-300 hover:text-white border border-gray-700 rounded-xl transition-all duration-300 font-orbitron text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-                                <span>↺</span> Resetar Filtros
-                            </button>
-                         </div>
                     </div>
                 </div>
 
@@ -373,9 +398,9 @@
     </div>
 
     <!-- Modal para visualização do card -->
-    <div id="card-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center z-50 p-4 cursor-pointer">
-        <div id="modal-content" class="relative w-11/12 max-w-xs sm:max-w-sm cursor-default"></div>
-        <button id="modal-close" class="absolute top-2 right-2 sm:top-4 sm:right-6 text-white text-6xl font-bold leading-none hover:text-red-500 transition-colors">&times;</button>
+    <div id="card-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 backdrop-blur-md flex items-center justify-center z-50 p-4 cursor-pointer">
+        <div id="modal-content" class="relative w-full max-w-md md:max-w-xl lg:max-w-2xl transition-all duration-300 cursor-default shadow-2xl"></div>
+        <button id="modal-close" class="absolute top-4 right-4 text-white text-5xl font-bold leading-none hover:text-red-500 transition-colors z-50">&times;</button>
     </div>
 
 
@@ -397,6 +422,22 @@
         const carsContainer = document.getElementById('cars-container');
         const noResultsContainer = document.getElementById('no-results');
         const resultsCountEl = document.getElementById('results-count');
+
+        // Toggle Logic
+        const filterHeader = document.getElementById('filter-header');
+        const filterBody = document.getElementById('filter-body');
+        const filterArrow = document.getElementById('filter-arrow');
+
+        if(filterHeader && filterBody && filterArrow) {
+            filterHeader.addEventListener('click', () => {
+                filterBody.classList.toggle('hidden');
+                if (filterBody.classList.contains('hidden')) {
+                    filterArrow.style.transform = 'rotate(0deg)';
+                } else {
+                    filterArrow.style.transform = 'rotate(180deg)';
+                }
+            });
+        }
 
         // Filter Elements
         const nameFilter = document.getElementById('filter-name');
