@@ -13,6 +13,7 @@
         /* Variáveis CSS para um tema coeso (mesmas da home.html) */
         :root {
             --primary-red: #E01A4F; /* Um vermelho mais profundo e vibrante */
+            --primary-red-dark: #c01040;
             --dark-bg: #0A0A0A;
             --medium-dark-bg: #1A1A1A;
             --light-text: #F0F0F0;
@@ -22,6 +23,7 @@
             --border-color: rgba(255, 255, 255, 0.1);
             --glow-effect: 0 0 15px rgba(224, 26, 79, 0.7); /* Brilho vermelho */
             --text-shadow-strong: 0 0 8px rgba(0,0,0,0.8);
+            --font-display: 'Orbitron', sans-serif;
         }
 
         body {
@@ -74,23 +76,183 @@
             padding: 1.5rem 2rem;
         }
 
-        .info-box {
-            background: var(--accent-gray);
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 0.75rem 1.5rem;
-            text-shadow: var(--text-shadow-strong);
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+        /* --- NOVOS ESTILOS DE FILTRO (IGUAIS À GALERIA) --- */
+        
+        /* 1. Barra de Busca Principal */
+        .search-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .search-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1rem 1rem 1rem 3.5rem;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 20px rgba(224, 26, 79, 0.2);
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2rem;
+            pointer-events: none;
+            transition: color 0.3s;
+        }
+        .search-input:focus + .search-icon { color: var(--primary-red); }
+
+        /* 2. Régua de Classes (Chips Hexagonais) */
+        .class-filter-container {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            scrollbar-width: none; /* Firefox */
+        }
+        .class-filter-container::-webkit-scrollbar { display: none; } /* Chrome */
+
+        .class-chip {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%); /* Efeito Tech */
         }
-        .info-box:hover {
-            background: #444444;
-            border-color: var(--primary-red);
-            box-shadow: 0 3px 12px rgba(224, 26, 79, 0.6);
+        
+        .class-chip:hover {
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
         }
+
+        .class-chip.active {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 15px rgba(224, 26, 79, 0.5);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* 3. Segmented Control para Tração */
+        .traction-control {
+            display: flex;
+            background: rgba(0,0,0,0.3);
+            border-radius: 0.75rem;
+            padding: 0.25rem;
+            border: 1px solid var(--border-color);
+        }
+        .traction-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            color: #888;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .traction-btn:hover { color: white; }
+        .traction-btn.active {
+            background: var(--border-color);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* 4. Mini Cards para Filtros Secundários */
+        .filter-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1rem;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .filter-label-mini {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 700;
+        }
+
+        /* Selects Customizados */
+        .custom-select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            appearance: none;
+            padding-right: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.25rem;
+            transition: border-color 0.3s;
+        }
+        .custom-select:focus { outline: none; border-color: var(--primary-red); }
+        .custom-select option { background-color: #1a1a1a; }
+        
+        .year-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .year-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            text-align: center;
+            padding: 0.25rem;
+        }
+        .year-input:focus { outline: none; border-bottom-color: var(--primary-red); }
+
+
+        .filter-button, .back-button {
+            background: var(--primary-red);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+        .filter-button:hover, .back-button:hover { 
+            background-color: var(--primary-red-dark); 
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(224, 26, 79, 0.4);
+        }
+
 
         /* Loader aprimorado */
         .loader {
@@ -282,7 +444,6 @@
         }
 
         /* --- Estilos de raridade otimizados --- */
-        /* Removidas animações pulsantes. Foco em bordas e sombras estáticas no hover. */
         .rank-x.card-base { border-color: #333; background-color: #050505; }
         .rank-x.card-base:hover { box-shadow: 0 0 30px 6px rgba(120, 0, 255, 1), 0 0 18px 4px rgba(0, 255, 255, 1) inset; }
         .rank-x.card-base::after {
@@ -361,42 +522,6 @@
              border-color: var(--primary-red);
              box-shadow: 0 0 25px var(--primary-red);
         }
-
-        /* --- NOVOS ESTILOS DE FILTRO --- */
-        .filter-input, .filter-select {
-            background-color: rgba(10, 10, 10, 0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            color: var(--text-light);
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .filter-input:focus, .filter-select:focus {
-            outline: none;
-            border-color: var(--primary-red);
-            box-shadow: 0 0 10px rgba(224, 26, 79, 0.5);
-        }
-        .filter-label { 
-            font-weight: 500; 
-            color: #a0aec0; 
-            margin-bottom: 0.25rem; 
-            display: block; 
-            font-size: 0.875rem;
-        }
-        .filter-button {
-            background: var(--primary-red);
-            border: none;
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            transition: background-color 0.3s;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-        }
-        .filter-button:hover { background-color: #c01040; }
-
 
         .deck-card-container {
             perspective: 1000px;
@@ -583,45 +708,122 @@
                 </div>
             </section>
 
-            <section class="mb-8 glass-panel p-6">
-                <h3 class="font-orbitron text-2xl font-bold text-white mb-6" style="text-shadow: var(--text-shadow-strong);">FILTRAR CARTAS</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-9 gap-4 items-end">
-                    <div class="xl:col-span-2">
-                        <label for="search-nome" class="filter-label">Nome</label>
-                        <input type="text" id="search-nome" placeholder="Pesquisar..." class="filter-input w-full">
+            <!-- PAINEL DE FILTROS TOTALMENTE REDESENHADO (COLLAPSIBLE) -->
+            <div class="glass-panel mb-8 relative overflow-hidden transition-all duration-300">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
+
+                <!-- Header do Acordeão (Sempre visível) -->
+                <div id="filter-header" class="p-4 sm:p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition-colors group select-none">
+                    <div class="flex items-center gap-3">
+                         <div class="p-2 bg-red-500/20 rounded-lg text-red-500 group-hover:text-red-400 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                            </svg>
+                         </div>
+                         <div>
+                            <h2 class="font-orbitron text-lg sm:text-xl font-bold text-white group-hover:text-red-400 transition-colors">FILTROS & PESQUISA</h2>
+                            <p class="text-xs text-gray-400 font-sans group-hover:text-gray-300">Clique para expandir a busca avançada</p>
+                         </div>
                     </div>
-                    <div>
-                        <label for="filter-montadora" class="filter-label">Marca</label>
-                        <select id="filter-montadora" class="filter-select w-full"></select>
-                    </div>
-                    <div>
-                        <label class="filter-label">Ano</label>
-                        <div class="flex gap-2">
-                            <input type="number" id="filter-year-min" placeholder="Desde" class="filter-input w-full">
-                            <input type="number" id="filter-year-max" placeholder="Até" class="filter-input w-full">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="filter-tracao" class="filter-label">Tração</label>
-                        <select id="filter-tracao" class="filter-select w-full"></select>
-                    </div>
-                    <div>
-                        <label for="filter-altura" class="filter-label">Altura</label>
-                        <select id="filter-altura" class="filter-select w-full"></select>
-                    </div>
-                    <div>
-                        <label for="filter-pneus" class="filter-label">Pneus</label>
-                        <select id="filter-pneus" class="filter-select w-full"></select>
-                    </div>
-                    <div class="md:col-span-1 xl:col-span-1">
-                         <label class="filter-label">Classe</label>
-                         <div id="filter-classes" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 text-sm"></div>
-                    </div>
-                    <div class="w-full">
-                       <button id="clear-filters-button" class="filter-button w-full">Limpar</button>
+                    <div id="filter-arrow" class="transform transition-transform duration-300 text-gray-400 group-hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </div>
                 </div>
-            </section>
+
+                <!-- Conteúdo Expansível (Escondido por padrão) -->
+                <div id="filter-body" class="hidden border-t border-white/5">
+                    <div class="p-6">
+                        <!-- 1. Barra de Busca Hero -->
+                        <div class="search-container">
+                            <input type="text" id="filter-name" placeholder="Buscar máquina por nome..." class="search-input font-orbitron">
+                            <span class="search-icon">🔍</span>
+                        </div>
+
+                        <!-- 2. Filtro de Classe Visual (Chips) -->
+                        <div class="mb-6">
+                            <label class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2 block">Filtrar por Classe</label>
+                            <div id="class-chips-container" class="class-filter-container">
+                                <!-- Injetado via JS -->
+                            </div>
+                        </div>
+
+                        <!-- 3. Grid de Filtros Técnicos -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            
+                            <!-- Tração (Segmented Control) -->
+                            <div class="filter-card">
+                                <span class="filter-label-mini">Tração</span>
+                                <div class="traction-control" id="traction-control">
+                                    <div class="traction-btn active" data-value="">Todas</div>
+                                    <div class="traction-btn" data-value="Traseira">Traseira</div>
+                                    <div class="traction-btn" data-value="Dianteira">Dianteira</div>
+                                    <div class="traction-btn" data-value="4x4">4x4</div>
+                                </div>
+                            </div>
+
+                            <!-- Ano (Inputs Minimalistas) -->
+                            <div class="filter-card">
+                                <span class="filter-label-mini">Ano</span>
+                                <div class="year-inputs">
+                                    <input type="number" id="filter-year-min" placeholder="1960" class="year-input font-orbitron">
+                                    <span class="text-gray-500">-</span>
+                                    <input type="number" id="filter-year-max" placeholder="2025" class="year-input font-orbitron">
+                                </div>
+                            </div>
+
+                            <!-- País (Dropdown Clean) -->
+                            <div class="filter-card">
+                                <span class="filter-label-mini">Origem</span>
+                                <div class="select-wrapper">
+                                    <select id="filter-country" class="custom-select">
+                                        <option value="">Todos os Países</option>
+                                        <!-- Options via JS -->
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Marca (Dropdown Condicional Clean) -->
+                            <div class="filter-card" id="manufacturer-filter-container">
+                                <span class="filter-label-mini">Fabricante</span>
+                                <div class="select-wrapper">
+                                    <select id="filter-manufacturer" class="custom-select">
+                                        <option value="">Todas</option>
+                                        <!-- Options via JS -->
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Filtros Extras -->
+                            <div class="filter-card">
+                                <span class="filter-label-mini">Pneus</span>
+                                <div class="select-wrapper">
+                                    <select id="filter-tires" class="custom-select">
+                                        <option value="">Qualquer</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                             <div class="filter-card">
+                                <span class="filter-label-mini">Altura</span>
+                                <div class="select-wrapper">
+                                    <select id="filter-height" class="custom-select">
+                                        <option value="">Qualquer</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                             <!-- Botão Reset -->
+                             <div class="lg:col-span-2 flex items-stretch">
+                                <button id="reset-filters" class="w-full bg-gray-800 hover:bg-red-900/50 text-gray-300 hover:text-white border border-gray-700 rounded-xl transition-all duration-300 font-orbitron text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                                    <span>↺</span> Resetar Filtros
+                                </button>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <section id="collection-drop-zone" class="min-h-[300px] p-6 border-2 border-dashed border-gray-700 rounded-xl flex flex-col items-center justify-center bg-black/40 shadow-inner">
                 <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-8" style="text-shadow: var(--glow-effect);">AS MINHAS CARTAS</h2>
@@ -650,15 +852,18 @@
         const deckContainer = document.getElementById('deck-container');
         const collectionContainer = document.getElementById('collection-container');
         const collectionDropZone = document.getElementById('collection-drop-zone');
-        const searchInput = document.getElementById('search-nome');
-        const montadoraFilter = document.getElementById('filter-montadora');
+        
+        // Filtros (atualizados para os IDs da galeria)
+        const searchInput = document.getElementById('filter-name');
+        const montadoraFilter = document.getElementById('filter-manufacturer');
+        const countryFilter = document.getElementById('filter-country'); // Novo
         const yearMinFilter = document.getElementById('filter-year-min');
         const yearMaxFilter = document.getElementById('filter-year-max');
-        const classesContainer = document.getElementById('filter-classes');
-        const tracaoFilter = document.getElementById('filter-tracao');
-        const alturaFilter = document.getElementById('filter-altura');
-        const pneusFilter = document.getElementById('filter-pneus');
-        const clearFiltersButton = document.getElementById('clear-filters-button');
+        const classesContainer = document.getElementById('class-chips-container'); // Agora é chips
+        const tractionBtns = document.querySelectorAll('.traction-btn'); // Botões de tração
+        const alturaFilter = document.getElementById('filter-height');
+        const pneusFilter = document.getElementById('filter-tires');
+        const clearFiltersButton = document.getElementById('reset-filters');
         const mainHeader = document.getElementById('main-header'); // Referência para o novo header
 
         // Variáveis de estado da aplicação
@@ -672,6 +877,26 @@
         let latestMouseX = 0;
         let latestMouseY = 0;
         let animationFrameId = null;
+        
+        // Estado dos filtros novos
+        let selectedClass = "";
+        let selectedTraction = "";
+
+        // Toggle Logic do Acordeão
+        const filterHeader = document.getElementById('filter-header');
+        const filterBody = document.getElementById('filter-body');
+        const filterArrow = document.getElementById('filter-arrow');
+
+        if(filterHeader && filterBody && filterArrow) {
+            filterHeader.addEventListener('click', () => {
+                filterBody.classList.toggle('hidden');
+                if (filterBody.classList.contains('hidden')) {
+                    filterArrow.style.transform = 'rotate(0deg)';
+                } else {
+                    filterArrow.style.transform = 'rotate(180deg)';
+                }
+            });
+        }
 
         /**
          * Mostra um alerta customizado na tela.
@@ -693,6 +918,7 @@
          * @returns {string} A cor hexadecimal.
          */
         function getRankColor(rank) {
+            if (!rank) return '#7F8C8D';
             const colors = {
                 'X': '#000000', 'R': '#00FFFF', 'S+': '#FFD700', 'S': '#FFD700', 'A': '#E01A4F',
                 'B': '#8e44ad', 'C': '#3498db', 'D': '#2ecc71', 'E': '#95a5a6'
@@ -871,12 +1097,11 @@
         function applyFilters() {
             const searchTerm = searchInput.value.toLowerCase();
             const selectedMontadora = montadoraFilter.value;
+            const selectedCountry = countryFilter.value;
             const yearMin = parseInt(yearMinFilter.value) || 0;
             const yearMax = parseInt(yearMaxFilter.value) || 9999;
-            const selectedTracao = tracaoFilter.value;
             const selectedAltura = alturaFilter.value;
             const selectedPneus = pneusFilter.value;
-            const selectedClasses = [...classesContainer.querySelectorAll('input:checked')].map(el => el.value);
             const rarityOrder = ['X','R','S+', 'S', 'A', 'B', 'C', 'D', 'E'];
 
             const sortedOwnedCardIds = [...ownedCardIds].sort((a, b) => {
@@ -893,15 +1118,33 @@
             const filtered = sortedOwnedCardIds.filter(cardId => {
                 const card = localCardsDatabase[cardId];
                 if (!card) return false;
-                return card.nome.toLowerCase().includes(searchTerm) &&
+                return (card.nome.toLowerCase().includes(searchTerm) || card.montadora.toLowerCase().includes(searchTerm)) &&
                        (!selectedMontadora || card.montadora === selectedMontadora) &&
+                       (!selectedCountry || card.pais === selectedCountry) &&
                        (card.ano >= yearMin && card.ano <= yearMax) &&
-                       (!selectedTracao || card.tracao === selectedTracao) &&
+                       (!selectedTraction || card.tracao === selectedTraction) &&
                        (!selectedAltura || card.altura === selectedAltura) &&
                        (!selectedPneus || card.pneus === selectedPneus) &&
-                       (selectedClasses.length > 0 ? selectedClasses.includes(card.classe) : true);
+                       (!selectedClass || card.classe === selectedClass);
             });
             renderCollection(filtered);
+        }
+
+        function handleClassClick(value, element) {
+            selectedClass = value;
+            // Visual Update
+            document.querySelectorAll('.class-chip').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            applyFilters();
+        }
+
+        function handleTractionClick(e) {
+            const btn = e.target;
+            selectedTraction = btn.dataset.value;
+            // Visual Update
+            tractionBtns.forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
         }
 
         /**
@@ -917,17 +1160,27 @@
             };
 
             populateSelect(montadoraFilter, [...new Set(ownedCardsData.map(c => c.montadora))].sort(), 'Todas');
-            populateSelect(tracaoFilter, [...new Set(ownedCardsData.map(c => c.tracao))].sort(), 'Todas');
-            populateSelect(alturaFilter, [...new Set(ownedCardsData.map(c => c.altura))].sort(), 'Todas');
-            populateSelect(pneusFilter, [...new Set(ownedCardsData.map(c => c.pneus))].sort(), 'Todos');
+            populateSelect(countryFilter, [...new Set(ownedCardsData.map(c => c.pais))].sort(), 'Todos');
+            populateSelect(alturaFilter, [...new Set(ownedCardsData.map(c => c.altura))].sort(), 'Qualquer');
+            populateSelect(pneusFilter, [...new Set(ownedCardsData.map(c => c.pneus))].sort(), 'Qualquer');
 
+            // Popula Chips
             classesContainer.innerHTML = '';
+            const allChip = document.createElement('div');
+            allChip.className = 'class-chip active';
+            allChip.textContent = 'ALL';
+            allChip.dataset.value = '';
+            allChip.onclick = () => handleClassClick('', allChip);
+            classesContainer.appendChild(allChip);
+
             classes.forEach(c => {
-                classesContainer.innerHTML += `
-                    <div class="flex items-center">
-                        <input type="checkbox" id="class-${c}" value="${c}" class="filter-checkbox accent-red-500 w-4 h-4" checked>
-                        <label for="class-${c}" class="ml-2">${c}</label>
-                    </div>`;
+                const chip = document.createElement('div');
+                chip.className = 'class-chip';
+                chip.textContent = c;
+                chip.dataset.value = c;
+                chip.style.borderColor = getRankColor(c);
+                chip.onclick = () => handleClassClick(c, chip);
+                classesContainer.appendChild(chip);
             });
         }
 
@@ -1080,21 +1333,31 @@
         // Listeners dos filtros e da zona de drop
         searchInput.addEventListener('input', debouncedFilter);
         montadoraFilter.addEventListener('change', applyFilters);
-        tracaoFilter.addEventListener('change', applyFilters);
+        countryFilter.addEventListener('change', applyFilters);
         alturaFilter.addEventListener('change', applyFilters);
         pneusFilter.addEventListener('change', applyFilters);
         [yearMinFilter, yearMaxFilter].forEach(el => el.addEventListener('input', debouncedFilter));
-        classesContainer.addEventListener('change', applyFilters);
+        tractionBtns.forEach(btn => btn.addEventListener('click', handleTractionClick));
 
         clearFiltersButton.addEventListener('click', () => {
             searchInput.value = '';
             montadoraFilter.value = '';
-            tracaoFilter.value = '';
+            countryFilter.value = '';
             alturaFilter.value = '';
             pneusFilter.value = '';
             yearMinFilter.value = '';
             yearMaxFilter.value = '';
-            classesContainer.querySelectorAll('input').forEach(el => el.checked = true);
+            
+            // Reset Class
+            selectedClass = "";
+            document.querySelectorAll('.class-chip').forEach(el => el.classList.remove('active'));
+            document.querySelector('.class-chip[data-value=""]').classList.add('active'); // Re-ativa o ALL
+
+            // Reset Traction
+            selectedTraction = "";
+            tractionBtns.forEach(el => el.classList.remove('active'));
+            document.querySelector('.traction-btn[data-value=""]').classList.add('active');
+            
             applyFilters();
         });
         collectionDropZone.addEventListener('dragover', handleDragOver);
