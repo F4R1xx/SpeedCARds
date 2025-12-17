@@ -3,12 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SpeedCards - Login</title>
-    
-    <!-- PWA: Link para o Manifesto -->
-    <link rel="manifest" href="manifest.json">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Trunfo - Login</title>
     <link rel="icon" href="./assets/icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,8 +17,6 @@
             font-family: 'Roboto', sans-serif;
             background-color: #1a1a1a;
             background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23333333" fill-opacity="0.4" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
-            /* Previne scroll elástico no mobile */
-            overscroll-behavior: none;
         }
         
         .logo{
@@ -99,89 +93,10 @@
                 transform: rotate(360deg);
             }
         }
-
-        /* --- PWA & ROTAÇÃO --- */
-        #rotate-warning {
-            display: none; /* Escondido por padrão */
-        }
-        
-        /* Modal de Instalação com Z-Index altíssimo para aparecer sobre o aviso de rotação */
-        #install-modal {
-            z-index: 10000 !important; 
-        }
-
-        /* Detecta orientação Retrato (Portrait/Em pé) */
-        @media screen and (orientation: portrait) {
-            /* Mostra o aviso cobrindo tudo */
-            #rotate-warning {
-                display: flex !important;
-                position: fixed;
-                inset: 0; /* Top, right, bottom, left = 0 */
-                z-index: 9999;
-                background-color: #1a1a1a;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                padding: 2rem;
-            }
-
-            /* Esconde o conteúdo principal do app, MAS NÃO O MODAL DE INSTALAÇÃO */
-            #auth-container, #loader, .logo, #btn-instalar-manual, #ios-modal, #insecure-warning {
-                display: none !important;
-            }
-        }
     </style>
 </head>
 
 <body class="flex items-center justify-center min-h-screen p-4">
-
-    <!-- AVISO DE CONEXÃO INSEGURA (DEBUG) -->
-    <div id="insecure-warning" class="hidden fixed top-0 left-0 w-full bg-yellow-500 text-black text-center p-2 text-xs font-bold z-40 shadow-md">
-        ⚠️ Conexão insegura (HTTP). PWA não funciona.<br>
-    </div>
-
-    <!-- AVISO DE ROTAÇÃO (PWA) -->
-    <div id="rotate-warning">
-        <div class="text-6xl mb-4">⚠️</div>
-        <h2 class="font-orbitron text-2xl font-bold text-red-500 mb-4">Gire seu Dispositivo</h2>
-        <p class="text-gray-400 font-roboto text-center">Para pilotar, mantenha o dispositivo na horizontal.</p>
-    </div>
-
-    <!-- POPUP DE INSTALAÇÃO AUTOMÁTICA (Novo) -->
-    <div id="install-modal" class="fixed inset-0 bg-black bg-opacity-95 hidden flex items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-xl p-6 max-w-sm w-full border-2 border-red-500 shadow-2xl relative text-center">
-            <div class="mb-4 text-5xl">📲</div>
-            <h3 class="font-orbitron text-xl text-white mb-2">Instalar Aplicativo</h3>
-            <p class="text-gray-300 mb-6">Deseja instalar o <strong>SpeedCards</strong> na sua área de trabalho para acesso rápido?</p>
-            
-            <div class="flex gap-4 justify-center">
-                <button id="btn-install-no" class="px-4 py-2 rounded border border-gray-600 text-gray-400 hover:text-white transition">Agora não</button>
-                <button id="btn-install-yes" class="px-6 py-2 rounded bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition transform hover:scale-105">SIM</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- BOTÃO DE INSTALAR MANUAL (Caso feche o popup) -->
-    <button id="btn-instalar-manual" style="display: none;" 
-        class="fixed top-4 right-4 z-50 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full shadow-lg flex items-center gap-2 transition-all border border-red-400">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
-        <span>Instalar</span>
-    </button>
-
-    <!-- MODAL INSTRUÇÕES IOS -->
-    <div id="ios-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-xl p-6 max-w-sm w-full border border-gray-600 shadow-2xl relative">
-            <button id="close-ios-modal" class="absolute top-2 right-2 text-gray-400 hover:text-white">✕</button>
-            <h3 class="font-orbitron text-xl text-red-500 mb-4 text-center">Instalar no iPhone</h3>
-            <ol class="text-gray-300 space-y-4 list-decimal pl-4">
-                <li>Toque no botão <strong>Compartilhar</strong> <span class="inline-block bg-gray-700 p-1 rounded">⎋</span> na barra inferior do Safari.</li>
-                <li>Selecione <strong>Adicionar à Tela de Início</strong> <span class="inline-block bg-gray-700 p-1 rounded">⊞</span>.</li>
-            </ol>
-        </div>
-    </div>
 
     <div id="loader" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-24 w-24"></div>
@@ -286,97 +201,6 @@
     <div id="message-area"
         class="fixed bottom-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg hidden animate-pulse">
     </div>
-
-    <!-- LÓGICA DE INSTALAÇÃO PWA E DETECÇÃO MOBILE -->
-    <script>
-        let deferredPrompt;
-        
-        // Elementos do Modal de Instalação (Popup)
-        const installModal = document.getElementById('install-modal');
-        const btnInstallYes = document.getElementById('btn-install-yes');
-        const btnInstallNo = document.getElementById('btn-install-no');
-        
-        // Elementos do Botão Manual (Fallback)
-        const installBtnManual = document.getElementById('btn-instalar-manual');
-        
-        // Elementos iOS
-        const iosModal = document.getElementById('ios-modal');
-        const closeIosModalBtn = document.getElementById('close-ios-modal');
-        const insecureWarning = document.getElementById('insecure-warning');
-
-        // Detecta sistema
-        const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
-        const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-        if (!isInStandaloneMode) {
-            
-            // --- LÓGICA ANDROID / DESKTOP ---
-            window.addEventListener('beforeinstallprompt', (e) => {
-                // Impede o navegador de mostrar o prompt padrão feio
-                e.preventDefault();
-                deferredPrompt = e;
-                
-                // MOSTRA O POPUP AUTOMATICAMENTE!
-                installModal.classList.remove('hidden');
-            });
-
-            // Clique no SIM
-            btnInstallYes.addEventListener('click', async () => {
-                installModal.classList.add('hidden'); // Esconde popup
-                if (deferredPrompt) {
-                    deferredPrompt.prompt(); // Mostra prompt nativo
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`User response: ${outcome}`);
-                    deferredPrompt = null;
-                }
-            });
-
-            // Clique no NÃO
-            btnInstallNo.addEventListener('click', () => {
-                installModal.classList.add('hidden');
-                // Mostra o botãozinho discreto caso mude de ideia
-                if (!isIos) installBtnManual.style.display = 'flex';
-            });
-            
-            // Clique no Botão Manual (caso tenha fechado o popup antes)
-            installBtnManual.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    deferredPrompt = null;
-                    installBtnManual.style.display = 'none';
-                }
-            });
-
-            // --- LÓGICA IOS (iPhone) ---
-            if (isIos) {
-                // iPhone não tem evento automático, então mostramos o botão manual
-                installBtnManual.style.display = 'flex';
-                installBtnManual.innerText = "Instalar App";
-                
-                installBtnManual.addEventListener('click', () => {
-                    iosModal.classList.remove('hidden');
-                });
-                
-                closeIosModalBtn.addEventListener('click', () => {
-                    iosModal.classList.add('hidden');
-                });
-            }
-        }
-
-        // --- DEBUG PWA ---
-        const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-        const isHttps = location.protocol === 'https:';
-
-        if (!isHttps && !isLocalhost) {
-            insecureWarning.classList.remove('hidden');
-        }
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
-                .then(() => console.log('Service Worker registrado!'))
-                .catch((err) => console.error('Erro SW:', err));
-        }
-    </script>
 
     <script type="module">
         // Importa as instâncias prontas do seu novo arquivo central
