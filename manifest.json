@@ -1,6 +1,6 @@
 {
-  "name": "Meu App JS",
-  "short_name": "MeuApp",
+  "name": "SpeedCards",
+  "short_name": "SpeedCards",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -8,12 +8,12 @@
   "orientation": "landscape",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "./assets/logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "./assets/logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }
