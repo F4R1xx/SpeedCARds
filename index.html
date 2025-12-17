@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Trunfo - Login</title>
     
     <!-- PWA: Link para o Manifesto -->
@@ -21,8 +21,6 @@
             font-family: 'Roboto', sans-serif;
             background-color: #1a1a1a;
             background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23333333" fill-opacity="0.4" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
-            /* Previne scroll elástico no mobile */
-            overscroll-behavior: none;
         }
         
         .logo{
@@ -122,7 +120,7 @@
             }
 
             /* Esconde o conteúdo principal do app para não vazar no fundo */
-            #auth-container, #loader, .logo, #btn-instalar, #ios-modal {
+            #auth-container, #loader, .logo {
                 display: none !important;
             }
         }
@@ -135,31 +133,17 @@
     <div id="rotate-warning">
         <div class="text-6xl mb-4">⚠️</div>
         <h2 class="font-orbitron text-2xl font-bold text-red-500 mb-4">Gire seu Dispositivo</h2>
-        <p class="text-gray-400 font-roboto text-center">Para pilotar, mantenha o dispositivo na horizontal.</p>
+        <p class="text-gray-400 font-roboto">Para uma melhor experiência de pilotagem, por favor utilize o aplicativo na horizontal.</p>
     </div>
 
     <!-- BOTÃO DE INSTALAR (PWA) - Controlado via JS -->
     <button id="btn-instalar" style="display: none;" 
-        class="fixed top-4 right-4 z-50 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full shadow-lg flex items-center gap-2 transition-all border border-red-400">
+        class="fixed top-4 right-4 z-50 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full shadow-lg flex items-center gap-2 transition-all">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
-        <span id="btn-instalar-texto">Instalar App</span>
+        Instalar App
     </button>
-
-    <!-- MODAL INSTRUÇÕES IOS -->
-    <div id="ios-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-xl p-6 max-w-sm w-full border border-gray-600 shadow-2xl relative">
-            <button id="close-ios-modal" class="absolute top-2 right-2 text-gray-400 hover:text-white">✕</button>
-            <h3 class="font-orbitron text-xl text-red-500 mb-4 text-center">Instalar no iPhone</h3>
-            <ol class="text-gray-300 space-y-4 list-decimal pl-4">
-                <li>Toque no botão <strong>Compartilhar</strong> <span class="inline-block bg-gray-700 p-1 rounded">⎋</span> na barra inferior do Safari.</li>
-                <li>Role para baixo e selecione <strong>Adicionar à Tela de Início</strong> <span class="inline-block bg-gray-700 p-1 rounded">⊞</span>.</li>
-                <li>Confirme clicando em <strong>Adicionar</strong> no canto superior.</li>
-            </ol>
-            <div class="mt-6 text-center text-sm text-gray-500">O app será instalado na sua tela inicial.</div>
-        </div>
-    </div>
 
     <div id="loader" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-24 w-24"></div>
@@ -265,70 +249,10 @@
         class="fixed bottom-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg hidden animate-pulse">
     </div>
 
-    <!-- LÓGICA DE INSTALAÇÃO PWA E DETECÇÃO MOBILE -->
+    <!-- SCRIPTS PWA -->
+    <script src="app.js"></script>
     <script>
-        let deferredPrompt;
-        const installBtn = document.getElementById('btn-instalar');
-        const installBtnText = document.getElementById('btn-instalar-texto');
-        const iosModal = document.getElementById('ios-modal');
-        const closeIosModalBtn = document.getElementById('close-ios-modal');
-
-        // Detecta se é iOS (iPhone, iPad)
-        const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
-        
-        // Detecta se já está instalado (Standalone)
-        const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-        // Se NÃO estiver instalado, verificamos qual botão mostrar
-        if (!isInStandaloneMode) {
-            
-            // CASO 1: ANDROID / DESKTOP (Chrome, Edge)
-            window.addEventListener('beforeinstallprompt', (e) => {
-                // Previne o Chrome de mostrar a barra nativa automaticamente
-                e.preventDefault();
-                deferredPrompt = e;
-                
-                // Mostra nosso botão personalizado
-                installBtn.style.display = 'flex';
-                
-                installBtn.addEventListener('click', async () => {
-                    installBtn.style.display = 'none';
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`User response to the install prompt: ${outcome}`);
-                    deferredPrompt = null;
-                });
-            });
-
-            // CASO 2: iOS (iPhone) - O evento acima NÃO existe no iOS
-            if (isIos) {
-                // Mostra o botão, mas com comportamento diferente
-                installBtn.style.display = 'flex';
-                installBtnText.innerText = "Instalar no iPhone";
-                
-                installBtn.addEventListener('click', () => {
-                    iosModal.classList.remove('hidden');
-                });
-
-                closeIosModalBtn.addEventListener('click', () => {
-                    iosModal.classList.add('hidden');
-                });
-                
-                // Fecha modal ao clicar fora
-                iosModal.addEventListener('click', (e) => {
-                    if (e.target === iosModal) {
-                        iosModal.classList.add('hidden');
-                    }
-                });
-            }
-        }
-
-        // Verifica HTTPS (Necessário para PWA)
-        if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
-            console.warn("Atenção: PWA requer HTTPS para instalação funcionar corretamente.");
-        }
-
-        // Registra o Service Worker
+        // Registra o Service Worker para habilitar a instalação
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
                 .then(() => console.log('Service Worker registrado com sucesso!'))
