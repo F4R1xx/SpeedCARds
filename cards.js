@@ -5127,6 +5127,22 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: '4x4'
         },
+        Commander_OverlandChuva: {
+            imagem: './Imgs_Carros/Jeep/JeepCommanderOverland20Chuva.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Commander Overland 2.0',
+            montadora: 'Jeep',
+            classe: "C",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 220,
+            aceleracao: 7,
+            direcao: 75,
+            altura: 'Alto',
+            pneus: 'Chuva',
+            tracao: '4x4'
+        },
         Commander: {
             imagem: './Imgs_Carros/Jeep/JeepCommander57V8Hemi.png',
             logo: './assets/Jeep-Logo.png',
@@ -5175,6 +5191,22 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: 'Dianteira'
         },
+        RenegadeChuva: {
+            imagem: './Imgs_Carros/Jeep/JeepRenegade13Chuva.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Renegade 1.3',
+            montadora: 'Jeep',
+            classe: "C",
+            ano: 2020,
+            pais: 'EUA',
+            velocidade: 196,
+            aceleracao: 9.4,
+            direcao: 73,
+            altura: 'Alto',
+            pneus: 'Chuva',
+            tracao: 'Dianteira'
+        },
         Compass: {
             imagem: './Imgs_Carros/Jeep/JeepCompass20.png',
             logo: './assets/Jeep-Logo.png',
@@ -5189,6 +5221,22 @@ const manufacturers = {
             direcao: 74,
             altura: 'Alto',
             pneus: 'Padrão',
+            tracao: '4x4'
+        },
+        CompassChuva: {
+            imagem: './Imgs_Carros/Jeep/JeepCompass20Chuva.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Compass 2.0',
+            montadora: 'Jeep',
+            classe: "D",
+            ano: 2026,
+            pais: 'EUA',
+            velocidade: 190,
+            aceleracao: 10.1,
+            direcao: 74,
+            altura: 'Alto',
+            pneus: 'Chuva',
             tracao: '4x4'
         },
         Avenger_e_Hybrid: {
