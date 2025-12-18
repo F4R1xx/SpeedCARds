@@ -274,7 +274,7 @@ const manufacturers = {
             aceleracao: 2.3,
             direcao: 93,
             altura: 'Baixo',
-            pneus: 'Padrão',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Han_Ev: {
@@ -630,7 +630,7 @@ const manufacturers = {
             aceleracao: 2.4,
             direcao: 85,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Bolide: {
@@ -646,7 +646,7 @@ const manufacturers = {
             aceleracao: 2.1,
             direcao: 105,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Mistral: {
@@ -678,7 +678,7 @@ const manufacturers = {
             aceleracao: 2.5,
             direcao: 103,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         La_Voiture_Noire: {
@@ -972,7 +972,7 @@ const manufacturers = {
             aceleracao: 2.8,
             direcao: 90,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Corvette_Stingray: {
@@ -1438,7 +1438,7 @@ const manufacturers = {
             aceleracao: 2.8,
             direcao: 89,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Cala: {
@@ -1486,7 +1486,7 @@ const manufacturers = {
             aceleracao: 4.1,
             direcao: 75,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Espada_Series_III: {
@@ -1582,7 +1582,7 @@ const manufacturers = {
             aceleracao: 3.0,
             direcao: 84,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Murcielago_LP640: {
@@ -1678,7 +1678,7 @@ const manufacturers = {
             aceleracao: 2.5,
             direcao: 95,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Urus: {
@@ -1710,7 +1710,7 @@ const manufacturers = {
             aceleracao: 2.8,
             direcao: 88,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Countach_LPI800_4: {
@@ -1758,7 +1758,7 @@ const manufacturers = {
             aceleracao: 2.7,
             direcao: 90,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Essenza_SCV12: {
@@ -1774,7 +1774,7 @@ const manufacturers = {
             aceleracao: 2.5,
             direcao: 98,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Invencible: {
@@ -1854,7 +1854,7 @@ const manufacturers = {
             aceleracao: 1.9,
             direcao: 86,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Asterion: {
@@ -1888,7 +1888,7 @@ const manufacturers = {
             aceleracao: 3.5,
             direcao: 81,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         R390: {
@@ -1904,7 +1904,7 @@ const manufacturers = {
             aceleracao: 3.5,
             direcao: 82,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         GTR_R35: {
@@ -2080,7 +2080,7 @@ const manufacturers = {
             aceleracao: 6.3,
             direcao: 78,
             altura: 'Alto',
-            pneus: 'Off-Road',
+            pneus: 'Misto',
             tracao: '4x4'
         },
         Versa: {
@@ -2338,7 +2338,7 @@ const manufacturers = {
             aceleracao: 2.2,
             direcao: 88,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         LaFerrari: {
@@ -2354,7 +2354,7 @@ const manufacturers = {
             aceleracao: 2.5,
             direcao: 87,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Ferrari_499P: {
@@ -2370,7 +2370,7 @@ const manufacturers = {
             aceleracao: 2.2,
             direcao: 99,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         FXX_K_EVO: {
@@ -2386,7 +2386,7 @@ const manufacturers = {
             aceleracao: 2.5,
             direcao: 95,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         F12_Berlinetta: {
@@ -2514,7 +2514,7 @@ const manufacturers = {
             aceleracao: 2.9,
             direcao: 87,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Ferrari_296_GTB: {
@@ -2852,7 +2852,7 @@ const manufacturers = {
             aceleracao: 3,
             direcao: 79,
             altura: 'Alto',
-            pneus: 'Off-Road',
+            pneus: 'Misto',
             tracao: '4x4'
         },
         Model_3: {
@@ -3112,7 +3112,7 @@ const manufacturers = {
             aceleracao: 3.4,
             direcao: 86,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Porsche_911_GT3: {
@@ -3128,7 +3128,7 @@ const manufacturers = {
             aceleracao: 3.4,
             direcao: 85,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Porsche_911_Carrera_4_GTS: {
@@ -3418,7 +3418,7 @@ const manufacturers = {
             aceleracao: 1.9,
             direcao: 90,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         Up_TSI_Stage: {
@@ -3434,7 +3434,7 @@ const manufacturers = {
             aceleracao: 5.6,
             direcao: 89,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Dianteira'
         },
         Arteon_R: {
@@ -3469,6 +3469,22 @@ const manufacturers = {
             pneus: 'Desempenho',
             tracao: 'Dianteira'
         },
+        Golf_GTI_Performance_Mk7Chuva: {
+            imagem: './Imgs_Carros/Volkswagen/VolkswagenGolfGTIPerformanceMk7Chuva.png',
+            logo: './assets/Volkswagen-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            nome: 'Golf GTI Performance Mk7',
+            montadora: 'Volkswagen',
+            classe: "A",
+            ano: 2019,
+            pais: 'Alemanha',
+            velocidade: 250,
+            aceleracao: 6.2,
+            direcao: 81,
+            altura: 'Médio',
+            pneus: 'Chuva',
+            tracao: 'Dianteira'
+        },
         Golf_GTI_Mk8: {
             imagem: './Imgs_Carros/Volkswagen/VolkswagenGolfGTIMk8.png',
             logo: './assets/Volkswagen-Logo.png',
@@ -3499,6 +3515,22 @@ const manufacturers = {
             direcao: 79,
             altura: 'Médio',
             pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Jetta_GLIChuva: {
+            imagem: './Imgs_Carros/Volkswagen/VolkswagenJettaGLIChuva.png',
+            logo: './assets/Volkswagen-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            nome: 'Jetta GLI',
+            montadora: 'Volkswagen',
+            classe: "A",
+            ano: 2024,
+            pais: 'Alemanha',
+            velocidade: 249,
+            aceleracao: 6.7,
+            direcao: 79,
+            altura: 'Médio',
+            pneus: 'Chuva',
             tracao: 'Dianteira'
         },
         Scirocco: {
@@ -3565,6 +3597,22 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: 'Dianteira'
         },
+        Polo_GTI_Mk6Chuva: {
+            imagem: './Imgs_Carros/Volkswagen/VolkswagenPoloGTIMk6Chuva.png',
+            logo: './assets/Volkswagen-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            nome: 'Polo GTI Mk6',
+            montadora: 'Volkswagen',
+            classe: "B",
+            ano: 2022,
+            pais: 'Alemanha',
+            velocidade: 240,
+            aceleracao: 6.5,
+            direcao: 78,
+            altura: 'Médio',
+            pneus: 'Chuva',
+            tracao: 'Dianteira'
+        },
         Polo_GTI_Mk5: {
             imagem: './Imgs_Carros/Volkswagen/VolkswagenPoloGTIMk5.png',
             logo: './assets/Volkswagen-Logo.png',
@@ -3579,6 +3627,22 @@ const manufacturers = {
             direcao: 75,
             altura: 'Médio',
             pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+         Polo_GTI_Mk5Chuva: {
+            imagem: './Imgs_Carros/Volkswagen/VolkswagenPoloGTIMk5Chuva.png',
+            logo: './assets/Volkswagen-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            nome: 'Polo GTI Mk5',
+            montadora: 'Volkswagen',
+            classe: "B",
+            ano: 2017,
+            pais: 'Alemanha',
+            velocidade: 236,
+            aceleracao: 6.7,
+            direcao: 75,
+            altura: 'Médio',
+            pneus: 'Chuva',
             tracao: 'Dianteira'
         },
         Golf_GTI_Mk5: {
@@ -3805,6 +3869,22 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: 'Dianteira'
         },
+        TeraChuva: {
+            imagem: './Imgs_Carros/Volkswagen/VolkswagenTera10TSIChuva.png',
+            logo: './assets/Volkswagen-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            nome: 'Tera 1.0 TSI',
+            montadora: 'Volkswagen',
+            classe: "D",
+            ano: 2026,
+            pais: 'Alemanha',
+            velocidade: 187,
+            aceleracao: 10.1,
+            direcao: 75,
+            altura: 'Médio',
+            pneus: 'Chuva',
+            tracao: 'Dianteira'
+        },
         Amarok_V6_TDI: {
             imagem: './Imgs_Carros/Volkswagen/VolkswagenAmarokV6TDI.png',
             logo: './assets/Volkswagen-Logo.png',
@@ -3835,6 +3915,22 @@ const manufacturers = {
             direcao: 75,
             altura: 'Baixo',
             pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Up_TSI_Chuva: {
+            imagem: './Imgs_Carros/Volkswagen/VolkswagenUpTSIChuva.png',
+            logo: './assets/Volkswagen-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            nome: 'Up TSI',
+            montadora: 'Volkswagen',
+            classe: "D",
+            ano: 2023,
+            pais: 'Alemanha',
+            velocidade: 185,
+            aceleracao: 9.9,
+            direcao: 75,
+            altura: 'Baixo',
+            pneus: 'Chuva',
             tracao: 'Dianteira'
         },
         Amarok: {
@@ -4044,7 +4140,7 @@ const manufacturers = {
             aceleracao: 4.4,
             direcao: 82,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         M4_GTS: {
@@ -4060,7 +4156,7 @@ const manufacturers = {
             aceleracao: 3.8,
             direcao: 89,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         M3_CS: {
@@ -4076,7 +4172,7 @@ const manufacturers = {
             aceleracao: 3.4,
             direcao: 86,
             altura: 'Baixo',
-            pneus: 'Desempenho',
+            pneus: 'Corrida',
             tracao: '4x4'
         },
         M3_CRT: {
@@ -4300,7 +4396,7 @@ const manufacturers = {
             aceleracao: 4.9,
             direcao: 80,
             altura: 'Alto',
-            pneus: 'Off-Road',
+            pneus: 'Misto',
             tracao: '4x4'
         },
         X3_M_Competition: {
@@ -4604,7 +4700,7 @@ const manufacturers = {
             aceleracao: 4.8,
             direcao: 78,
             altura: 'Alto',
-            pneus: 'Off-Road',
+            pneus: 'Misto',
             tracao: '4x4'
         },
         X5_M_Competition: {
@@ -4668,7 +4764,7 @@ const manufacturers = {
             aceleracao: 6.6,
             direcao: 77,
             altura: 'Alto',
-            pneus: 'Off-Road',
+            pneus: 'Misto',
             tracao: '4x4'
         },
         BMW_320i: {
@@ -4996,6 +5092,266 @@ const manufacturers = {
             altura: 'Alto',
             pneus: 'Padrão',
             tracao: 'Traseira'
+        }
+    },
+    "Jeep": {
+        Grand_Cherokee_Trackhawk: {
+            imagem: './Imgs_Carros/Jeep/JeepGrandCherokeeTrackhawk.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Grand Cherokee Trackhawk',
+            montadora: 'Jeep',
+            classe: "S",
+            ano: 2021,
+            pais: 'EUA',
+            velocidade: 290,
+            aceleracao: 3.6,
+            direcao: 89,
+            altura: 'Médio',
+            pneus: 'Desempenho',
+            tracao: '4x4'
+        },
+        Commander_Overland: {
+            imagem: './Imgs_Carros/Jeep/JeepCommanderOverland20.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Commander Overland 2.0',
+            montadora: 'Jeep',
+            classe: "C",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 220,
+            aceleracao: 7,
+            direcao: 75,
+            altura: 'Alto',
+            pneus: 'Padrão',
+            tracao: '4x4'
+        },
+        Commander: {
+            imagem: './Imgs_Carros/Jeep/JeepCommander57V8Hemi.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Commander 5.7 V8 Hemi',
+            montadora: 'Jeep',
+            classe: "C",
+            ano: 2010,
+            pais: 'EUA',
+            velocidade: 208,
+            aceleracao: 7.4,
+            direcao: 70,
+            altura: 'Alto',
+            pneus: 'Padrão',
+            tracao: '4x4'
+        },
+        Grand_Cherokee: {
+            imagem: './Imgs_Carros/Jeep/JeepGrandCherokee52.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Grand Cherokee 5.2',
+            montadora: 'Jeep',
+            classe: "C",
+            ano: 1999,
+            pais: 'EUA',
+            velocidade: 200,
+            aceleracao: 9.8,
+            direcao: 68,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+        Renegade: {
+            imagem: './Imgs_Carros/Jeep/JeepRenegade13.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Renegade 1.3',
+            montadora: 'Jeep',
+            classe: "C",
+            ano: 2020,
+            pais: 'EUA',
+            velocidade: 196,
+            aceleracao: 9.4,
+            direcao: 73,
+            altura: 'Alto',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Compass: {
+            imagem: './Imgs_Carros/Jeep/JeepCompass20.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Compass 2.0',
+            montadora: 'Jeep',
+            classe: "D",
+            ano: 2026,
+            pais: 'EUA',
+            velocidade: 190,
+            aceleracao: 10.1,
+            direcao: 74,
+            altura: 'Alto',
+            pneus: 'Padrão',
+            tracao: '4x4'
+        },
+        Avenger_e_Hybrid: {
+            imagem: './Imgs_Carros/Jeep/JeepAvengereHybrid100.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Avenger e-Hybrid 100',
+            montadora: 'Jeep',
+            classe: "D",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 184,
+            aceleracao: 10.9,
+            direcao: 72,
+            altura: 'Alto',
+            pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Patriot: {
+            imagem: './Imgs_Carros/Jeep/JeepPatriot24.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Patriot 2.4',
+            montadora: 'Jeep',
+            classe: "D",
+            ano: 2012,
+            pais: 'EUA',
+            velocidade: 180,
+            aceleracao: 10.7,
+            direcao: 70,
+            altura: 'Alto',
+            pneus: 'Misto',
+            tracao: '4x4'
+        },
+        Wrangler20: {
+            imagem: './Imgs_Carros/Jeep/JeepWrangler20.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Wrangler 2.0',
+            montadora: 'Jeep',
+            classe: "E",
+            ano: 2026,
+            pais: 'EUA',
+            velocidade: 177,
+            aceleracao: 7.3,
+            direcao: 67,
+            altura: 'Alto',
+            pneus: 'Neve',
+            tracao: '4x4'
+        },
+        Wrangler40: {
+            imagem: './Imgs_Carros/Jeep/JeepWrangler40.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Wrangler 4.0',
+            montadora: 'Jeep',
+            classe: "E",
+            ano: 1996,
+            pais: 'EUA',
+            velocidade: 174,
+            aceleracao: 9.4,
+            direcao: 65,
+            altura: 'Alto',
+            pneus: 'Misto',
+            tracao: '4x4'
+        },
+        Gladiator_Rubicon: {
+            imagem: './Imgs_Carros/Jeep/JeepGladiatorRubicon36V6.png',
+            logo: './assets/Jeep-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Gladiator Rubicon 3.6 V6',
+            montadora: 'Jeep',
+            classe: "E",
+            ano: 2023,
+            pais: 'EUA',
+            velocidade: 156,
+            aceleracao: 8.1,
+            direcao: 74,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        }
+    },
+    "RAM": {
+        Rampage_RT: {
+            imagem: './Imgs_Carros/RAM/RAMRampageRT.png',
+            logo: './assets/RAM-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Rampage R/T',
+            montadora: 'RAM',
+            classe: "A",
+            ano: 2026,
+            pais: 'EUA',
+            velocidade: 220,
+            aceleracao: 6.9,
+            direcao: 79,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+        RAM_1500: {
+            imagem: './Imgs_Carros/RAM/RAM1500.png',
+            logo: './assets/RAM-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: '1500',
+            montadora: 'RAM',
+            classe: "B",
+            ano: 2026,
+            pais: 'EUA',
+            velocidade: 180,
+            aceleracao: 5.3,
+            direcao: 78,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+        RAM_2500: {
+            imagem: './Imgs_Carros/RAM/RAM2500.png',
+            logo: './assets/RAM-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: '2500',
+            montadora: 'RAM',
+            classe: "D",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 169,
+            aceleracao: 11,
+            direcao: 76,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+        RAM_3500: {
+            imagem: './Imgs_Carros/RAM/RAM3500.png',
+            logo: './assets/RAM-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: '3500',
+            montadora: 'RAM',
+            classe: "D",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 160,
+            aceleracao: 11,
+            direcao: 73,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+        Warlord: {
+            imagem: './Imgs_Carros/RAM/RAMWarlord66.png',
+            logo: './assets/RAM-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Warlord 6x6',
+            montadora: 'RAM',
+            classe: "B",
+            ano: 2022,
+            pais: 'EUA',
+            velocidade: 190,
+            aceleracao: 4.5,
+            direcao: 70,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
         }
     }
 };
