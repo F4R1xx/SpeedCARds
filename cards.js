@@ -99,6 +99,22 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: 'Dianteira'
         },
+        CamryChuva: {
+            imagem: './Imgs_Carros/Toyota/TOYOTACamryChuva.png',
+            logo: './assets/Toyota-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Japão',
+            nome: 'Camry XLE 3.5 V6',
+            montadora: 'Toyota',
+            classe: "C",
+            ano: 2020,
+            pais: 'Japão',
+            velocidade: 225,
+            aceleracao: 7,
+            direcao: 76,
+            altura: 'Baixo',
+            pneus: 'Chuva',
+            tracao: 'Dianteira'
+        },
         Corolla_Cross: {
             imagem: './Imgs_Carros/Toyota/TOYOTACorollaCross.png',
             logo: './assets/Toyota-Logo.png',
@@ -241,6 +257,22 @@ const manufacturers = {
             direcao: 69,
             altura: 'Médio',
             pneus: 'Padrão',
+            tracao: 'Dianteira'
+        },
+        Yaris_HatchChuva: {
+            imagem: './Imgs_Carros/Toyota/TOYOTAYarisHatchChuva.png',
+            logo: './assets/Toyota-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Japão',
+            nome: 'Yaris Hatch XLS 1.5',
+            montadora: 'Toyota',
+            classe: "D",
+            ano: 2024,
+            pais: 'Japão',
+            velocidade: 180,
+            aceleracao: 11.8,
+            direcao: 68,
+            altura: 'Médio',
+            pneus: 'Chuva',
             tracao: 'Dianteira'
         },
         Yaris_Hatch: {
@@ -2807,6 +2839,22 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: '4x4'
         },
+        Model_SChuva: {
+            imagem: './Imgs_Carros/Tesla/TeslaModelSChuva.png',
+            logo: './assets/Tesla-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Model S',
+            montadora: 'Tesla',
+            classe: "A",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 250,
+            aceleracao: 3.2,
+            direcao: 80,
+            altura: 'Médio',
+            pneus: 'Chuva',
+            tracao: '4x4'
+        },
         Model_X: {
             imagem: './Imgs_Carros/Tesla/TeslaModelX.png',
             logo: './assets/Tesla-Logo.png',
@@ -2869,6 +2917,22 @@ const manufacturers = {
             direcao: 79,
             altura: 'Médio',
             pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
+        Model_3Chuva: {
+            imagem: './Imgs_Carros/Tesla/TeslaModel3Chuva.png',
+            logo: './assets/Tesla-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Model 3',
+            montadora: 'Tesla',
+            classe: "B",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 201,
+            aceleracao: 6.1,
+            direcao: 79,
+            altura: 'Médio',
+            pneus: 'Chuva',
             tracao: 'Traseira'
         },
         Roadster: {
@@ -5353,6 +5417,38 @@ const manufacturers = {
             pneus: 'Off-Road',
             tracao: '4x4'
         },
+        RAM_1500Chuva: {
+            imagem: './Imgs_Carros/RAM/RAM1500Chuva.png',
+            logo: './assets/RAM-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: '1500',
+            montadora: 'RAM',
+            classe: "B",
+            ano: 2026,
+            pais: 'EUA',
+            velocidade: 180,
+            aceleracao: 5.3,
+            direcao: 78,
+            altura: 'Alto',
+            pneus: 'Chuva',
+            tracao: '4x4'
+        },
+        RAM_1500Misto: {
+            imagem: './Imgs_Carros/RAM/RAM1500Misto.png',
+            logo: './assets/RAM-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: '1500',
+            montadora: 'RAM',
+            classe: "B",
+            ano: 2026,
+            pais: 'EUA',
+            velocidade: 180,
+            aceleracao: 5.3,
+            direcao: 78,
+            altura: 'Alto',
+            pneus: 'Misto',
+            tracao: '4x4'
+        },
         RAM_2500: {
             imagem: './Imgs_Carros/RAM/RAM2500.png',
             logo: './assets/RAM-Logo.png',
@@ -5378,11 +5474,27 @@ const manufacturers = {
             classe: "D",
             ano: 2024,
             pais: 'EUA',
-            velocidade: 160,
-            aceleracao: 11,
+            velocidade: 165,
+            aceleracao: 10.5,
             direcao: 73,
             altura: 'Alto',
             pneus: 'Off-Road',
+            tracao: '4x4'
+        },
+        RAM_3500Misto: {
+            imagem: './Imgs_Carros/RAM/RAM3500Misto.png',
+            logo: './assets/RAM-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: '3500',
+            montadora: 'RAM',
+            classe: "D",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 165,
+            aceleracao: 10.5,
+            direcao: 73,
+            altura: 'Alto',
+            pneus: 'Misto',
             tracao: '4x4'
         },
         Warlord: {
