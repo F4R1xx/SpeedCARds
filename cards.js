@@ -607,7 +607,7 @@ const manufacturers = {
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=França',
             nome: 'Veyron',
             montadora: 'Bugatti',
-            classe: "S",
+            classe: "R",
             ano: 2006,
             pais: 'França',
             velocidade: 407,
@@ -623,7 +623,7 @@ const manufacturers = {
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=França',
             nome: 'Chiron',
             montadora: 'Bugatti',
-            classe: "S",
+            classe: "R",
             ano: 2017,
             pais: 'França',
             velocidade: 420,
@@ -639,7 +639,7 @@ const manufacturers = {
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=França',
             nome: 'Divo',
             montadora: 'Bugatti',
-            classe: "S",
+            classe: "R",
             ano: 2019,
             pais: 'França',
             velocidade: 380,
@@ -655,7 +655,7 @@ const manufacturers = {
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=França',
             nome: 'Centodieci',
             montadora: 'Bugatti',
-            classe: "S",
+            classe: "R",
             ano: 2022,
             pais: 'França',
             velocidade: 380,
@@ -972,6 +972,22 @@ const manufacturers = {
             altura: 'Alto',
             pneus: 'Off-Road',
             tracao: '4x4'
+        },
+        FreelanderNeve: {
+            imagem: './Imgs_Carros/LandRover/LANDROVERFreelanderNeve.png',
+            logo: './assets/LandRover-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=UK',
+            nome: 'Freelander HSE 2.2',
+            montadora: 'LandRover', // Corrigido: sem espaço
+            classe: "B",
+            ano: 2015,
+            pais: 'Reino Unido',
+            velocidade: 190,
+            aceleracao: 6,
+            direcao: 75,
+            altura: 'Alto',
+            pneus: 'Neve',
+            tracao: '4x4'
         }
     },
     "Chevrolet": {
@@ -989,6 +1005,22 @@ const manufacturers = {
             direcao: 80,
             altura: 'Baixo',
             pneus: 'Padrão',
+            tracao: 'Traseira'
+        },
+        CorvetteZ062015Pista: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCorvetteZ062015Pista.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Corvette Z06 Pista',
+            montadora: 'Chevrolet',
+            classe: "R",
+            ano: 2015,
+            pais: 'EUA',
+            velocidade: 352,
+            aceleracao: 2.6,
+            direcao: 90,
+            altura: 'Baixo',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         CorvetteZ062023: {
@@ -1053,6 +1085,22 @@ const manufacturers = {
             direcao: 84,
             altura: 'Baixo',
             pneus: 'Desempenho',
+            tracao: 'Traseira'
+        },
+        Camaro_CollectionPista: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETCamaroCollectionPista.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Camaro Collection Pista',
+            montadora: 'Chevrolet',
+            classe: "R",
+            ano: 2024,
+            pais: 'EUA',
+            velocidade: 319,
+            aceleracao: 3.5,
+            direcao: 89,
+            altura: 'Baixo',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Camaro_SS: {
@@ -1198,6 +1246,22 @@ const manufacturers = {
             altura: 'Baixo',
             pneus: 'Desempenho',
             tracao: 'Dianteira'
+        },
+        Onix_RSRally: {
+            imagem: './Imgs_Carros/Chevrolet/CHEVROLETOnixRSRally.png',
+            logo: './assets/Chevrolet-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=EUA',
+            nome: 'Onix RS Rally',
+            montadora: 'Chevrolet',
+            classe: "S",
+            ano: 2025,
+            pais: 'EUA',
+            velocidade: 277,
+            aceleracao: 5.6,
+            direcao: 81,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
         },
         Bolt: {
             imagem: './Imgs_Carros/Chevrolet/CHEVROLETBolt.png',
@@ -1955,6 +2019,22 @@ const manufacturers = {
             pneus: 'Desempenho',
             tracao: '4x4'
         },
+        GTR_R35Pista: {
+            imagem: './Imgs_Carros/Nissan/NissanGTR_R35Pista.png',
+            logo: './assets/Nissan-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Japão',
+            nome: 'GTR R35 Pista',
+            montadora: 'Nissan',
+            classe: "R",
+            ano: 2023,
+            pais: 'Japão',
+            velocidade: 349,
+            aceleracao: 2.8,
+            direcao: 91,
+            altura: 'Baixo',
+            pneus: 'Corrida',
+            tracao: '4x4'
+        },
         GTR_R33: {
             imagem: './Imgs_Carros/Nissan/NissanGTR_R33.png',
             logo: './assets/Nissan-Logo.png',
@@ -1985,6 +2065,22 @@ const manufacturers = {
             direcao: 77,
             altura: 'Baixo',
             pneus: 'Desempenho',
+            tracao: 'Traseira'
+        },
+        Nissan350ZPista: {
+            imagem: './Imgs_Carros/Nissan/Nissan350ZPista.png',
+            logo: './assets/Nissan-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Japão',
+            nome: '350Z Pista',
+            montadora: 'Nissan',
+            classe: "S",
+            ano: 2009,
+            pais: 'Japão',
+            velocidade: 290,
+            aceleracao: 4.7,
+            direcao: 82,
+            altura: 'Baixo',
+            pneus: 'Corrida',
             tracao: 'Traseira'
         },
         Nissan370Z: {
@@ -2083,6 +2179,22 @@ const manufacturers = {
             pneus: 'Off-Road',
             tracao: 'Traseira'
         },
+        TitanNeve: {
+            imagem: './Imgs_Carros/Nissan/NissanTitanNeve.png',
+            logo: './assets/Nissan-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Japão',
+            nome: 'Titan',
+            montadora: 'Nissan',
+            classe: "C",
+            ano: 2024,
+            pais: 'Japão',
+            velocidade: 185,
+            aceleracao: 7.5,
+            direcao: 75,
+            altura: 'Alto',
+            pneus: 'Neve',
+            tracao: 'Traseira'
+        },
         Armada: {
             imagem: './Imgs_Carros/Nissan/NissanArmada.png',
             logo: './assets/Nissan-Logo.png',
@@ -2096,7 +2208,7 @@ const manufacturers = {
             aceleracao: 7.4,
             direcao: 73,
             altura: 'Alto',
-            pneus: 'Off-Road',
+            pneus: 'Misto',
             tracao: 'Traseira'
         },
         Patrol: {
@@ -2323,6 +2435,22 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: 'Dianteira'
         },
+        Kicks_2026Chuva: {
+            imagem: './Imgs_Carros/Nissan/NissanKicks2026Chuva.png',
+            logo: './assets/Nissan-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Japão',
+            nome: 'Kicks',
+            montadora: 'Nissan',
+            classe: "E",
+            ano: 2026,
+            pais: 'Japão',
+            velocidade: 180,
+            aceleracao: 11.5,
+            direcao: 69,
+            altura: 'Alto',
+            pneus: 'Chuva',
+            tracao: 'Dianteira'
+        },
         Kicks_2026: {
             imagem: './Imgs_Carros/Nissan/NissanKicks2026.png',
             logo: './assets/Nissan-Logo.png',
@@ -2338,7 +2466,23 @@ const manufacturers = {
             altura: 'Alto',
             pneus: 'Padrão',
             tracao: 'Dianteira'
-        }
+        },
+        XTerraNeve: {
+            imagem: './Imgs_Carros/Nissan/NissanXTerraNeve.png',
+            logo: './assets/Nissan-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Japão',
+            nome: 'XTerra',
+            montadora: 'Nissan',
+            classe: "E",
+            ano: 2015,
+            pais: 'Japão',
+            velocidade: 180,
+            aceleracao: 11.0,
+            direcao: 78,
+            altura: 'Alto',
+            pneus: 'Neve',
+            tracao: '4x4'
+        },
     },
     "Ferrari": {
         Enzo: {
@@ -3195,6 +3339,22 @@ const manufacturers = {
             pneus: 'Corrida',
             tracao: 'Traseira'
         },
+        Porsche_911_GT3Pista: {
+            imagem: './Imgs_Carros/Porsche/Porsche911GT3Pista.png',
+            logo: './assets/Porsche-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
+            nome: '911 GT3 Pista',
+            montadora: 'Porsche',
+            classe: "R",
+            ano: 2026,
+            pais: 'Alemanha',
+            velocidade: 341,
+            aceleracao: 2.9,
+            direcao: 92,
+            altura: 'Baixo',
+            pneus: 'Corrida',
+            tracao: 'Traseira'
+        },
         Porsche_911_Carrera_4_GTS: {
             imagem: './Imgs_Carros/Porsche/Porsche911Carrera4GTS.png',
             logo: './assets/Porsche-Logo.png',
@@ -3257,6 +3417,22 @@ const manufacturers = {
             direcao: 82,
             altura: 'Baixo',
             pneus: 'Desempenho',
+            tracao: 'Traseira'
+        },
+        Cayman_GT4Chuva: {
+            imagem: './Imgs_Carros/Porsche/PorscheCaymanGT4Chuva.png',
+            logo: './assets/Porsche-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Ale',
+            nome: 'Cayman GT4',
+            montadora: 'Porsche',
+            classe: "S",
+            ano: 2016,
+            pais: 'Alemanha',
+            velocidade: 295,
+            aceleracao: 4.4,
+            direcao: 82,
+            altura: 'Baixo',
+            pneus: 'Chuva',
             tracao: 'Traseira'
         },
         Panamera: {
@@ -3693,7 +3869,7 @@ const manufacturers = {
             pneus: 'Padrão',
             tracao: 'Dianteira'
         },
-         Polo_GTI_Mk5Chuva: {
+        Polo_GTI_Mk5Chuva: {
             imagem: './Imgs_Carros/Volkswagen/VolkswagenPoloGTIMk5Chuva.png',
             logo: './assets/Volkswagen-Logo.png',
             bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
@@ -3772,6 +3948,22 @@ const manufacturers = {
             altura: 'Médio',
             pneus: 'Padrão',
             tracao: 'Dianteira'
+        },
+        Golf_GTI_Mk4Rally: {
+            imagem: './Imgs_Carros/Volkswagen/VolkswagenGolfGTIMk4Rally.png',
+            logo: './assets/Volkswagen-Logo.png',
+            bandeira: 'https://placehold.co/40x30/ffffff/000000?text=Alemanha',
+            nome: 'Golf GTI Mk4 Rally',
+            montadora: 'Volkswagen',
+            classe: "A",
+            ano: 2001,
+            pais: 'Alemanha',
+            velocidade: 236,
+            aceleracao: 7.3,
+            direcao: 77,
+            altura: 'Alto',
+            pneus: 'Off-Road',
+            tracao: '4x4'
         },
         Tiguan: {
             imagem: './Imgs_Carros/Volkswagen/VolkswagenTiguan15eTSI150.png',
